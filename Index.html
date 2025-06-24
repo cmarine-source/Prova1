@@ -485,4 +485,46 @@
         });
     </script>
 </body>
+</html><script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Script per il menu mobile
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('open');
+                });
+            }
+
+            // Script per il footer a fisarmonica
+            const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
+
+            accordionHeaders.forEach(header => {
+                // Aggiungi il listener solo su schermi piccoli (sotto md breakpoint di Tailwind)
+                if (window.innerWidth < 768) {
+                    header.addEventListener('click', () => {
+                        const accordionContent = header.nextElementSibling; // La lista ul subito dopo l'header
+                        
+                        // Toggle della classe 'open' sull'header e sul contenuto
+                        header.classList.toggle('open');
+                        accordionContent.classList.toggle('open');
+                    });
+                }
+            });
+
+            // Opzionale: Aggiungi un resize listener per gestire il cambio da mobile a desktop
+            window.addEventListener('resize', () => {
+                accordionHeaders.forEach(header => {
+                    const accordionContent = header.nextElementSibling;
+                    if (window.innerWidth >= 768) {
+                        // Su desktop, assicurati che siano aperti (se per caso erano chiusi da mobile)
+                        header.classList.remove('open');
+                        accordionContent.classList.remove('open');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
 </html>
