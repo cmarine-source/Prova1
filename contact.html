@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | HAVEN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Stili personalizzati di base */
+        .hero-image {
+            background-image: url('https://cdn.havenshop.com/24e09d69ae24a65dc6fc8ef7f29761f9a404cb6e-2048x2560.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-overlay {
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .category-card img {
+            transition: transform 0.3s ease;
+        }
+
+        .newsletter-input {
+            border-bottom: 1px solid #000;
+            transition: border-color 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-bottom-color: #555;
+        }
+
+        /* Mobile Menu Specific Styles */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu.open {
+            display: block;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-900">
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-xl font-bold">HAVEN</a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Shop</a>
+                    <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collections</a>
+                    <a href="features.html" class="text-sm uppercase hover:text-gray-600">Features</a>
+                    <a href="journal.html" class="text-sm uppercase hover:text-gray-600">Journal</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-sm"><i class="fas fa-search"></i></a>
+                    <a href="login.html" class="text-sm"><i class="far fa-user"></i></a>
+                    <a href="cart.html" class="text-sm"><i class="fas fa-shopping-bag"></i></a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="shop.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Shop</a>
+                <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collections</a>
+                <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Features</a>
+                <a href="journal.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Journal</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-4xl font-bold mb-8 text-center">Contact Us</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-2xl font-bold mb-4">Send Us a Message</h2>
+                <form class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-black focus:border-black">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-black focus:border-black">
+                    </div>
+                    <div>
+                        <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+                        <input type="text" id="subject" name="subject" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-black focus:border-black">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                        <textarea id="message" name="message" rows="5" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-black focus:border-black"></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full bg-black text-white px-6 py-3 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 rounded-sm">Send Message</button>
+                    </div>
+                </form>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-bold mb-4">Contact Information</h2>
+                <div class="space-y-6 text-gray-700">
+                    <p><strong class="font-semibold block mb-1">Address:</strong> 123 Street Name, City, Country, Postal Code</p>
+                    <p><strong class="font-semibold block mb-1">Phone:</strong> +1 234 567 8900</p>
+                    <p><strong class="font-semibold block mb-1">Email:</strong> <a href="mailto:info@haven.com" class="hover:underline">info@haven.com</a></p>
+                    <div>
+                        <strong class="font-semibold block mb-2">Business Hours:</strong>
+                        <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                        <p>Saturday: 10:00 AM - 4:00 PM</p>
+                        <p>Sunday: Closed</p>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <h3 class="text-lg font-bold mb-3">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-instagram text-2xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-twitter text-2xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-facebook-f text-2xl"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-black text-white py-16 md:py-20">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="mb-2 text-sm uppercase tracking-widest">FREE SHIPPING ON YOUR FIRST ORDER</div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Join Our Newsletter</h2>
+            <p class="mb-8 text-gray-300 leading-relaxed">Subscribe for early access to launches, promos, and events.</p>
+            <form class="flex flex-col sm:flex-row gap-4 justify-center">
+                <input type="email" placeholder="Your email address" class="newsletter-input bg-transparent py-3 px-4 text-white placeholder-gray-400 focus:placeholder-gray-600 w-full sm:w-80 rounded-none border-b border-gray-500 focus:border-white transition duration-300 ease-in-out">
+                <button type="submit" class="bg-white text-black px-8 py-3 text-sm uppercase tracking-wider hover:bg-gray-200 transition duration-300 ease-in-out rounded-sm">Subscribe</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="bg-gray-100 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Shop</h3>
+                    <ul class="space-y-2">
+                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">New Arrivals</a></li>
+                        <li><a href="collections.html" class="text-sm hover:underline text-gray-700">Collections</a></li>
+                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Sale</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Gift Cards</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">About</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Our Story</a></li>
+                        <li><a href="journal.html" class="text-sm hover:underline text-gray-700">Journal</a></li>
+                        <li><a href="features.html" class="text-sm hover:underline text-gray-700">Features</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Stockists</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Help</h3>
+                    <ul class="space-y-2">
+                        <li><a href="contact.html" class="text-sm hover:underline text-gray-700">Contact Us</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Shipping</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Returns</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Connect</h3>
+                    <div class="flex justify-center md:justify-start space-x-4 mb-4">
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-facebook-f text-xl"></i></a>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">Sign up for our newsletter to receive updates on new arrivals, special offers and other discount information.</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600">
+                <p class="text-sm text-center md:text-left mb-4 md:mb-0">© 2025 HAVEN. All rights reserved.</p>
+                <div class="flex flex-wrap justify-center md:justify-end space-x-4 sm:space-x-6">
+                    <a href="#" class="text-sm hover:underline">Privacy Policy</a>
+                    <a href="#" class="text-sm hover:underline">Terms of Service</a>
+                    <a href="#" class="text-sm hover:underline">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('open');
+            });
+        });
+    </script>
+</body>
+</html>
