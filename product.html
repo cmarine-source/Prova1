@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1906L Raincloud/Slate Grey | HAVEN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Stili personalizzati di base */
+        .hero-image {
+            background-image: url('https://cdn.havenshop.com/24e09d69ae24a65dc6fc8ef7f29761f9a404cb6e-2048x2560.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-overlay {
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .category-card img {
+            transition: transform 0.3s ease;
+        }
+
+        .newsletter-input {
+            border-bottom: 1px solid #000;
+            transition: border-color 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-bottom-color: #555;
+        }
+
+        /* Mobile Menu Specific Styles */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu.open {
+            display: block;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-900">
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-xl font-bold">HAVEN</a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Shop</a>
+                    <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collections</a>
+                    <a href="features.html" class="text-sm uppercase hover:text-gray-600">Features</a>
+                    <a href="journal.html" class="text-sm uppercase hover:text-gray-600">Journal</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-sm"><i class="fas fa-search"></i></a>
+                    <a href="login.html" class="text-sm"><i class="far fa-user"></i></a>
+                    <a href="cart.html" class="text-sm"><i class="fas fa-shopping-bag"></i></a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-500 hover:text-gray-900 focus:outline-none focus:text-gray-900">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="shop.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Shop</a>
+                <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collections</a>
+                <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Features</a>
+                <a href="journal.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Journal</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="flex flex-col md:flex-row gap-8">
+            <div class="md:w-1/2">
+                <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-1.jpg?v=1748535639&width=800&crop=center" alt="1906L Raincloud/Slate Grey - Main" class="w-full h-auto object-cover mb-4">
+                <div class="grid grid-cols-4 gap-2">
+                    <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-2.jpg?v=1748535639&width=200&crop=center" alt="1906L Raincloud/Slate Grey - Thumb 1" class="w-full h-auto object-cover cursor-pointer hover:opacity-80">
+                    <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-3.jpg?v=1748535639&width=200&crop=center" alt="1906L Raincloud/Slate Grey - Thumb 2" class="w-full h-auto object-cover cursor-pointer hover:opacity-80">
+                    <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-4.jpg?v=1748535639&width=200&crop=center" alt="1906L Raincloud/Slate Grey - Thumb 3" class="w-full h-auto object-cover cursor-pointer hover:opacity-80">
+                    <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-5.jpg?v=1748535639&width=200&crop=center" alt="1906L Raincloud/Slate Grey - Thumb 4" class="w-full h-auto object-cover cursor-pointer hover:opacity-80">
+                </div>
+            </div>
+
+            <div class="md:w-1/2">
+                <span class="text-sm uppercase tracking-widest text-gray-600">New Balance</span>
+                <h1 class="text-3xl font-bold mt-2 mb-4">1906L Raincloud/Slate Grey</h1>
+                <p class="text-2xl font-semibold mb-6">$220.00</p>
+
+                <div class="mb-6">
+                    <h3 class="text-sm font-semibold mb-2">SIZE</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="px-4 py-2 border border-gray-300 hover:border-black transition">US 7</button>
+                        <button class="px-4 py-2 border border-gray-300 hover:border-black transition">US 8</button>
+                        <button class="px-4 py-2 border border-gray-300 hover:border-black transition">US 9</button>
+                        <button class="px-4 py-2 border border-gray-300 hover:border-black transition">US 10</button>
+                        <button class="px-4 py-2 border border-gray-300 hover:border-black transition">US 11</button>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-sm font-semibold mb-2">QUANTITY</h3>
+                    <input type="number" value="1" min="1" class="w-20 px-3 py-2 border border-gray-300 rounded-md text-center">
+                </div>
+
+                <button class="w-full bg-black text-white px-8 py-4 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 rounded-sm">Add to Cart</button>
+
+                <div class="mt-8 border-t border-gray-200 pt-8">
+                    <h3 class="text-lg font-bold mb-3">Description</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        The 1906L Raincloud/Slate Grey from New Balance is a sophisticated take on a classic silhouette.
+                        Crafted with premium materials, it offers superior comfort and style. Featuring a durable upper
+                        and responsive cushioning, it's perfect for everyday wear.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 mt-4">
+                        <li>Premium suede and mesh upper</li>
+                        <li>ABZORB cushioning for superior comfort</li>
+                        <li>NDurance rubber outsole for durability</li>
+                        <li>Reflective detailing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-gray-50 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-8 text-center">You might also like</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div class="product-card relative">
+                    <div class="relative overflow-hidden">
+                        <a href="product.html">
+                            <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-1.jpg?v=1748536100&width=400&crop=center" alt="HAVEN Tapered Track Pant" class="w-full h-auto object-cover">
+                            <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                                <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="mt-3 text-center">
+                        <h3 class="text-sm font-semibold">HAVEN Tapered Track Pant</h3>
+                        <p class="text-sm text-gray-600">$260</p>
+                    </div>
+                </div>
+                <div class="product-card relative">
+                    <div class="relative overflow-hidden">
+                        <a href="product.html">
+                            <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-1.jpg?v=1748536034&width=400&crop=center" alt="HAVEN Sleeveless Turtleneck" class="w-full h-auto object-cover">
+                            <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                                <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="mt-3 text-center">
+                        <h3 class="text-sm font-semibold">HAVEN Sleeveless Turtleneck</h3>
+                        <p class="text-sm text-gray-600">$140</p>
+                    </div>
+                </div>
+                <div class="product-card relative">
+                    <div class="relative overflow-hidden">
+                        <a href="product.html">
+                            <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-1.jpg?v=1748527318&width=400&crop=center" alt="Netminder / LS / Poly Black" class="w-full h-auto object-cover">
+                            <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                                <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="mt-3 text-center">
+                        <h3 class="text-sm font-semibold">Netminder / LS / Poly Black</h3>
+                        <p class="text-sm text-gray-600">$180</p>
+                    </div>
+                </div>
+                 <div class="product-card relative">
+                    <div class="relative overflow-hidden">
+                        <a href="product.html">
+                            <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-1906L-Grey-Silver-1_37cc179c-46e1-40ce-aca2-513d94707a07.jpg?v=1748535706&width=400&crop=center" alt="1906L Grey" class="w-full h-auto object-cover">
+                            <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                                <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="mt-3 text-center">
+                        <h3 class="text-sm font-semibold">1906L Grey</h3>
+                        <p class="text-sm text-gray-600">$220</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-black text-white py-16 md:py-20">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="mb-2 text-sm uppercase tracking-widest">FREE SHIPPING ON YOUR FIRST ORDER</div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Join Our Newsletter</h2>
+            <p class="mb-8 text-gray-300 leading-relaxed">Subscribe for early access to launches, promos, and events.</p>
+            <form class="flex flex-col sm:flex-row gap-4 justify-center">
+                <input type="email" placeholder="Your email address" class="newsletter-input bg-transparent py-3 px-4 text-white placeholder-gray-400 focus:placeholder-gray-600 w-full sm:w-80 rounded-none border-b border-gray-500 focus:border-white transition duration-300 ease-in-out">
+                <button type="submit" class="bg-white text-black px-8 py-3 text-sm uppercase tracking-wider hover:bg-gray-200 transition duration-300 ease-in-out rounded-sm">Subscribe</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="bg-gray-100 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Shop</h3>
+                    <ul class="space-y-2">
+                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">New Arrivals</a></li>
+                        <li><a href="collections.html" class="text-sm hover:underline text-gray-700">Collections</a></li>
+                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Sale</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Gift Cards</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">About</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Our Story</a></li>
+                        <li><a href="journal.html" class="text-sm hover:underline text-gray-700">Journal</a></li>
+                        <li><a href="features.html" class="text-sm hover:underline text-gray-700">Features</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Stockists</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Help</h3>
+                    <ul class="space-y-2">
+                        <li><a href="contact.html" class="text-sm hover:underline text-gray-700">Contact Us</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Shipping</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Returns</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Connect</h3>
+                    <div class="flex justify-center md:justify-start space-x-4 mb-4">
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-facebook-f text-xl"></i></a>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">Sign up for our newsletter to receive updates on new arrivals, special offers and other discount information.</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600">
+                <p class="text-sm text-center md:text-left mb-4 md:mb-0">© 2025 HAVEN. All rights reserved.</p>
+                <div class="flex flex-wrap justify-center md:justify-end space-x-4 sm:space-x-6">
+                    <a href="#" class="text-sm hover:underline">Privacy Policy</a>
+                    <a href="#" class="text-sm hover:underline">Terms of Service</a>
+                    <a href="#" class="text-sm hover:underline">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('open');
+            });
+        });
+    </script>
+</body>
+</html>
