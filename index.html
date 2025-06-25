@@ -41,58 +41,6 @@
             border-bottom-color: #555;
         }
 
-        /* Mobile Menu Specific Styles */
-        .mobile-menu {
-            display: none;
-        }
-
-        .mobile-menu.open {
-            display: block;
-        }
-    </style>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Cart | Cmarine</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Stili personalizzati di base */
-        .hero-image {
-            background-image: url('https://cdn.havenshop.com/24e09d69ae24a65dc6fc8ef7f29761f9a404cb6e-2048x2560.jpg');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .product-card:hover .product-overlay {
-            opacity: 1;
-        }
-
-        .product-overlay {
-            transition: opacity 0.3s ease;
-            opacity: 0;
-        }
-
-        .category-card:hover img {
-            transform: scale(1.05);
-        }
-
-        .category-card img {
-            transition: transform 0.3s ease;
-        }
-
-        .newsletter-input {
-            border-bottom: 1px solid #000;
-            transition: border-color 0.3s ease;
-        }
-
-        .newsletter-input:focus {
-            outline: none;
-            border-bottom-color: #555;
-        }
-
         /* Stili specifici per il menu mobile */
         .mobile-menu {
             display: none;
@@ -476,22 +424,11 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('open');
-            });
-        });
-    </script>
-</body>
-</html><script>
-        document.addEventListener('DOMContentLoaded', function() {
             // Script per il menu mobile
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
-            if (mobileMenuButton) {
+            if (mobileMenuButton && mobileMenu) { // Added checks to ensure elements exist
                 mobileMenuButton.addEventListener('click', function() {
                     mobileMenu.classList.toggle('open');
                 });
@@ -501,26 +438,30 @@
             const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
 
             accordionHeaders.forEach(header => {
-                // Aggiungi il listener solo su schermi piccoli (sotto md breakpoint di Tailwind)
+                const accordionContent = header.nextElementSibling; // The ul element right after the header
+                const arrowIcon = header.querySelector('.arrow-icon');
+
+                // Check if the screen is mobile size to apply accordion behavior
                 if (window.innerWidth < 768) {
                     header.addEventListener('click', () => {
-                        const accordionContent = header.nextElementSibling; // La lista ul subito dopo l'header
-                        
-                        // Toggle della classe 'open' sull'header e sul contenuto
+                        // Toggle 'open' class on both header and content
                         header.classList.toggle('open');
                         accordionContent.classList.toggle('open');
                     });
                 }
             });
 
-            // Opzionale: Aggiungi un resize listener per gestire il cambio da mobile a desktop
+            // Optional: Add a resize listener to handle transitions between mobile and desktop
             window.addEventListener('resize', () => {
                 accordionHeaders.forEach(header => {
                     const accordionContent = header.nextElementSibling;
                     if (window.innerWidth >= 768) {
-                        // Su desktop, assicurati che siano aperti (se per caso erano chiusi da mobile)
+                        // On desktop, ensure content is always visible and accordion classes are removed
                         header.classList.remove('open');
                         accordionContent.classList.remove('open');
+                    } else {
+                        // On mobile, if the menu was open, keep it open if it's resized back
+                        // (or you can choose to close it by default on resize to mobile)
                     }
                 });
             });
