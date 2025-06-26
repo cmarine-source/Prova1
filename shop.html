@@ -3,17 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Menswear and Streetwear | Cmarine</title>
+    <title>Shop | Cmarine</title>
+    <meta name="description" content="Esplora la vasta collezione di menswear, streetwear e accessori di Cmarine. Trova abbigliamento di alta qualità per uomo, donna e bambini.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Stili personalizzati di base */
-        .hero-image {
-            background-image: url('https://cdn.havenshop.com/24e09d69ae24a65dc6fc8ef7f29761f9a404cb6e-2048x2560.jpg');
-            background-size: cover;
-            background-position: center;
-        }
-
         .product-card:hover .product-overlay {
             opacity: 1;
         }
@@ -21,24 +16,6 @@
         .product-overlay {
             transition: opacity 0.3s ease;
             opacity: 0;
-        }
-
-        .category-card:hover img {
-            transform: scale(1.05);
-        }
-
-        .category-card img {
-            transition: transform 0.3s ease;
-        }
-
-        .newsletter-input {
-            border-bottom: 1px solid #000;
-            transition: border-color 0.3s ease;
-        }
-
-        .newsletter-input:focus {
-            outline: none;
-            border-bottom-color: #555;
         }
 
         /* Stili specifici per il menu mobile */
@@ -100,6 +77,13 @@
                 opacity: 1;
             }
         }
+
+        /* Stile per le immagini dei prodotti - Rimosso il rapporto d'aspetto fisso */
+        .product-card img {
+            width: 100%;
+            height: auto; /* L'altezza si adatta alla larghezza, mantenendo le proporzioni originali */
+            object-fit: cover; /* Mantenuto per evitare distorsioni se l'immagine è più grande del contenitore */
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -113,9 +97,9 @@
             </div>
 
             <div class="hidden md:flex space-x-8">
-                <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Shop</a>
-                <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collections</a>
-                <a href="features.html" class="text-sm uppercase hover:text-gray-600">Features</a>
+                <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
+                <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
+                <a href="features.html" class="text-sm uppercase hover:text-gray-600">Specifiche</a>
             </div>
 
             <div class="flex items-center space-x-4 md:space-x-6">
@@ -132,7 +116,9 @@
         </div>
         <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="shop.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Shop</a>
+                <a href="shop.html?category=uomo" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
+                <a href="shop.html?category=donna" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
+                <a href="shop.html?category=bambini" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
                 <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collections</a>
                 <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Features</a>
             </div>
@@ -141,194 +127,43 @@
 
     <main class="py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-4xl font-bold text-center mb-12">Shop All Products</h1>
+            <h1 class="text-4xl font-bold text-center mb-12">Tutti i Prodotti</h1>
 
-            <!-- Sezione Filtri e Ordinamento (Opzionale, ma utile per uno shop) -->
             <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-                <div class="flex space-x-4">
-                    <select class="border border-gray-300 p-2 rounded-md text-sm">
-                        <option>Tutte le Categorie</option>
-                        <option>Outerwear</option>
-                        <option>Footwear</option>
-                        <option>Bottoms</option>
-                        <option>T-Shirts</option>
-                        <!-- Aggiungi altre categorie qui -->
+                <div class="flex flex-wrap gap-4">
+                    <select id="category-filter" class="border border-gray-300 p-2 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Tutte le Categorie</option>
+                        <option value="uomo">Uomo</option>
+                        <option value="donna">Donna</option>
+                        <option value="bambini">Bambini</option>
+                        <option value="scarpe">Scarpe</option>
+                        <option value="outerwear">Outerwear</option>
+                        <option value="bottoms">Bottoms</option>
+                        <option value="t-shirts">T-Shirts</option>
+                        <option value="accessories">Accessori</option>
                     </select>
-                    <select class="border border-gray-300 p-2 rounded-md text-sm">
-                        <option>Ordina per: Rilevanza</option>
-                        <option>Prezzo: Dal più basso</option>
-                        <option>Prezzo: Dal più alto</option>
-                        <option>Nome: A-Z</option>
-                        <!-- Aggiungi altre opzioni di ordinamento -->
+                    <select id="sort-by" class="border border-gray-300 p-2 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500">
+                        <option value="relevance">Ordina per: Rilevanza</option>
+                        <option value="price-asc">Prezzo: Dal più basso</option>
+                        <option value="price-desc">Prezzo: Dal più alto</option>
+                        <option value="name-asc">Nome: A-Z</option>
+                        <option value="name-desc">Nome: Z-A</option>
                     </select>
                 </div>
-                <div class="text-gray-700 text-sm">
-                    Mostrando 1-12 di 64 prodotti
+                <div id="product-count" class="text-gray-700 text-sm">
+                    Mostrando 1-8 di 8 prodotti
                 </div>
             </div>
 
-            <!-- Griglia Prodotti -->
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <!-- Esempio di Product Card (ripetere per ogni prodotto) -->
-                <div class="product-card relative bg-white group rounded-lg overflow-hidden shadow-sm">
-                    <div class="relative overflow-hidden">
-                        <a href="product-detail.html?id=1"> <!-- Link alla pagina di dettaglio prodotto -->
-                            <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-1.jpg?v=1748535639&width=400&crop=center" alt="1906L Raincloud/Slate Grey" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                            <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                                <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="mt-3 p-3 text-center">
-                        <h3 class="text-sm font-semibold mb-1">1906L Raincloud/Slate Grey</h3>
-                        <p class="text-sm text-gray-600">€220.00</p>
-                        <!-- Pulsante per aggiungere al carrello - richiederà JS -->
-                        <button class="mt-3 w-full bg-black text-white py-2 text-sm uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out">
-                            Aggiungi al Carrello
-                        </button>
-                    </div>
+            <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 </div>
 
-                <!-- Ripeti il blocco 'product-card' per altri prodotti -->
-                <div class="product-card relative bg-white group rounded-lg overflow-hidden shadow-sm">
-                    <div class="relative overflow-hidden">
-                        <a href="product-detail.html?id=2">
-                            <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LOB-1.jpg?v=1748535634&width=400&crop=center" alt="1906L Silver Metallic/Black" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                            <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                                <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="mt-3 p-3 text-center">
-                        <h3 class="text-sm font-semibold mb-1">1906L Silver Metallic/Black</h3>
-                        <p class="text-sm text-gray-600">€220.00</p>
-                        <button class="mt-3 w-full bg-black text-white py-2 text-sm uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out">
-                            Aggiungi al Carrello
-                        </button>
-                    </div>
+            <div id="pagination" class="flex justify-center mt-12 space-x-2">
                 </div>
-
-                <div class="product-card relative bg-white group rounded-lg overflow-hidden shadow-sm">
-                    <div class="relative overflow-hidden">
-                        <a href="product-detail.html?id=3">
-                            <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-1.jpg?v=1748527318&width=400&crop=center" alt="Netminder / LS / Poly Black" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                            <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                                <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="mt-3 p-3 text-center">
-                        <h3 class="text-sm font-semibold mb-1">Netminder / LS / Poly Black</h3>
-                        <p class="text-sm text-gray-600">€180.00</p>
-                        <button class="mt-3 w-full bg-black text-white py-2 text-sm uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out">
-                            Aggiungi al Carrello
-                        </button>
-                    </div>
-                </div>
-
-                <div class="product-card relative bg-white group rounded-lg overflow-hidden shadow-sm">
-                    <div class="relative overflow-hidden">
-                        <a href="product-detail.html?id=4">
-                            <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-1906L-Grey-Silver-1_37cc179c-46e1-40ce-aca2-513d94707a07.jpg?v=1748535706&width=400&crop=center" alt="1906L Grey" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                            <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                                <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="mt-3 p-3 text-center">
-                        <h3 class="text-sm font-semibold mb-1">1906L Grey</h3>
-                        <p class="text-sm text-gray-600">€220.00</p>
-                        <button class="mt-3 w-full bg-black text-white py-2 text-sm uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out">
-                            Aggiungi al Carrello
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Aggiungi più prodotti qui, copiando il blocco 'product-card' -->
-                <div class="product-card relative bg-white group rounded-lg overflow-hidden shadow-sm">
-                    <div class="relative overflow-hidden">
-                        <a href="product-detail.html?id=5">
-                            <img src="https://cdn.havenshop.com/55ffe47d9ccb4b2ae2559e069491ed5fee4a5b90-1333x1667.jpg" alt="HAVEN Jacket" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                            <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                                <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="mt-3 p-3 text-center">
-                        <h3 class="text-sm font-semibold mb-1">HAVEN Light Shell Jacket</h3>
-                        <p class="text-sm text-gray-600">€249.99</p>
-                        <button class="mt-3 w-full bg-black text-white py-2 text-sm uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out">
-                            Aggiungi al Carrello
-                        </button>
-                    </div>
-                </div>
-                <div class="product-card relative bg-white group rounded-lg overflow-hidden shadow-sm">
-                    <div class="relative overflow-hidden">
-                        <a href="product-detail.html?id=6">
-                            <img src="https://cdn.havenshop.com/451c5ecbf8ed840649121b064b751e9ee7ba82cc-2048x2560.jpg" alt="Engineered Garments Pant" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                            <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                                <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="mt-3 p-3 text-center">
-                        <h3 class="text-sm font-semibold mb-1">Engineered Garments Fatigue Pant</h3>
-                        <p class="text-sm text-gray-600">€189.99</p>
-                        <button class="mt-3 w-full bg-black text-white py-2 text-sm uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out">
-                            Aggiungi al Carrello
-                        </button>
-                    </div>
-                </div>
-                <div class="product-card relative bg-white group rounded-lg overflow-hidden shadow-sm">
-                    <div class="relative overflow-hidden">
-                        <a href="product-detail.html?id=7">
-                            <img src="https://cdn.havenshop.com/64a3c09fc98522fb3ccab222570c0b1d52ba9930-1638x2048.jpg" alt="A.PRESSE Trousers" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                            <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                                <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="mt-3 p-3 text-center">
-                        <h3 class="text-sm font-semibold mb-1">A.PRESSE Chino Trousers</h3>
-                        <p class="text-sm text-gray-600">€219.99</p>
-                        <button class="mt-3 w-full bg-black text-white py-2 text-sm uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out">
-                            Aggiungi al Carrello
-                        </button>
-                    </div>
-                </div>
-                <div class="product-card relative bg-white group rounded-lg overflow-hidden shadow-sm">
-                    <div class="relative overflow-hidden">
-                        <a href="product-detail.html?id=8">
-                            <img src="https://cdn.havenshop.com/b8b19b2917863ce4de9d638b4bc82ca1dd4db80b-1638x2048.jpg" alt="visvim Shoes" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
-                            <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                                <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="mt-3 p-3 text-center">
-                        <h3 class="text-sm font-semibold mb-1">visvim Skagway Lo G.Patten</h3>
-                        <p class="text-sm text-gray-600">€389.99</p>
-                        <button class="mt-3 w-full bg-black text-white py-2 text-sm uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out">
-                            Aggiungi al Carrello
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Paginazione (richiederà JS per la funzionalità) -->
-            <div class="flex justify-center mt-12 space-x-2">
-                <a href="#" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-200 text-sm">Precedente</a>
-                <a href="#" class="px-4 py-2 border border-gray-300 rounded-md bg-black text-white text-sm">1</a>
-                <a href="#" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-200 text-sm">2</a>
-                <a href="#" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-200 text-sm">3</a>
-                <a href="#" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-200 text-sm">Successiva</a>
-            </div>
 
         </div>
     </main>
 
-    <!-- Footer - Copiato da index.html -->
     <div class="bg-black text-white py-16 md:py-20">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="mb-2 text-sm uppercase tracking-widest">FREE SHIPPING ON YOUR FIRST ORDER</div>
@@ -387,7 +222,7 @@
                     <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Connect</h3>
                     <div class="flex justify-center md:justify-start space-x-4 mb-4">
                         <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-instagram text-xl"></i></a>
-                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-700 hover:text-gray-900"><i class="fab fa-twitter text-xl"></i></a>
                         <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-facebook-f text-xl"></i></a>
                     </div>
                     <p class="text-sm text-gray-600 leading-relaxed">Sign up for our newsletter to receive updates on new arrivals, special offers and other discount information.</p>
@@ -407,7 +242,218 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Script per il menu mobile
+            // Dati dei prodotti (simulazione di un database)
+            const products = [
+                { id: 1, name: "HP AHIGA EVO 5", price: 120.00, imageUrl: "https://i.imgur.com/zfXG5hM.jpeg", category: "scarpe", gender: "uomo" },
+                { id: 2, name: "W HP MARINE LS", price: 145.00, imageUrl: "https://i.imgur.com/fqxM50N.jpeg", category: "t-shirts", gender: "donna" },
+                { id: 3, name: "W ANAKIN LEATHER 2", price: 133.00, imageUrl: "https://i.imgur.com/zrKojyK.jpeg", category: "scarpe", gender: "donna" },
+                { id: 4, name: "CREW LOW", price: 135.00, imageUrl: "https://i.imgur.com/CTg03HI.jpeg", category: "t-shirts", gender: "uomo" },
+                { id: 5, name: "HH QD CARGO SHORTS 11\"", price: 84.00, imageUrl: "https://i.imgur.com/llv2qYS.jpeg", category: "bottoms", gender: "uomo" },
+                { id: 6, name: "HH QD CARGO SHORTS 11\" NEW", price: 84.00, imageUrl: "https://i.imgur.com/ktYclsZ.jpeg", category: "bottoms", gender: "uomo" },
+                { id: 7, name: "HH QD CARGO SHORTS 11\" V2", price: 84.00, imageUrl: "https://i.imgur.com/YHrDIn5.jpeg", category: "bottoms", gender: "uomo" },
+                { id: 8, name: "DRIFTLINE POLO", price: 73.00, imageUrl: "https://i.imgur.com/kllLabf.jpeg", category: "t-shirts", gender: "uomo" },
+                { id: 9, name: "DRIFTLINE POLO V2", price: 73.00, imageUrl: "https://i.imgur.com/5Zv7i7u.jpeg", category: "outerwear", gender: "uomo" },
+                { id: 10, name: "CREWLINE LS POLO", price: 78.00, imageUrl: "https://i.imgur.com/o3GMITe.jpeg", category: "t-shirts", gender: "unisex" },
+                { id: 11, name: "HH LOGO T-SHIRT 2.0", price: 55.00, imageUrl: "https://i.imgur.com/deIc4Pn.jpeg", category: "t-shirts", gender: "donna" },
+                { id: 12, name: "HH LOGO T-SHIRT 2.0 V2", price: 33.00, imageUrl: "https://i.imgur.com/8C8nM1b.jpeg", category: "t-shirts", gender: "uomo" },
+                { id: 13, name: "HH TECH T-SHIRT 2.0", price: 33.00, imageUrl: "https://i.imgur.com/oUYUaxs.jpeg", category: "t-shirts", gender: "bambini" },
+                { id: 14, name: "HH TECH T-SHIRT 2.0 V2", price: 33.00, imageUrl: "https://i.imgur.com/OZcqOw7.jpeg", category: "t-shirts", gender: "donna" },
+                { id: 15, name: "HH TECH T-SHIRT 2.0 V3", price: 33.00, imageUrl: "https://i.imgur.com/x35MDY6.jpeg", category: "t-shirts", gender: "uomo" },
+                { id: 16, name: "CREW JACKET 2.0", price: 170.00, imageUrl: "https://i.imgur.com/wg1uaVi.jpeg", category: "outerwear", gender: "uomo" },
+                { id: 17, name: "CREW VEST 2.0", price: 152.00, imageUrl: "https://i.imgur.com/bUaRjSI.jpeg", category: "outerwear", gender: "uomo" },
+                { id: 18, name: "CREW VEST 2.0 V2", price: 152.00, imageUrl: "https://i.imgur.com/4bP0Hco.jpeg", category: "outerwear", gender: "donna" },
+                { id: 19, name: "PIER 3.0 JACKET", price: 280.00, imageUrl: "https://i.imgur.com/EHhpqhh.jpeg", category: "outerwear", gender: "uomo" },
+                { id: 20, name: "PIER 3.0 BIB", price: 220.00, imageUrl: "https://i.imgur.com/ml5EvNy.jpeg", category: "bottoms", gender: "uomo" },
+                { id: 21, name: "NEWPORT BOARD SHORTS 8\"", price: 73.00, imageUrl: "https://i.imgur.com/VZ2WEmB.jpeg", category: "bottoms", gender: "uomo" },
+                { id: 22, name: "HP CURVE BOARD SHORTS 7\"", price: 73.00, imageUrl: "https://i.imgur.com/zifvZOk.jpeg", category: "bottoms", gender: "uomo" },
+                { id: 23, name: "HH SOUWESTER", price: 35.00, imageUrl: "https://i.imgur.com/RRHdXJj.jpeg", category: "accessories", gender: "unisex" },
+                { id: 24, name: "CREW CAP 2.0", price: 33.00, imageUrl: "https://i.imgur.com/9Q7xIDe.jpeg", category: "accessories", gender: "unisex" },
+                { id: 25, name: "CREW CAP 2.0 V2", price: 33.00, imageUrl: "https://i.imgur.com/AhT9Amu.jpeg", category: "accessories", gender: "unisex" },
+                { id: 26, name: "CREW CAP 2.0 V3", price: 33.00, imageUrl: "https://i.imgur.com/KCCYcZD.jpeg", category: "accessories", gender: "unisex" },
+                { id: 27, name: "WANDERER SHOULDER BAG", price: 40.00, imageUrl: "https://i.imgur.com/waodFJQ.jpeg", category: "accessories", gender: "unisex" },
+                { id: 28, name: "WANDERER SHOULDER BAG V2", price: 40.00, imageUrl: "https://i.imgur.com/EEnpZx2.jpeg", category: "accessories", gender: "unisex" },
+                { id: 29, name: "CEDAR 25L BACKPACK", price: 150.00, imageUrl: "https://i.imgur.com/7rGHshF.jpeg", category: "accessories", gender: "unisex" },
+                { id: 30, name: "H/H SCOUT DUFFEL S", price: 60.00, imageUrl: "https://i.imgur.com/xtb6UCb.jpeg", category: "accessories", gender: "unisex" },
+                { id: 31, name: "SPORT II SANDALS", price: 54.00, imageUrl: "https://i.imgur.com/3kIe7Dg.jpeg", category: "scarpe", gender: "unisex" },
+                { id: 32, name: "JR RIDER VEST", price: 50.00, imageUrl: "https://i.imgur.com/P1UtG8t.jpeg", category: "outerwear", gender: "bambini" },
+                { id: 33, name: "ANKLE SOCKS 2-PACK", price: 10.00, imageUrl: "https://i.imgur.com/Q2hH3xX.jpeg", category: "accessories", gender: "unisex" },
+                { id: 34, name: "KIDS GRAPHIC TEE", price: 35.00, imageUrl: "https://i.imgur.com/R3iI4yY.jpeg", category: "t-shirts", gender: "bambini" },
+                { id: 35, name: "SPORT SANDALS V2", price: 80.00, imageUrl: "https://i.imgur.com/S4jJ5zZ.jpeg", category: "scarpe", gender: "unisex" },
+                { id: 36, name: "PUFFER VEST LIGHT", price: 100.00, imageUrl: "https://i.imgur.com/T5kK6aA.jpeg", category: "outerwear", gender: "uomo" },
+                { id: 37, name: "DENIM SHORTS WOMAN", price: 65.00, imageUrl: "https://i.imgur.com/U6lL7bB.jpeg", category: "bottoms", gender: "donna" },
+                { id: 38, name: "SUNGLASSES SPORT", price: 55.00, imageUrl: "https://i.imgur.com/V7mM8cC.jpeg", category: "accessories", gender: "unisex" },
+                { id: 39, name: "RUNNING SHOES PRO", price: 130.00, imageUrl: "https://i.imgur.com/W8nN9dD.jpeg", category: "scarpe", gender: "donna" },
+                { id: 40, name: "BASIC T-SHIRT UNISEX", price: 20.00, imageUrl: "https://i.imgur.com/X9oO0eE.jpeg", category: "t-shirts", gender: "unisex" }
+            ];
+
+            let filteredProducts = [...products]; // Copia per i filtri
+            const productsPerPage = 8;
+            let currentPage = 1;
+
+            const productGrid = document.getElementById('product-grid');
+            const productCountDisplay = document.getElementById('product-count');
+            const categoryFilter = document.getElementById('category-filter');
+            const sortBy = document.getElementById('sort-by');
+            const paginationContainer = document.getElementById('pagination');
+
+            // Funzione per recuperare il parametro dalla URL
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                let results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            }
+
+            // Funzione per renderizzare i prodotti
+            function renderProducts() {
+                productGrid.innerHTML = ''; // Pulisce la griglia
+
+                const startIndex = (currentPage - 1) * productsPerPage;
+                const endIndex = startIndex + productsPerPage;
+                const productsToDisplay = filteredProducts.slice(startIndex, endIndex);
+
+                productsToDisplay.forEach(product => {
+                    const productCard = `
+                        <div class="product-card relative bg-white group rounded-lg overflow-hidden shadow-sm">
+                            <div class="relative overflow-hidden"> <a href="product-detail.html?id=${product.id}">
+                                    <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                                    <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                                        <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="mt-3 p-3 text-center">
+                                <h3 class="text-sm font-semibold mb-1">${product.name}</h3>
+                                <p class="text-sm text-gray-600">€${product.price.toFixed(2)}</p>
+                                <button class="mt-3 w-full bg-black text-white py-2 text-sm uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out">
+                                    Aggiungi al Carrello
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    productGrid.insertAdjacentHTML('beforeend', productCard);
+                });
+
+                updateProductCount();
+                renderPagination();
+                // Scorri la pagina in cima
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Funzione per aggiornare il conteggio dei prodotti
+            function updateProductCount() {
+                const totalProducts = filteredProducts.length;
+                const start = (currentPage - 1) * productsPerPage + 1;
+                const end = Math.min(start + productsPerPage - 1, totalProducts);
+                if (totalProducts === 0) {
+                    productCountDisplay.textContent = 'Nessun prodotto trovato.';
+                } else {
+                    productCountDisplay.textContent = `Mostrando ${start}-${end} di ${totalProducts} prodotti`;
+                }
+            }
+
+            // Funzione per renderizzare la paginazione
+            function renderPagination() {
+                paginationContainer.innerHTML = '';
+                const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+                const maxPagesToShow = 4; // Impostiamo a 4 il numero massimo di pagine da mostrare
+
+                if (totalPages > 1) {
+                    // Previous button
+                    const prevButton = `<a href="#" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-200 text-sm ${currentPage === 1 ? 'pointer-events-none opacity-50' : ''}" data-page="${currentPage - 1}">Precedente</a>`;
+                    paginationContainer.insertAdjacentHTML('beforeend', prevButton);
+
+                    // Page numbers
+                    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+                    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+                    // Adjust startPage if we are at the end of the pages
+                    if (endPage - startPage + 1 < maxPagesToShow) {
+                        startPage = Math.max(1, totalPages - maxPagesToShow + 1);
+                    }
+                    // Ensure endPage does not exceed totalPages
+                    endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+
+                    for (let i = startPage; i <= endPage; i++) {
+                        const pageButton = `<a href="#" class="px-4 py-2 border border-gray-300 rounded-md ${currentPage === i ? 'bg-black text-white' : 'hover:bg-gray-200'} text-sm" data-page="${i}">${i}</a>`;
+                        paginationContainer.insertAdjacentHTML('beforeend', pageButton);
+                    }
+
+                    // Next button
+                    const nextButton = `<a href="#" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-200 text-sm ${currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}" data-page="${currentPage + 1}">Successiva</a>`;
+                    paginationContainer.insertAdjacentHTML('beforeend', nextButton);
+                }
+            }
+
+            // Funzione per applicare filtri e ordinamento
+            function applyFiltersAndSort() {
+                let tempProducts = [...products]; // Inizia sempre dalla lista completa
+
+                const selectedCategory = categoryFilter.value;
+                const urlCategory = getUrlParameter('category');
+
+                // Applica il filtro della URL se presente e non sovrascritto dal select
+                if (urlCategory && !selectedCategory) {
+                    tempProducts = tempProducts.filter(product => product.gender === urlCategory || product.category === urlCategory);
+                    // Imposta il select sulla categoria URL se corrisponde
+                    if (categoryFilter.querySelector(`option[value="${urlCategory}"]`)) {
+                        categoryFilter.value = urlCategory;
+                    } else {
+                        // Se la categoria dalla URL non è tra le opzioni del select, deseleziona il select
+                        categoryFilter.value = "";
+                    }
+                } else if (selectedCategory) {
+                    // Applica il filtro dal select
+                    tempProducts = tempProducts.filter(product => product.category === selectedCategory || product.gender === selectedCategory);
+                }
+
+                const sortMethod = sortBy.value;
+
+                switch (sortMethod) {
+                    case 'price-asc':
+                        tempProducts.sort((a, b) => a.price - b.price);
+                        break;
+                    case 'price-desc':
+                        tempProducts.sort((a, b) => b.price - a.price);
+                        break;
+                    case 'name-asc':
+                        tempProducts.sort((a, b) => a.name.localeCompare(b.name));
+                        break;
+                    case 'name-desc':
+                        tempProducts.sort((a, b) => b.name.localeCompare(a.name));
+                        break;
+                    case 'relevance':
+                    default:
+                        // Nessun ordinamento specifico, mantiene l'ordine originale o predefinito
+                        break;
+                }
+
+                filteredProducts = tempProducts;
+                currentPage = 1; // Resetta alla prima pagina dopo aver applicato filtri/ordinamento
+                renderProducts();
+            }
+
+            // Event Listeners per filtri e ordinamento
+            categoryFilter.addEventListener('change', applyFiltersAndSort);
+            sortBy.addEventListener('change', applyFiltersAndSort);
+
+            // Event Listener per la paginazione
+            paginationContainer.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A' && e.target.dataset.page) {
+                    e.preventDefault(); // Impedisce il ricaricamento della pagina
+                    const page = parseInt(e.target.dataset.page);
+                    if (page >= 1 && page <= Math.ceil(filteredProducts.length / productsPerPage)) {
+                        currentPage = page;
+                        renderProducts();
+                    }
+                }
+            });
+
+            // Inizializzazione: carica i prodotti all'avvio della pagina
+            applyFiltersAndSort(); // Applica i filtri iniziali (es. dalla URL) e ordina
+
+            // Script per il menu mobile (copiato dalla homepage)
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
@@ -417,29 +463,25 @@
                 });
             }
 
-            // Script per il footer a fisarmonica
+            // Script per il footer a fisarmonica (copiato dalla homepage)
             const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
 
             accordionHeaders.forEach(header => {
                 const accordionContent = header.nextElementSibling;
                 const arrowIcon = header.querySelector('.arrow-icon');
 
-                // Aggiungi il listener solo su schermi piccoli (sotto md breakpoint di Tailwind)
                 if (window.innerWidth < 768) {
                     header.addEventListener('click', () => {
-                        // Toggle della classe 'open' sull'header e sul contenuto
                         header.classList.toggle('open');
                         accordionContent.classList.toggle('open');
                     });
                 }
             });
 
-            // Opzionale: Aggiungi un resize listener per gestire il cambio da mobile a desktop
             window.addEventListener('resize', () => {
                 accordionHeaders.forEach(header => {
                     const accordionContent = header.nextElementSibling;
                     if (window.innerWidth >= 768) {
-                        // Su desktop, assicurati che siano aperti (se per caso erano chiusi da mobile)
                         header.classList.remove('open');
                         accordionContent.classList.remove('open');
                     }
