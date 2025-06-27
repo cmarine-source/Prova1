@@ -282,6 +282,7 @@
                 return 'prod-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
             }
 
+            // Funzione per aggiungere un prodotto al carrello
             window.addProductToCart = function(product) {
                 if (!product.id) {
                     product.id = generateUniqueId();
@@ -290,7 +291,6 @@
                     product.quantity = 1;
                 }
 
-                // Trova l'indice del prodotto se esiste già (stesso ID o nome/taglia)
                 const existingItemIndex = cartItems.findIndex(item =>
                     item.id === product.id ||
                     (item.name === product.name && item.size === product.size)
@@ -305,9 +305,9 @@
                 localStorage.setItem('cartItems', JSON.stringify(cartItems));
             };
 
-
+            // Funzione per renderizzare gli elementi del carrello nell'HTML
             function renderCart() {
-                cartItemsContainer.innerHTML = '';
+                cartItemsContainer.innerHTML = ''; // Pulisce il contenitore
 
                 if (cartItems.length === 0) {
                     emptyCartMessage.classList.remove('hidden');
@@ -339,9 +339,10 @@
                 }
                 updateCartTotals();
                 updateCartCount();
-                attachEventListeners(); // Re-attacca gli event listener ogni volta che il carrello viene renderizzato
+                attachEventListeners(); // Re-attacca gli event listener ogni volta che il DOM del carrello viene aggiornato
             }
 
+            // Funzione per aggiornare il subtotale e il totale
             function updateCartTotals() {
                 let subtotal = 0;
                 cartItems.forEach(item => {
@@ -351,6 +352,7 @@
                 cartTotalElement.textContent = `$${subtotal.toFixed(2)}`;
             }
 
+            // Funzione per aggiornare il badge del carrello
             function updateCartCount() {
                 let totalItems = 0;
                 cartItems.forEach(item => {
@@ -365,57 +367,62 @@
                 }
             }
 
+            // Funzione per attaccare tutti gli event listener necessari
             function attachEventListeners() {
+                // Event Listener per la rimozione del prodotto
                 document.querySelectorAll('.remove-item-button').forEach(button => {
-                    // Rimuovi i listener precedenti per evitare duplicati
+                    // È importante usare removeEventListener prima di addEventListener
+                    // per evitare di attaccare più volte lo stesso listener allo stesso elemento.
                     button.removeEventListener('click', handleRemoveItem);
                     button.addEventListener('click', handleRemoveItem);
                 });
 
+                // Event Listener per la modifica della quantità
                 document.querySelectorAll('.product-quantity').forEach(input => {
-                    // Rimuovi i listener precedenti per evitare duplicati
                     input.removeEventListener('change', handleQuantityChange);
                     input.removeEventListener('input', handleQuantityChange);
 
-                    // Aggiungi i nuovi listener
                     input.addEventListener('change', handleQuantityChange);
                     input.addEventListener('input', handleQuantityChange);
                 });
             }
 
+            // Handler per la rimozione di un prodotto
             function handleRemoveItem(event) {
                 const productId = event.currentTarget.dataset.productId;
                 cartItems = cartItems.filter(item => item.id !== productId);
-                renderCart();
+                renderCart(); // Ridisegna il carrello dopo la rimozione
                 localStorage.setItem('cartItems', JSON.stringify(cartItems));
             }
 
+            // Handler per la modifica della quantità di un prodotto
             function handleQuantityChange(event) {
                 const productId = event.currentTarget.dataset.productId;
                 let newQuantity = parseInt(event.currentTarget.value);
 
                 if (newQuantity < 1 || isNaN(newQuantity)) {
                     newQuantity = 1;
-                    event.currentTarget.value = 1;
+                    event.currentTarget.value = 1; // Forza il valore a 1 se invalido
                 }
 
                 const itemIndex = cartItems.findIndex(item => item.id === productId);
                 if (itemIndex > -1) {
                     cartItems[itemIndex].quantity = newQuantity;
-                    updateCartTotals();
-                    updateCartCount();
+                    updateCartTotals(); // Aggiorna i totali
+                    updateCartCount(); // Aggiorna il badge del carrello
                     localStorage.setItem('cartItems', JSON.stringify(cartItems));
                 }
             }
 
-            // Inizializzazione del carrello al caricamento della pagina
+            // --- Inizializzazione ---
+            // Carica i prodotti dal localStorage all'avvio della pagina
             const storedCartItems = localStorage.getItem('cartItems');
             if (storedCartItems) {
                 cartItems = JSON.parse(storedCartItems);
             }
-            renderCart(); // Renderizza il carrello iniziale
+            renderCart(); // Renderizza il carrello iniziale con i dati caricati
 
-            // Script per il menu mobile (resta invariato)
+            // --- Script per il menu mobile (resta invariato) ---
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             if (mobileMenuButton) {
@@ -424,13 +431,12 @@
                 });
             }
 
-            // Script per il footer a fisarmonica (resta invariato ma con piccole modifiche per robustness)
+            // --- Script per il footer a fisarmonica (resta invariato) ---
             const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
             accordionHeaders.forEach(header => {
                 const accordionContent = header.nextElementSibling;
-                // Gestisce lo stato iniziale per schermi mobile
                 if (window.innerWidth < 768) {
-                    accordionContent.classList.remove('open'); // Assicurati che siano chiusi all'inizio su mobile
+                    accordionContent.classList.remove('open');
                     header.addEventListener('click', () => {
                         header.classList.toggle('open');
                         accordionContent.classList.toggle('open');
@@ -438,16 +444,13 @@
                 }
             });
 
-            // Gestisce il ridimensionamento della finestra per il footer
             window.addEventListener('resize', () => {
                 accordionHeaders.forEach(header => {
                     const accordionContent = header.nextElementSibling;
                     if (window.innerWidth >= 768) {
                         header.classList.remove('open');
-                        accordionContent.classList.remove('open'); // Assicurati che sia sempre visibile su desktop tramite CSS
+                        accordionContent.classList.remove('open');
                     } else {
-                        // Se si ridimensiona a mobile, e non è già aperto, lascialo chiuso
-                        // Se si vuole che lo stato mobile sia predefinito come chiuso
                         if (!header.classList.contains('open')) {
                             accordionContent.classList.remove('open');
                         }
@@ -455,11 +458,12 @@
                 });
             });
 
-            // Funzione per svuotare il carrello completamente (per demo/debugging)
+            // Funzione per svuotare il carrello completamente (per demo/debugging, accessibile dalla console)
             window.clearAllItemsFromCart = function() {
                 cartItems = [];
                 renderCart();
                 localStorage.removeItem('cartItems');
+                console.log("Carrello svuotato.");
             };
 
             // *** Blocco per aggiungere prodotti di test (DECOMMENTA PER PROVARE!) ***
@@ -485,8 +489,8 @@
                     size: 'M',
                     quantity: 1
                 });
-                // Ricarica il carrello dopo aver aggiunto i prodotti di test per assicurarne la visualizzazione immediata
-                // renderCart() è già chiamato all'interno di addProductToCart, quindi non è strettamente necessario qui.
+                // Chiamare renderCart() qui non è strettamente necessario perché addProductToCart() lo fa già.
+                // Ma è un buon punto per sapere che i prodotti di test sono stati aggiunti.
             }
             */
         });
