@@ -135,10 +135,18 @@
         }
 
         /* Animazione per la rimozione dell'elemento */
+        .product-item {
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out, max-height 0.5s ease-out, margin-bottom 0.5s ease-out, padding-top 0.5s ease-out, padding-bottom 0.5s ease-out;
+            overflow: hidden; /* Nasconde il contenuto mentre si riduce l'altezza */
+        }
+
         .product-item.removing {
             opacity: 0;
             transform: translateX(-20px);
-            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+            max-height: 0; /* Riduci l'altezza per far scalare gli altri elementi */
+            margin-bottom: 0 !important; /* Rimuovi il margine per chiudere lo spazio */
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
         }
     </style>
 </head>
@@ -202,20 +210,20 @@
 
                 <div class="flex justify-between mb-3">
                     <span>Subtotale</span>
-                    <span id="subtotal">$0.00</span>
+                    <span id="subtotal">€0.00</span>
                 </div>
                 <div class="flex justify-between mb-3">
                     <span>Spedizione Stimata</span>
-                    <span id="shipping">$0.00</span>
+                    <span id="shipping">€0.00</span>
                 </div>
                 <div class="flex justify-between mb-6 border-b border-gray-200 pb-4">
                     <span>Sconto</span>
-                    <span id="discount">-$0.00</span>
+                    <span id="discount">-€0.00</span>
                 </div>
 
                 <div class="flex justify-between items-center mb-6 text-xl font-bold">
                     <span>Totale</span>
-                    <span id="total">$0.00</span>
+                    <span id="total">€0.00</span>
                 </div>
 
                 <div class="mb-6">
@@ -351,7 +359,7 @@
         };
 
         // Funzione per rimuovere un prodotto dal carrello (accessibile globalmente)
-        window.removeProductFromCart = function(productId, animateElement = null) {
+        window.removeProductFromCart = function(productId) {
             const initialCartLength = cart.length;
             cart = cart.filter(item => item.id !== productId);
             if (cart.length < initialCartLength) {
@@ -368,15 +376,16 @@
         // Funzione per impostare la quantità di un prodotto nel carrello (accessibile globalmente)
         window.setProductQuantityInCart = function(productId, newQuantity) {
             newQuantity = parseInt(newQuantity);
-            if (isNaN(newQuantity) || newQuantity < 0) {
-                console.warn("Invalid quantity provided for setProductQuantityInCart.");
-                return;
+            if (isNaN(newQuantity) || newQuantity < 0) { // Consenti 0 per rimuovere via input
+                console.warn("Invalid quantity provided for setProductQuantityInCart. Setting to 0.");
+                newQuantity = 0; // Se la quantità è invalida o negativa, la impostiamo a 0 per la rimozione
             }
 
             const existingProductIndex = cart.findIndex(item => item.id === productId);
 
             if (existingProductIndex > -1) {
                 if (newQuantity === 0) {
+                    // Se la nuova quantità è 0, rimuovi l'elemento dal carrello
                     cart.splice(existingProductIndex, 1);
                 } else {
                     cart[existingProductIndex].quantity = newQuantity;
@@ -445,16 +454,15 @@
                     cart.forEach(item => {
                         const productHtml = `
                             <div class="flex items-center border-b border-gray-200 py-4 product-item" data-id="${item.id}">
-                                <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover mr-4 rounded-md">
-                                <div class="flex-grow">
+                                <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover mr-4 rounded-md"> <div class="flex-grow">
                                     <h2 class="text-base font-semibold">${item.name}</h2>
                                     <p class="text-gray-600 text-xs">${item.details || ''}</p>
                                     <p class="text-base font-medium product-price">€${(item.price || 0).toFixed(2)}</p>
                                 </div>
                                 <div class="flex items-center space-x-2">
-                                    <button class="quantity-btn decrease-btn px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-100">-</button>
-                                    <input type="number" value="${item.quantity}" min="1" class="w-12 text-center border border-gray-300 py-1 text-sm rounded quantity-input" data-id="${item.id}">
-                                    <button class="quantity-btn increase-btn px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-100">+</button>
+                                    <button class="quantity-btn decrease-btn px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-100" data-id="${item.id}">-</button>
+                                    <input type="number" value="${item.quantity}" min="0" class="w-12 text-center border border-gray-300 py-1 text-sm rounded quantity-input" data-id="${item.id}">
+                                    <button class="quantity-btn increase-btn px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-100" data-id="${item.id}">+</button>
                                 </div>
                                 <button class="remove-item-btn ml-4 text-gray-500" data-id="${item.id}">
                                     <i class="fas fa-times"></i>
@@ -471,7 +479,6 @@
 
             function updateCartTotals() {
                 let subtotal = cart.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0);
-                // Il costo di spedizione iniziale è currentShippingCost (può essere 10 o 0)
                 let total = subtotal + currentShippingCost - discountAppliedAmount;
 
                 subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
@@ -483,26 +490,31 @@
             // Delegazione eventi per i bottoni di quantità e rimozione
             cartItemsContainer.addEventListener('click', function(event) {
                 const target = event.target;
-                const productItem = target.closest('.product-item');
-                if (!productItem) return;
+                const productId = parseInt(target.dataset.id || target.closest('[data-id]')?.dataset.id); // Ottieni l'ID dal bottone o dall'elemento padre
 
-                const productId = parseInt(productItem.dataset.id);
+                if (isNaN(productId)) return; // Assicurati che l'ID sia valido
 
                 if (target.classList.contains('increase-btn')) {
-                    // Chiama la funzione globale per aumentare la quantità
                     const currentQuantity = cart.find(item => item.id === productId)?.quantity || 0;
                     window.setProductQuantityInCart(productId, currentQuantity + 1);
                 } else if (target.classList.contains('decrease-btn')) {
-                    // Chiama la funzione globale per diminuire la quantità
                     const currentQuantity = cart.find(item => item.id === productId)?.quantity || 0;
                     if (currentQuantity > 0) {
                         window.setProductQuantityInCart(productId, currentQuantity - 1);
+                    } else {
+                        // Se la quantità è già 0 e si preme "-", rimuovi l'elemento
+                        window.setProductQuantityInCart(productId, 0);
                     }
                 } else if (target.classList.contains('remove-item-btn') || target.closest('.remove-item-btn')) {
-                    productItem.classList.add('removing');
-                    setTimeout(() => {
-                        window.removeProductFromCart(productId);
-                    }, 300); // Durata dell'animazione
+                    const productItem = target.closest('.product-item');
+                    if (productItem) {
+                        productItem.classList.add('removing');
+                        // Attendi la fine della transizione prima di rimuovere l'elemento dal DOM
+                        productItem.addEventListener('transitionend', function handler() {
+                            window.removeProductFromCart(productId);
+                            productItem.removeEventListener('transitionend', handler); // Rimuovi l'event listener per evitare chiamate multiple
+                        }, { once: true }); // Assicurati che l'handler venga eseguito una sola volta
+                    }
                 }
             });
 
@@ -512,8 +524,9 @@
                 if (target.classList.contains('quantity-input')) {
                     const productId = parseInt(target.dataset.id);
                     let newQuantity = parseInt(target.value);
-                    if (isNaN(newQuantity) || newQuantity < 0) { // Consenti 0 per rimuovere via input
-                        newQuantity = 0;
+                    if (isNaN(newQuantity) || newQuantity < 0) {
+                        newQuantity = 0; // Se la quantità è invalida o negativa, la impostiamo a 0 per la rimozione
+                        target.value = 0; // Aggiorna il valore visualizzato nell'input
                     }
                     window.setProductQuantityInCart(productId, newQuantity);
                 }
