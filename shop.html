@@ -301,7 +301,9 @@
         // Funzione per aggiungere prodotti al carrello (accessibile globalmente)
         window.addProductToCart = function(product, animateButton = null) {
             // Assicurati che il prodotto abbia un ID. Se non specificato, genera un ID temporaneo.
+            // È CRUCIALE che il prodotto abbia un ID unico per poterlo gestire nel carrello.
             if (!product.id) {
+                console.warn("Product added to cart without an ID. Generating a temporary one.");
                 product.id = 'temp-prod-' + Date.now(); // ID semplice per l'esempio
             }
             // Assicurati che la quantità sia un numero e sia almeno 1.
@@ -330,6 +332,45 @@
                 }, 300);
             }
         };
+
+        // NUOVA FUNZIONE: Rimuovi un prodotto dal carrello (accessibile globalmente)
+        window.removeProductFromCart = function(productId, quantityToRemove = 1) {
+            const existingProductIndex = cart.findIndex(item => item.id === productId);
+
+            if (existingProductIndex > -1) {
+                cart[existingProductIndex].quantity -= quantityToRemove;
+                if (cart[existingProductIndex].quantity <= 0) {
+                    // Rimuovi completamente il prodotto se la quantità scende a zero o meno
+                    cart.splice(existingProductIndex, 1);
+                }
+                saveCartToLocalStorage();
+                updateCartCounter();
+                // Puoi aggiungere una logica per aggiornare l'UI del carrello se sei sulla pagina cart.html
+            }
+        };
+
+        // NUOVA FUNZIONE: Imposta la quantità di un prodotto nel carrello (accessibile globalmente)
+        window.setProductQuantityInCart = function(productId, newQuantity) {
+            newQuantity = parseInt(newQuantity);
+            if (isNaN(newQuantity) || newQuantity < 0) {
+                console.warn("Invalid quantity provided for setProductQuantityInCart.");
+                return;
+            }
+
+            const existingProductIndex = cart.findIndex(item => item.id === productId);
+
+            if (existingProductIndex > -1) {
+                if (newQuantity === 0) {
+                    cart.splice(existingProductIndex, 1); // Rimuovi se la quantità è 0
+                } else {
+                    cart[existingProductIndex].quantity = newQuantity;
+                }
+                saveCartToLocalStorage();
+                updateCartCounter();
+                // Puoi aggiungere una logica per aggiornare l'UI del carrello se sei sulla pagina cart.html
+            }
+        };
+
 
         // Funzione di inizializzazione che carica il carrello e aggiorna il contatore
         function initializeCartFeatures() {
@@ -431,6 +472,48 @@
                 return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
             }
 
+            // Funzione per applicare filtri e ordinamento
+            function applyFiltersAndSort() {
+                let tempProducts = [...products]; // Inizia sempre con tutti i prodotti
+
+                // Filtra per categoria (e genere se applicabile)
+                const selectedCategory = categoryFilter.value;
+                const urlCategory = getUrlParameter('category'); // Categoria dalla URL
+
+                if (selectedCategory || urlCategory) {
+                    const filterValue = selectedCategory || urlCategory;
+                    tempProducts = tempProducts.filter(product =>
+                        product.category === filterValue || product.gender === filterValue
+                    );
+                }
+
+                // Ordina i prodotti
+                const sortValue = sortBy.value;
+                switch (sortValue) {
+                    case 'price-asc':
+                        tempProducts.sort((a, b) => a.price - b.price);
+                        break;
+                    case 'price-desc':
+                        tempProducts.sort((a, b) => b.price - a.price);
+                        break;
+                    case 'name-asc':
+                        tempProducts.sort((a, b) => a.name.localeCompare(b.name));
+                        break;
+                    case 'name-desc':
+                        tempProducts.sort((a, b) => b.name.localeCompare(a.name));
+                        break;
+                    case 'relevance':
+                    default:
+                        // Nessun ordinamento specifico, mantiene l'ordine originale o quello predefinito
+                        break;
+                }
+
+                filteredProducts = tempProducts;
+                currentPage = 1; // Resetta la pagina quando i filtri cambiano
+                renderProducts();
+            }
+
+
             // Funzione per renderizzare i prodotti
             function renderProducts() {
                 productGrid.innerHTML = ''; // Pulisce la griglia
@@ -480,12 +563,11 @@
                         name: addToCartBtn.dataset.productName,
                         price: parseFloat(addToCartBtn.dataset.productPrice),
                         image: addToCartBtn.dataset.productImage,
-                        details: addToCartBtn.dataset.productDetails // Passa anche i dettagli
+                        details: addToCartBtn.dataset.productDetails
                     };
                     window.addProductToCart(product, addToCartBtn);
                 }
             });
-
 
             // Funzione per aggiornare il conteggio dei prodotti visualizzati
             function updateProductCountDisplay() {
@@ -503,96 +585,54 @@
             function renderPagination() {
                 paginationContainer.innerHTML = '';
                 const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-                const maxPagesToShow = 4;
+                const maxPagesToShow = 4; // Numero massimo di pagine da mostrare (escluse "Precedente" e "Successivo")
 
                 if (totalPages > 1) {
-                    const prevButton = `<a href="#" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-200 text-sm ${currentPage === 1 ? 'pointer-events-none opacity-50' : ''}" data-page="${currentPage - 1}">Precedente</a>`;
+                    // Pulsante "Precedente"
+                    const prevButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:bg-gray-200'}" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>Precedente</a>`;
                     paginationContainer.insertAdjacentHTML('beforeend', prevButton);
 
                     let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
                     let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
+                    // Regola startPage se si è verso la fine
                     if (endPage - startPage + 1 < maxPagesToShow) {
-                        startPage = Math.max(1, totalPages - maxPagesToShow + 1);
+                        startPage = Math.max(1, endPage - maxPagesToShow + 1);
                     }
-                    endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
                     for (let i = startPage; i <= endPage; i++) {
-                        const pageButton = `<a href="#" class="px-4 py-2 border border-gray-300 rounded-md ${currentPage === i ? 'bg-black text-white' : 'hover:bg-gray-200'} text-sm" data-page="${i}">${i}</a>`;
+                        const pageButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${i === currentPage ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-200'}" data-page="${i}">${i}</a>`;
                         paginationContainer.insertAdjacentHTML('beforeend', pageButton);
                     }
 
-                    const nextButton = `<a href="#" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-200 text-sm ${currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}" data-page="${currentPage + 1}">Successiva</a>`;
+                    // Pulsante "Successivo"
+                    const nextButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:bg-gray-200'}" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>Successivo</a>`;
                     paginationContainer.insertAdjacentHTML('beforeend', nextButton);
-
-                    // Aggiungi listener ai bottoni di paginazione
-                    paginationContainer.querySelectorAll('a[data-page]').forEach(button => {
-                        button.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            currentPage = parseInt(this.dataset.page);
-                            applyFiltersAndSort(); // Applica i filtri e il sorting dopo il cambio pagina
-                        });
-                    });
                 }
             }
 
-
-            // Funzione per filtrare e ordinare i prodotti
-            function applyFiltersAndSort() {
-                filteredProducts = [...products]; // Resetta i prodotti filtrati
-                const selectedCategory = categoryFilter.value;
-                const sortOption = sortBy.value;
-
-                // Filtra per categoria (se selezionata)
-                if (selectedCategory) {
-                    // Controlla se la categoria selezionata è "uomo", "donna" o "bambini"
-                    // Questi sono considerati "generi" nei tuoi dati, non categorie di prodotto in senso stretto.
-                    if (['uomo', 'donna', 'bambini'].includes(selectedCategory)) {
-                        filteredProducts = filteredProducts.filter(product =>
-                            product.gender.toLowerCase() === selectedCategory.toLowerCase()
-                        );
-                    } else {
-                        // Altrimenti, filtra per categoria normale (scarpe, t-shirts, ecc.)
-                        filteredProducts = filteredProducts.filter(product =>
-                            product.category.toLowerCase() === selectedCategory.toLowerCase()
-                        );
-                    }
+            // Event Listener per la paginazione
+            paginationContainer.addEventListener('click', function(event) {
+                event.preventDefault();
+                const targetPage = parseInt(event.target.dataset.page);
+                if (!isNaN(targetPage) && targetPage > 0 && targetPage <= Math.ceil(filteredProducts.length / productsPerPage)) {
+                    currentPage = targetPage;
+                    renderProducts();
+                    window.scrollTo(0, 0); // Scorri all'inizio della pagina dopo il cambio pagina
                 }
+            });
 
-                // Applica l'ordinamento
-                filteredProducts.sort((a, b) => {
-                    if (sortOption === 'price-asc') {
-                        return a.price - b.price;
-                    } else if (sortOption === 'price-desc') {
-                        return b.price - a.price;
-                    } else if (sortOption === 'name-asc') {
-                        return a.name.localeCompare(b.name);
-                    } else if (sortOption === 'name-desc') {
-                        return b.name.localeCompare(a.name);
-                    }
-                    return 0; // Rilevanza (nessun ordinamento specifico)
-                });
-
-                currentPage = 1; // Resetta la paginazione dopo aver applicato filtri/sort
-                renderProducts(); // Rirenderizza con i prodotti filtrati/ordinati
-            }
-
-            // Event listeners per i filtri e l'ordinamento
+            // Event Listeners per i filtri e l'ordinamento
             categoryFilter.addEventListener('change', applyFiltersAndSort);
             sortBy.addEventListener('change', applyFiltersAndSort);
 
-
-            // Inizializzazione basata sul parametro URL della categoria
+            // Inizializzazione basata sui parametri URL e poi renderizzazione
             const initialCategory = getUrlParameter('category');
             if (initialCategory) {
-                const categoryOption = Array.from(categoryFilter.options).find(option => option.value === initialCategory);
-                if (categoryOption) {
-                    categoryFilter.value = initialCategory;
-                }
+                categoryFilter.value = initialCategory;
             }
 
-            // Primo render dei prodotti all'apertura della pagina
-            applyFiltersAndSort();
+            applyFiltersAndSort(); // Applica i filtri iniziali e ordina i prodotti
         });
     </script>
 </body>
