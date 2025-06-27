@@ -97,6 +97,49 @@
                 opacity: 1;
             }
         }
+
+        /* Stile per il badge del carrello */
+        .cart-badge {
+            position: absolute;
+            top: -8px; /* Regola la posizione verticale */
+            right: -8px; /* Regola la posizione orizzontale */
+            background-color: #ef4444; /* Rosso */
+            color: white;
+            border-radius: 9999px; /* Completamente rotondo */
+            padding: 2px 6px;
+            font-size: 0.75rem; /* Testo piccolo */
+            font-weight: bold;
+            line-height: 1;
+            min-width: 20px; /* Larghezza minima per numeri a singola cifra */
+            text-align: center;
+        }
+
+        /* Animazione "added to cart" (se usata altrove) */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .added-to-cart-pulse {
+            animation: pulse 0.3s ease-in-out;
+        }
+
+        /* Stili specifici per la pagina del carrello */
+        .remove-item-btn {
+            transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        .remove-item-btn:hover {
+            color: #ef4444; /* Rosso al passaggio del mouse */
+        }
+
+        /* Animazione per la rimozione dell'elemento */
+        .product-item.removing {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
     </style>
 </head>
 <body class="font-sans text-gray-900">
@@ -116,9 +159,10 @@
 
             <div class="flex items-center space-x-4 md:space-x-6">
                 <a href="search.html" class="text-xl"><i class="fas fa-search"></i></a>
+                <a href="login.html" class="text-xl"><i class="far fa-user"></i></a>
                 <a href="cart.html" class="text-xl relative">
                     <i class="fas fa-shopping-bag"></i>
-                    <span id="cart-item-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                    <span id="cart-item-count" class="cart-badge hidden">0</span>
                 </a>
 
                 <div class="md:hidden">
@@ -199,6 +243,7 @@
                         <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Nuovi Arrivi</a></li>
                         <li><a href="collections.html" class="text-sm hover:underline text-gray-700">Collezioni</a></li>
                         <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Saldi</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Carte Regalo</a></li>
                     </ul>
                 </div>
 
@@ -209,7 +254,7 @@
                     </div>
                     <ul class="space-y-2 footer-accordion-content">
                         <li><a href="#" class="text-sm hover:underline text-gray-700">La Nostra Storia</a></li>
-                        <li><a href="features.html" class="text-sm hover:underline text-gray-700">Caratteristiche</a></li>
+                        <li><a href="features.html" class="text-sm hover:underline text-gray-700">Partnership</a></li>
                         <li><a href="#" class="text-sm hover:underline text-gray-700">Dove Trovarci</a></li>
                     </ul>
                 </div>
@@ -250,21 +295,18 @@
 
     <script>
         // Global variables and functions for cart management
-        // Initialize cart from localStorage or as empty array
         let cart = JSON.parse(localStorage.getItem('cmarineCart')) || [];
-        const CART_STORAGE_KEY = 'cmarineCart'; // Chiave per il localStorage
+        const CART_STORAGE_KEY = 'cmarineCart';
         const SHIPPING_COST = 10.00;
         let discountApplied = 0;
 
-        // Funzione per salvare il carrello nel localStorage
         function saveCartToLocalStorage() {
             localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
         }
 
-        // Funzione per aggiornare il contatore del carrello nell'header
         function updateCartCounter() {
             const cartItemCountElement = document.getElementById('cart-item-count');
-            if (cartItemCountElement) { // Assicurati che l'elemento esista prima di aggiornarlo
+            if (cartItemCountElement) {
                 const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
                 cartItemCountElement.textContent = totalItems;
                 if (totalItems > 0) {
@@ -272,10 +314,14 @@
                 } else {
                     cartItemCountElement.classList.add('hidden');
                 }
+                // Add pulse animation on update
+                cartItemCountElement.classList.add('added-to-cart-pulse');
+                setTimeout(() => {
+                    cartItemCountElement.classList.remove('added-to-cart-pulse');
+                }, 300);
             }
         }
 
-        // Funzione per aggiungere prodotti al carrello (accessibile globalmente)
         window.addProductToCart = function(product) {
             const existingProductIndex = cart.findIndex(item => item.id === product.id);
             if (existingProductIndex > -1) {
@@ -283,24 +329,14 @@
             } else {
                 cart.push({ ...product, quantity: 1 });
             }
-            saveCartToLocalStorage(); // Salva dopo ogni modifica
-            updateCartCounter(); // Aggiorna il contatore
-            // Opzionale: un alert o una piccola notifica "Prodotto aggiunto!"
-            // alert(`'${product.name}' aggiunto al carrello!`);
+            saveCartToLocalStorage();
+            updateCartCounter();
         };
 
-        // Funzione di inizializzazione che carica il carrello e aggiorna il contatore
-        function initializeCartFeatures() {
-            updateCartCounter(); // Aggiorna il contatore all'avvio della pagina
-        }
-
-        // Esegui la funzione di inizializzazione quando il DOM è caricato
         document.addEventListener('DOMContentLoaded', initializeCartFeatures);
 
         // --- Logica Specifica per la Pagina cart.html ---
-        // (Questa parte del codice è specifica per la pagina del carrello e non dovrebbe essere inclusa in ogni pagina)
         document.addEventListener('DOMContentLoaded', function() {
-            // Script per il menu mobile (dalla homepage)
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
@@ -310,7 +346,6 @@
                 });
             }
 
-            // Script per il footer a fisarmonica (dalla homepage)
             const footerAccordions = document.querySelectorAll('.footer-accordion');
 
             footerAccordions.forEach(accordion => {
@@ -318,7 +353,6 @@
                 const content = accordion.querySelector('.footer-accordion-content');
 
                 header.addEventListener('click', () => {
-                    // Solo su schermi piccoli (mobile)
                     if (window.innerWidth < 768) {
                         header.classList.toggle('open');
                         content.classList.toggle('open');
@@ -326,7 +360,6 @@
                 });
             });
 
-            // Elementi specifici di cart.html
             const cartItemsContainer = document.getElementById('cart-items-container');
             const subtotalElement = document.getElementById('subtotal');
             const shippingElement = document.getElementById('shipping');
@@ -335,47 +368,39 @@
             const clearCartBtn = document.getElementById('clear-cart-btn');
             const applyDiscountBtn = document.getElementById('apply-discount-btn');
             const discountCodeInput = document.getElementById('discount-code');
+            const checkoutButton = document.querySelector('main button.w-full');
 
-            // Funzione per renderizzare gli elementi del carrello (solo in cart.html)
             function renderCartItems() {
-                cartItemsContainer.innerHTML = ''; // Svuota il contenitore
+                cartItemsContainer.innerHTML = '';
                 if (cart.length === 0) {
                     cartItemsContainer.innerHTML = '<p class="text-center text-gray-600 py-8">Il tuo carrello è vuoto.</p>';
-                    // Disabilita i pulsanti di checkout se il carrello è vuoto
-                    document.querySelector('main button.w-full').disabled = true;
-                    document.querySelector('main button.w-full').classList.add('opacity-50', 'cursor-not-allowed');
+                    checkoutButton.disabled = true;
+                    checkoutButton.classList.add('opacity-50', 'cursor-not-allowed');
                 } else {
                     cart.forEach(item => {
                         const productHtml = `
                             <div class="flex items-center border-b border-gray-200 py-4 product-item" data-price="${item.price}" data-id="${item.id}">
-                                <img src="${item.image}" alt="${item.name}" class="w-24 h-24 object-cover mr-4">
-                                <div class="flex-grow">
-                                    <h2 class="text-lg font-semibold">${item.name}</h2>
-                                    <p class="text-gray-600 text-sm">${item.details}</p>
-                                    <p class="text-lg font-medium product-price">$${item.price.toFixed(2)}</p>
+                                <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover mr-4 rounded-md"> <div class="flex-grow">
+                                    <h2 class="text-base font-semibold">${item.name}</h2> <p class="text-gray-600 text-xs">${item.details}</p> <p class="text-base font-medium product-price">$${item.price.toFixed(2)}</p>
                                 </div>
                                 <div class="flex items-center space-x-2">
-                                    <button class="quantity-btn decrease-btn px-3 py-1 border border-gray-300 hover:bg-gray-100">-</button>
-                                    <input type="number" value="${item.quantity}" min="1" class="w-16 text-center border border-gray-300 py-1 quantity-input">
-                                    <button class="quantity-btn increase-btn px-3 py-1 border border-gray-300 hover:bg-gray-100">+</button>
+                                    <button class="quantity-btn decrease-btn px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-100">-</button>
+                                    <input type="number" value="${item.quantity}" min="1" class="w-12 text-center border border-gray-300 py-1 text-sm rounded quantity-input">
+                                    <button class="quantity-btn increase-btn px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-100">+</button>
                                 </div>
-                                <button class="remove-item-btn ml-4 text-gray-500 hover:text-red-600">
+                                <button class="remove-item-btn ml-4 text-gray-500">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
                         `;
                         cartItemsContainer.insertAdjacentHTML('beforeend', productHtml);
                     });
-                    // Riabilita i pulsanti di checkout se il carrello ha prodotti
-                    document.querySelector('main button.w-full').disabled = false;
-                    document.querySelector('main button.w-full').classList.remove('opacity-50', 'cursor-not-allowed');
+                    checkoutButton.disabled = false;
+                    checkoutButton.classList.remove('opacity-50', 'cursor-not-allowed');
                 }
                 updateCartTotals();
-                // updateCartCounter() è già chiamato dalle funzioni che modificano il carrello
-                // o all'inizializzazione globale. Qui non è strettamente necessario se non per ridondanza.
             }
 
-            // Funzione per aggiornare i totali del carrello
             function updateCartTotals() {
                 let subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
                 let total = subtotal + SHIPPING_COST - discountApplied;
@@ -386,7 +411,6 @@
                 totalElement.textContent = `$${total.toFixed(2)}`;
             }
 
-            // Gestione eventi per la quantità e rimozione (solo in cart.html)
             cartItemsContainer.addEventListener('click', function(event) {
                 const target = event.target;
                 const productItem = target.closest('.product-item');
@@ -397,23 +421,27 @@
 
                 if (itemIndex === -1) return;
 
-                const quantityInput = productItem.querySelector('.quantity-input');
-                let currentQuantity = parseInt(quantityInput.value);
-
                 if (target.classList.contains('increase-btn')) {
-                    currentQuantity++;
-                    cart[itemIndex].quantity = currentQuantity;
+                    cart[itemIndex].quantity++;
                 } else if (target.classList.contains('decrease-btn')) {
-                    if (currentQuantity > 1) {
-                        currentQuantity--;
-                        cart[itemIndex].quantity = currentQuantity;
+                    if (cart[itemIndex].quantity > 1) {
+                        cart[itemIndex].quantity--;
                     }
                 } else if (target.classList.contains('remove-item-btn') || target.closest('.remove-item-btn')) {
-                    cart.splice(itemIndex, 1);
+                    // Aggiungi la classe per l'animazione di rimozione
+                    productItem.classList.add('removing');
+                    setTimeout(() => {
+                        cart.splice(itemIndex, 1);
+                        saveCartToLocalStorage();
+                        renderCartItems(); // Rirenderizza dopo l'animazione
+                        updateCartCounter();
+                    }, 300); // Durata dell'animazione
+                    return; // Interrompi per evitare ri-renderizzazione immediata
                 }
 
-                saveCartToLocalStorage(); // Salva dopo ogni modifica
-                renderCartItems(); // Rirenderizza e aggiorna i totali/contatore
+                saveCartToLocalStorage();
+                renderCartItems(); // Rirenderizza per aggiornare le quantità e i totali
+                updateCartCounter();
             });
 
             cartItemsContainer.addEventListener('change', function(event) {
@@ -429,30 +457,36 @@
                         target.value = 1;
                     }
                     cart[itemIndex].quantity = newQuantity;
-                    saveCartToLocalStorage(); // Salva dopo ogni modifica
+                    saveCartToLocalStorage();
                     updateCartTotals();
                     updateCartCounter();
                 }
             });
 
-            // Svuota Carrello (solo in cart.html)
             clearCartBtn.addEventListener('click', function() {
-                cart = [];
-                discountApplied = 0;
-                discountCodeInput.value = '';
-                saveCartToLocalStorage(); // Salva carrello vuoto
-                renderCartItems(); // Rirenderizza e aggiorna i totali/contatore
+                if (confirm('Sei sicuro di voler svuotare il carrello?')) {
+                    cart = [];
+                    discountApplied = 0;
+                    discountCodeInput.value = '';
+                    saveCartToLocalStorage();
+                    renderCartItems();
+                    updateCartCounter();
+                }
             });
 
-            // Applica Sconto (logica di esempio, solo in cart.html)
             applyDiscountBtn.addEventListener('click', function() {
                 const code = discountCodeInput.value.trim().toUpperCase();
                 if (code === 'WELCOME10') {
                     discountApplied = 10.00;
                     alert('Sconto applicato: WELCOME10!');
                 } else if (code === 'FREESHIP') {
-                    alert('Spedizione gratuita applicata! (La logica di spedizione gratuita qui è solo dimostrativa e non influenza il costo fisso di $10 nell\'esempio).');
-                    discountApplied = 0;
+                    // Questa parte dovrebbe logicamente impostare lo SHIPPING_COST a 0,
+                    // ma per questo esempio con SHIPPING_COST fisso a 10,
+                    // mostriamo solo l'alert senza modificare il costo della spedizione.
+                    // In un'implementazione reale, dovresti modificare la variabile SHIPPING_COST
+                    // o la logica di calcolo.
+                    alert('Spedizione gratuita applicata! (Il costo di spedizione fisso di $10 nell\'esempio non verrà modificato, ma in un\'applicazione reale sarebbe gratuito).');
+                    discountApplied = 0; // Se FREESHIP è solo per spedizione, non deve dare sconto sul totale
                 }
                 else {
                     discountApplied = 0;
@@ -461,7 +495,6 @@
                 updateCartTotals();
             });
 
-            // Inizializza la pagina carrello con gli elementi salvati
             renderCartItems();
         });
     </script>
