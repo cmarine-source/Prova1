@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Menswear and Streetwear | Cmarine</title>
+    <meta name="description" content="Scopri la collezione premium di menswear e streetwear di Cmarine. Abbigliamento di alta qualità, calzature e accessori per l'uomo moderno. Spedizione gratuita sul primo ordine.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Stili personalizzati di base */
         .hero-image {
-            background-image: url('https://cdn.havenshop.com/24e09d69ae24a65dc6fc8ef7f29761f9a404cb6e-2048x2560.jpg');
+            background-image: url('https://i.imgur.com/nszViUU.jpeg');
             background-size: cover;
             background-position: center;
         }
@@ -100,118 +101,106 @@
                 opacity: 1;
             }
         }
+
+        /* Stile per il badge del carrello */
+        .cart-badge {
+            position: absolute;
+            top: -8px; /* Regola la posizione verticale */
+            right: -8px; /* Regola la posizione orizzontale */
+            background-color: #ef4444; /* Rosso */
+            color: white;
+            border-radius: 9999px; /* Completamente rotondo */
+            padding: 2px 6px;
+            font-size: 0.75rem; /* Testo piccolo */
+            font-weight: bold;
+            line-height: 1;
+            min-width: 20px; /* Larghezza minima per numeri a singola cifra */
+            text-align: center;
+        }
     </style>
 </head>
-<body class="bg-gray-50">
-    <header class="sticky top-0 z-50 bg-white shadow-sm">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center">
-                <a href="index.html" class="flex items-center no-underline hover:no-underline">
-                    <span class="text-3xl font-bold text-red-600">C</span>
-                    <span class="text-3xl font-bold text-blue-800">marine</span>
-                </a>
-            </div>
+<body>
+   <header class="sticky top-0 z-50 bg-white shadow-sm">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <a href="index.html" class="flex items-center no-underline hover:no-underline">
+                <img src="https://i.imgur.com/PigMJrD.jpeg" alt="Il mio logo" class="h-10">
+            </a>
+        </div>
 
-            <div class="hidden md:flex space-x-8">
-                <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Shop</a>
-                <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collections</a>
-                <a href="features.html" class="text-sm uppercase hover:text-gray-600">Features</a>
-            </div>
+        <div class="hidden md:flex space-x-8">
+            <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
+            <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
+            <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
+        </div>
 
-            <div class="flex items-center space-x-4 md:space-x-6">
-                <a href="#" class="text-xl"><i class="fas fa-search"></i></a>
-                <a href="login.html" class="text-xl"><i class="far fa-user"></i></a>
-                <a href="cart.html" class="text-xl"><i class="fas fa-shopping-bag"></i></a>
+        <div class="flex items-center space-x-4 md:space-x-6">
+            <a href="search.html" class="text-xl"><i class="fas fa-search"></i></a>
+            <a href="cart.html" class="text-xl relative">
+                <i class="fas fa-shopping-bag"></i>
+                <span id="cart-count" class="cart-badge hidden">0</span> </a>
 
-                <div class="md:hidden">
-                    <button id="mobile-menu-button" class="focus:outline-none">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
             </div>
         </div>
-        <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="shop.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Shop</a>
-                <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collections</a>
-                <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Features</a>
-            </div>
+    </div>
+    <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+            <a href="shop.html?category=uomo" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
+            <a href="shop.html?category=donna" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
+            <a href="shop.html?category=bambini" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
+            <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
+            <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
         </div>
-    </header>
+    </div>
+</header>
 
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 class="text-4xl font-bold mb-8 text-center">Your Shopping Cart</h1>
+        <h1 class="text-4xl font-bold mb-8 text-center">Il Tuo Carrello</h1>
 
         <div class="flex flex-col lg:flex-row gap-8">
             <div class="lg:w-2/3 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                <div class="flex items-center justify-between border-b border-gray-200 py-4">
-                    <div class="flex items-center space-x-4">
-                        <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-1.jpg?v=1748535639&width=100&crop=center" alt="Product Image" class="w-20 h-20 object-cover rounded-md">
-                        <div>
-                            <h3 class="font-semibold">1906L Raincloud/Slate Grey</h3>
-                            <p class="text-sm text-gray-600">Size: US 9</p>
-                            <p class="text-sm text-gray-600">$220.00</p>
-                        </div>
+                <div id="cart-items-container">
                     </div>
-                    <div class="flex items-center space-x-4">
-                        <input type="number" value="1" min="1" class="w-16 px-2 py-1 border border-gray-300 rounded-md text-center">
-                        <button class="text-gray-500 hover:text-red-600 transition">
-                            <i class="fas fa-times text-lg"></i>
-                        </button>
-                    </div>
-                </div>
 
-                <div class="flex items-center justify-between border-b border-gray-200 py-4">
-                    <div class="flex items-center space-x-4">
-                        <img src="https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-1.jpg?v=1748527318&width=100&crop=center" alt="Product Image" class="w-20 h-20 object-cover rounded-md">
-                        <div>
-                            <h3 class="font-semibold">Netminder / LS / Poly Black</h3>
-                            <p class="text-sm text-gray-600">Size: M</p>
-                            <p class="text-sm text-gray-600">$180.00</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <input type="number" value="1" min="1" class="w-16 px-2 py-1 border border-gray-300 rounded-md text-center">
-                        <button class="text-gray-500 hover:text-red-600 transition">
-                            <i class="fas fa-times text-lg"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="text-right mt-6">
-                    <a href="shop.html" class="text-sm text-gray-600 hover:underline">Continue Shopping</a>
+                <div class="mt-6 flex justify-between items-center">
+                    <span id="empty-cart-message" class="text-gray-600 italic">Il tuo carrello è vuoto.</span>
+                    <a href="shop.html" class="text-sm text-gray-600 hover:underline">Continua lo Shopping</a>
                 </div>
             </div>
 
             <div class="lg:w-1/3 bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
-                <h2 class="text-2xl font-bold mb-4">Order Summary</h2>
+                <h2 class="text-2xl font-bold mb-4">Riepilogo Ordine</h2>
                 <div class="space-y-3 mb-6">
                     <div class="flex justify-between">
-                        <span class="text-gray-700">Subtotal:</span>
-                        <span class="font-semibold">$400.00</span>
+                        <span class="text-gray-700">Subtotale:</span>
+                        <span class="font-semibold" id="cart-subtotal">$0.00</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-700">Shipping:</span>
-                        <span class="font-semibold">Calculated at checkout</span>
+                        <span class="text-gray-700">Spedizione:</span>
+                        <span class="font-semibold">Calcolata al checkout</span>
                     </div>
                     <div class="flex justify-between font-bold text-lg border-t border-gray-300 pt-3">
-                        <span>Total:</span>
-                        <span>$400.00</span>
+                        <span>Totale:</span>
+                        <span id="cart-total">$0.00</span>
                     </div>
                 </div>
-                <button class="w-full bg-black text-white px-6 py-3 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 rounded-sm">Proceed to Checkout</button>
+                <button class="w-full bg-black text-white px-6 py-3 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 rounded-sm">Procedi al Checkout</button>
             </div>
         </div>
     </div>
 
     <div class="bg-black text-white py-16 md:py-20">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="mb-2 text-sm uppercase tracking-widest">FREE SHIPPING ON YOUR FIRST ORDER</div>
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">Join Our Newsletter</h2>
-            <p class="mb-8 text-gray-300 leading-relaxed">Subscribe for early access to launches, promos, and events.</p>
+            <div class="mb-2 text-sm uppercase tracking-widest">SPEDIZIONE GRATUITA SUL TUO PRIMO ORDINE</div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Iscriviti alla Nostra Newsletter</h2>
+            <p class="mb-8 text-gray-300 leading-relaxed">Iscriviti per accesso anticipato a lanci, promozioni ed eventi.</p>
             <form class="flex flex-col sm:flex-row gap-4 justify-center">
-                <input type="email" placeholder="Your email address" class="newsletter-input bg-transparent py-3 px-4 text-white placeholder-gray-400 focus:placeholder-gray-600 w-full sm:w-80 rounded-none border-b border-gray-500 focus:border-white transition duration-300 ease-in-out">
-                <button type="submit" class="bg-white text-black px-8 py-3 text-sm uppercase tracking-wider hover:bg-gray-200 transition duration-300 ease-in-out rounded-sm">Subscribe</button>
+                <input type="email" placeholder="Il tuo indirizzo email" class="newsletter-input bg-transparent py-3 px-4 text-white placeholder-gray-400 focus:placeholder-gray-600 w-full sm:w-80 rounded-none border-b border-gray-500 focus:border-white transition duration-300 ease-in-out">
+                <button type="submit" class="bg-white text-black px-8 py-3 text-sm uppercase tracking-wider hover:bg-gray-200 transition duration-300 ease-in-out rounded-sm">Iscriviti</button>
             </form>
         </div>
     </div>
@@ -222,56 +211,54 @@
 
                 <div class="footer-accordion">
                     <div class="footer-accordion-header md:mb-4">
-                        <h3 class="text-sm font-semibold uppercase tracking-wider">Shop</h3>
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Acquista</h3>
                         <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
                     </div>
                     <ul class="space-y-2 footer-accordion-content">
-                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">New Arrivals</a></li>
-                        <li><a href="collections.html" class="text-sm hover:underline text-gray-700">Collections</a></li>
-                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Sale</a></li>
-                        <li><a href="#" class="text-sm hover:underline text-gray-700">Gift Cards</a></li>
+                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Nuovi Arrivi</a></li>
+                        <li><a href="collections.html" class="text-sm hover:underline text-gray-700">Collezioni</a></li>
+                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Saldi</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-accordion">
                     <div class="footer-accordion-header md:mb-4">
-                        <h3 class="text-sm font-semibold uppercase tracking-wider">About</h3>
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Chi Siamo</h3>
                         <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
                     </div>
                     <ul class="space-y-2 footer-accordion-content">
-                        <li><a href="#" class="text-sm hover:underline text-gray-700">Our Story</a></li>
-                        <li><a href="journal.html" class="text-sm hover:underline text-gray-700">Journal</a></li>
-                        <li><a href="features.html" class="text-sm hover:underline text-gray-700">Features</a></li>
-                        <li><a href="#" class="text-sm hover:underline text-gray-700">Stockists</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">La Nostra Storia</a></li>
+                        <li><a href="features.html" class="text-sm hover:underline text-gray-700">Caratteristiche</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Dove Trovarci</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-accordion">
                     <div class="footer-accordion-header md:mb-4">
-                        <h3 class="text-sm font-semibold uppercase tracking-wider">Help</h3>
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Aiuto</h3>
                         <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
                     </div>
                     <ul class="space-y-2 footer-accordion-content">
-                        <li><a href="contact.html" class="text-sm hover:underline text-gray-700">Contact Us</a></li>
-                        <li><a href="#" class="text-sm hover:underline text-gray-700">Shipping</a></li>
-                        <li><a href="#" class="text-sm hover:underline text-gray-700">Returns</a></li>
+                        <li><a href="contact.html" class="text-sm hover:underline text-gray-700">Contattaci</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Spedizione</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Resi</a></li>
                         <li><a href="#" class="text-sm hover:underline text-gray-700">FAQ</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Connect</h3>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Connettiti</h3>
                     <div class="flex justify-center md:justify-start space-x-4 mb-4">
                         <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-instagram text-xl"></i></a>
                         <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-twitter text-xl"></i></a>
                         <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-facebook-f text-xl"></i></a>
                     </div>
-                    <p class="text-sm text-gray-600 leading-relaxed">Sign up for our newsletter to receive updates on new arrivals, special offers and other discount information.</p>
+                    <p class="text-sm text-gray-600 leading-relaxed">Iscriviti alla nostra newsletter per ricevere aggiornamenti sui nuovi arrivi, offerte speciali e altre informazioni sugli sconti.</p>
                 </div>
 
             </div>
             <div class="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600">
-                <p class="text-sm text-center md:text-left mb-4 md:mb-0">© 2025 Cmarine. All rights reserved.</p>
+                <p class="text-sm text-center md:text-left mb-4 md:mb-0">© 2025 Cmarine. Tutti i diritti riservati.</p>
                 <div class="flex flex-wrap justify-center md:justify-end space-x-4 sm:space-x-6">
                     <a href="#" class="text-sm hover:underline">Privacy Policy</a>
                     <a href="#" class="text-sm hover:underline">Terms of Service</a>
@@ -283,6 +270,153 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Dati dei prodotti nel carrello (inizialmente vuoto)
+            // In un'applicazione reale, questi dati verrebbero caricati da un backend o da localStorage.
+            let cartItems = [];
+
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const cartSubtotalElement = document.getElementById('cart-subtotal');
+            const cartTotalElement = document.getElementById('cart-total');
+            const emptyCartMessage = document.getElementById('empty-cart-message');
+            const cartCountElement = document.getElementById('cart-count'); // Il badge del carrello
+
+            // Funzione per generare un ID univoco (per test, in un ambiente reale useresti ID dal database)
+            function generateUniqueId() {
+                return 'prod-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+            }
+
+            // *** FUNZIONE CHIAVE: addProductToCart ***
+            // Questa funzione è quella che useresti per aggiungere un prodotto al carrello
+            // da qualsiasi pagina del tuo sito (es. pagina prodotto, pagina negozio).
+            // Prende un oggetto 'product' con tutte le sue proprietà.
+            window.addProductToCart = function(product) {
+                // Assicurati che il prodotto abbia un ID. Se non specificato, generane uno.
+                if (!product.id) {
+                    product.id = generateUniqueId();
+                }
+                // Assicurati che la quantità sia un numero e sia almeno 1.
+                if (!product.quantity || product.quantity < 1) {
+                    product.quantity = 1;
+                }
+
+                // Controlla se il prodotto (con la stessa taglia/variante) esiste già nel carrello
+                const existingItemIndex = cartItems.findIndex(item =>
+                    item.id === product.id || // Se hai ID univoci per varianti (es. SKU)
+                    (item.name === product.name && item.size === product.size) // Altrimenti, usa nome e taglia
+                );
+
+                if (existingItemIndex > -1) {
+                    // Se esiste, aumenta la quantità
+                    cartItems[existingItemIndex].quantity += product.quantity;
+                } else {
+                    // Altrimenti, aggiungi il nuovo prodotto
+                    cartItems.push(product);
+                }
+                renderCart(); // Ridisegna il carrello con i prodotti aggiornati
+                // Salva cartItems in localStorage qui
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            };
+
+
+            function renderCart() {
+                cartItemsContainer.innerHTML = ''; // Pulisce il contenitore
+
+                if (cartItems.length === 0) {
+                    emptyCartMessage.classList.remove('hidden'); // Mostra il messaggio
+                    cartSubtotalElement.textContent = '$0.00';
+                    cartTotalElement.textContent = '$0.00';
+                } else {
+                    emptyCartMessage.classList.add('hidden'); // Nasconde il messaggio
+                    cartItems.forEach(item => {
+                        const itemHtml = `
+                            <div class="flex items-center justify-between border-b border-gray-200 py-4" data-product-id="${item.id}">
+                                <div class="flex items-center space-x-4">
+                                    <img src="${item.image}" alt="Product Image" class="w-20 h-20 object-cover rounded-md">
+                                    <div>
+                                        <h3 class="font-semibold">${item.name}</h3>
+                                        <p class="text-sm text-gray-600">Taglia: ${item.size}</p>
+                                        <p class="text-sm text-gray-600">$${item.price.toFixed(2)}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <input type="number" value="${item.quantity}" min="1" class="w-16 px-2 py-1 border border-gray-300 rounded-md text-center product-quantity" data-product-id="${item.id}">
+                                    <button class="text-gray-500 hover:text-red-600 transition remove-item-button" data-product-id="${item.id}">
+                                        <i class="fas fa-times text-lg"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        cartItemsContainer.insertAdjacentHTML('beforeend', itemHtml);
+                    });
+                }
+                updateCartTotals();
+                updateCartCount(); // Aggiorna il conteggio ogni volta che il carrello viene renderizzato
+                attachEventListeners();
+            }
+
+            function updateCartTotals() {
+                let subtotal = 0;
+                cartItems.forEach(item => {
+                    subtotal += item.price * item.quantity;
+                });
+                cartSubtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+                cartTotalElement.textContent = `$${subtotal.toFixed(2)}`; // Per ora il totale è uguale al subtotale senza spedizione
+            }
+
+            function updateCartCount() {
+                let totalItems = 0;
+                cartItems.forEach(item => {
+                    totalItems += item.quantity;
+                });
+
+                if (totalItems > 0) {
+                    cartCountElement.textContent = totalItems;
+                    cartCountElement.classList.remove('hidden');
+                } else {
+                    cartCountElement.classList.add('hidden');
+                }
+            }
+
+            function attachEventListeners() {
+                // Event Listener per la rimozione del prodotto
+                document.querySelectorAll('.remove-item-button').forEach(button => {
+                    button.onclick = (event) => {
+                        const productId = event.currentTarget.dataset.productId;
+                        cartItems = cartItems.filter(item => item.id !== productId);
+                        renderCart(); // Ridisegna il carrello
+                        localStorage.setItem('cartItems', JSON.stringify(cartItems)); // Salva in localStorage
+                    };
+                });
+
+                // Event Listener per la modifica della quantità
+                document.querySelectorAll('.product-quantity').forEach(input => {
+                    input.onchange = (event) => {
+                        const productId = event.currentTarget.dataset.productId;
+                        let newQuantity = parseInt(event.currentTarget.value);
+                        if (newQuantity < 1 || isNaN(newQuantity)) {
+                            newQuantity = 1;
+                            event.currentTarget.value = 1;
+                        }
+                        const itemIndex = cartItems.findIndex(item => item.id === productId);
+                        if (itemIndex > -1) {
+                            cartItems[itemIndex].quantity = newQuantity;
+                            updateCartTotals();
+                            updateCartCount();
+                            localStorage.setItem('cartItems', JSON.stringify(cartItems)); // Salva in localStorage
+                        }
+                    };
+                });
+            }
+
+            // Inizializza il carrello al caricamento della pagina
+            // Cerca di caricare i prodotti dal localStorage se esistono
+            const storedCartItems = localStorage.getItem('cartItems');
+            if (storedCartItems) {
+                cartItems = JSON.parse(storedCartItems);
+            }
+            renderCart();
+
+
             // Script per il menu mobile
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -297,29 +431,60 @@
             const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
 
             accordionHeaders.forEach(header => {
-                // Aggiungi il listener solo su schermi piccoli (sotto md breakpoint di Tailwind)
+                // Applica il comportamento a fisarmonica solo su schermi piccoli
                 if (window.innerWidth < 768) {
                     header.addEventListener('click', () => {
-                        const accordionContent = header.nextElementSibling; // La lista ul subito dopo l'header
-                        
-                        // Toggle della classe 'open' sull'header e sul contenuto
+                        const accordionContent = header.nextElementSibling;
                         header.classList.toggle('open');
                         accordionContent.classList.toggle('open');
                     });
                 }
             });
 
-            // Opzionale: Aggiungi un resize listener per gestire il cambio da mobile a desktop
+            // Gestisce il ridimensionamento della finestra per il footer
             window.addEventListener('resize', () => {
                 accordionHeaders.forEach(header => {
                     const accordionContent = header.nextElementSibling;
                     if (window.innerWidth >= 768) {
-                        // Su desktop, assicurati che siano aperti (se per caso erano chiusi da mobile)
+                        // Su desktop, rimuovi le classi 'open' e mostra sempre il contenuto
                         header.classList.remove('open');
-                        accordionContent.classList.remove('open');
+                        accordionContent.classList.remove('open'); // Assicurati che sia sempre visibile su desktop
+                    } else {
+                        // Su mobile, se era aperto e si ridimensiona a desktop, chiudilo (opzionale)
+                        // Oppure puoi rimuovere questa logica se vuoi che lo stato persista al ridimensionamento
                     }
                 });
             });
+
+            // Funzione per svuotare il carrello completamente (per demo/debugging)
+            window.clearAllItemsFromCart = function() {
+                cartItems = [];
+                renderCart();
+                localStorage.removeItem('cartItems'); // Rimuove anche da localStorage
+            };
+
+            // Questo blocco di codice è stato rimosso per avere il carrello inizialmente vuoto.
+            // Se in futuro volessi aggiungere prodotti di test automaticamente, puoi riabilitarlo.
+            /*
+            if (cartItems.length === 0) {
+                addProductToCart({
+                    id: 'prod-1',
+                    name: 'T-Shirt Cmarine Original',
+                    image: 'https://via.placeholder.com/150/0000FF/FFFFFF?text=T-Shirt',
+                    price: 29.99,
+                    size: 'M',
+                    quantity: 1
+                });
+                addProductToCart({
+                    id: 'prod-2',
+                    name: 'Jeans Slim Fit',
+                    image: 'https://via.placeholder.com/150/000000/FFFFFF?text=Jeans',
+                    price: 79.99,
+                    size: '32',
+                    quantity: 2
+                });
+            }
+            */
         });
     </script>
 </body>
