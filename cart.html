@@ -332,8 +332,9 @@
         // Funzione per aggiungere prodotti al carrello (accessibile globalmente)
         window.addProductToCart = function(product, animateButton = null) {
             if (!product.id) {
-                console.warn("Product added to cart without an ID. Generating a temporary one.");
+                // If product doesn't have an ID, generate a unique one
                 product.id = 'temp-prod-' + Date.now();
+                console.warn("Product added to cart without an ID. Generating a temporary one: " + product.id);
             }
             product.quantity = parseInt(product.quantity) || 1;
             if (product.quantity < 1) {
@@ -341,7 +342,9 @@
             }
             product.price = parseFloat(product.price) || 0;
 
-            const existingProductIndex = cart.findIndex(item => item.id === product.id);
+            // Ensure product.id is treated as a string for comparison
+            const existingProductIndex = cart.findIndex(item => String(item.id) === String(product.id));
+
             if (existingProductIndex > -1) {
                 cart[existingProductIndex].quantity += product.quantity;
             } else {
@@ -361,39 +364,59 @@
         // Funzione per rimuovere un prodotto dal carrello (accessibile globalmente)
         window.removeProductFromCart = function(productId) {
             const initialCartLength = cart.length;
-            cart = cart.filter(item => item.id !== productId);
+            // Ensure productId is treated as a string for comparison
+            cart = cart.filter(item => String(item.id) !== String(productId));
             if (cart.length < initialCartLength) {
                 saveCartToLocalStorage();
                 updateCartCounter();
-                // Se hai la pagina del carrello aperta, renderizza gli item dopo la rimozione
                 if (document.getElementById('cart-items-container')) {
-                    renderCartItems();
+                    renderCartItems(); // Re-render to update UI after removal
                 }
             }
         };
 
-
         // Funzione per impostare la quantità di un prodotto nel carrello (accessibile globalmente)
         window.setProductQuantityInCart = function(productId, newQuantity) {
             newQuantity = parseInt(newQuantity);
-            if (isNaN(newQuantity) || newQuantity < 0) { // Consenti 0 per rimuovere via input
+            if (isNaN(newQuantity) || newQuantity < 0) {
                 console.warn("Invalid quantity provided for setProductQuantityInCart. Setting to 0.");
-                newQuantity = 0; // Se la quantità è invalida o negativa, la impostiamo a 0 per la rimozione
+                newQuantity = 0;
             }
 
-            const existingProductIndex = cart.findIndex(item => item.id === productId);
+            // Ensure productId is treated as a string for comparison
+            const existingProductIndex = cart.findIndex(item => String(item.id) === String(productId));
 
             if (existingProductIndex > -1) {
                 if (newQuantity === 0) {
-                    // Se la nuova quantità è 0, rimuovi l'elemento dal carrello
-                    cart.splice(existingProductIndex, 1);
+                    const productItem = document.querySelector(`.product-item[data-id="${productId}"]`);
+                    if (productItem) {
+                        productItem.classList.add('removing');
+                        productItem.addEventListener('transitionend', function handler() {
+                            cart.splice(existingProductIndex, 1);
+                            saveCartToLocalStorage();
+                            updateCartCounter();
+                            renderCartItems(); // Re-render to update UI immediately after removal
+                            productItem.removeEventListener('transitionend', handler);
+                        }, { once: true });
+                    } else {
+                        // Fallback if animation is not needed or element not found
+                        cart.splice(existingProductIndex, 1);
+                        saveCartToLocalStorage();
+                        updateCartCounter();
+                        renderCartItems();
+                    }
                 } else {
                     cart[existingProductIndex].quantity = newQuantity;
-                }
-                saveCartToLocalStorage();
-                updateCartCounter();
-                if (document.getElementById('cart-items-container')) {
-                    renderCartItems(); // Rirenderizza gli elementi del carrello per aggiornare l'UI
+                    saveCartToLocalStorage();
+                    updateCartCounter();
+                    if (document.getElementById('cart-items-container')) {
+                        // Only update quantity in the displayed input if not a full re-render
+                        const inputElement = document.querySelector(`.quantity-input[data-id="${productId}"]`);
+                        if (inputElement) {
+                            inputElement.value = newQuantity;
+                        }
+                        updateCartTotals(); // Update totals immediately
+                    }
                 }
             }
         };
@@ -401,7 +424,23 @@
         // Funzione di inizializzazione che carica il carrello e aggiorna il contatore all'avvio
         function initializeCartFeatures() {
             updateCartCounter();
-            // Puoi aggiungere qui altre inizializzazioni globali per il carrello
+            // Add a temporary product to the cart if it's empty for testing purposes
+            if (cart.length === 0) {
+                window.addProductToCart({
+                    id: 101, // Example ID (can be numeric or string)
+                    name: 'Camicia Marina Classica',
+                    details: 'Taglia M, Colore Blu',
+                    price: 49.99,
+                    image: 'https://via.placeholder.com/150/0000FF/FFFFFF?text=Camicia'
+                }, null);
+                window.addProductToCart({
+                    id: 'SKU-002', // Example string ID
+                    name: 'Pantaloncini Estivi',
+                    details: 'Taglia L, Colore Beige',
+                    price: 34.50,
+                    image: 'https://via.placeholder.com/150/FF0000/FFFFFF?text=Pantaloncini'
+                }, null);
+            }
         }
 
         // Chiamata all'inizializzazione quando il DOM è completamente caricato
@@ -489,32 +528,38 @@
             }
 
             // Delegazione eventi per i bottoni di quantità e rimozione
+            // This event listener needs to be outside or called AFTER renderCartItems
+            // because the buttons are added dynamically.
             cartItemsContainer.addEventListener('click', function(event) {
                 const target = event.target;
-                const productId = parseInt(target.dataset.id || target.closest('[data-id]')?.dataset.id); // Ottieni l'ID dal bottone o dall'elemento padre
+                
+                // Get the product ID from the dataset of the clicked element or its closest parent with data-id
+                const productId = String(target.dataset.id || target.closest('[data-id]')?.dataset.id);
 
-                if (isNaN(productId)) return; // Assicurati che l'ID sia valido
+                // If productId is undefined or null after conversion, return
+                if (!productId || productId === 'undefined' || productId === 'null') return;
 
                 if (target.classList.contains('increase-btn')) {
-                    const currentQuantity = cart.find(item => item.id === productId)?.quantity || 0;
+                    const currentItem = cart.find(item => String(item.id) === productId);
+                    const currentQuantity = currentItem ? currentItem.quantity : 0;
                     window.setProductQuantityInCart(productId, currentQuantity + 1);
                 } else if (target.classList.contains('decrease-btn')) {
-                    const currentQuantity = cart.find(item => item.id === productId)?.quantity || 0;
+                    const currentItem = cart.find(item => String(item.id) === productId);
+                    const currentQuantity = currentItem ? currentItem.quantity : 0;
                     if (currentQuantity > 0) {
                         window.setProductQuantityInCart(productId, currentQuantity - 1);
                     } else {
-                        // Se la quantità è già 0 e si preme "-", rimuovi l'elemento
-                        window.setProductQuantityInCart(productId, 0);
+                        // If quantity is 0 or less, effectively remove the item
+                        window.setProductQuantityInCart(productId, 0); 
                     }
                 } else if (target.classList.contains('remove-item-btn') || target.closest('.remove-item-btn')) {
                     const productItem = target.closest('.product-item');
                     if (productItem) {
                         productItem.classList.add('removing');
-                        // Attendi la fine della transizione prima di rimuovere l'elemento dal DOM
                         productItem.addEventListener('transitionend', function handler() {
                             window.removeProductFromCart(productId);
-                            productItem.removeEventListener('transitionend', handler); // Rimuovi l'event listener per evitare chiamate multiple
-                        }, { once: true }); // Assicurati che l'handler venga eseguito una sola volta
+                            productItem.removeEventListener('transitionend', handler);
+                        }, { once: true });
                     }
                 }
             });
@@ -523,11 +568,11 @@
             cartItemsContainer.addEventListener('change', function(event) {
                 const target = event.target;
                 if (target.classList.contains('quantity-input')) {
-                    const productId = parseInt(target.dataset.id);
+                    const productId = String(target.dataset.id); // Treat as string
                     let newQuantity = parseInt(target.value);
                     if (isNaN(newQuantity) || newQuantity < 0) {
-                        newQuantity = 0; // Se la quantità è invalida o negativa, la impostiamo a 0 per la rimozione
-                        target.value = 0; // Aggiorna il valore visualizzato nell'input
+                        newQuantity = 0;
+                        target.value = 0;
                     }
                     window.setProductQuantityInCart(productId, newQuantity);
                 }
@@ -536,8 +581,8 @@
             clearCartBtn.addEventListener('click', function() {
                 if (confirm('Sei sicuro di voler svuotare il carrello?')) {
                     cart = [];
-                    currentShippingCost = 10.00; // Reset della spedizione
-                    discountAppliedAmount = 0; // Reset dello sconto
+                    currentShippingCost = 10.00;
+                    discountAppliedAmount = 0;
                     discountCodeInput.value = '';
                     saveCartToLocalStorage();
                     renderCartItems();
@@ -547,16 +592,13 @@
 
             applyDiscountBtn.addEventListener('click', function() {
                 const code = discountCodeInput.value.trim().toUpperCase();
-                // Resetta sempre lo sconto applicato e il costo di spedizione prima di applicarne uno nuovo
                 discountAppliedAmount = 0;
-                currentShippingCost = 10.00; // Reset al costo standard
+                currentShippingCost = 10.00;
 
                 if (code === 'WELCOME10') {
-                    // Applica uno sconto fisso di 10€
                     discountAppliedAmount = 10.00;
                     alert('Sconto applicato: WELCOME10! Hai risparmiato €10.');
                 } else if (code === 'FREESHIP') {
-                    // Applica la spedizione gratuita
                     currentShippingCost = 0.00;
                     alert('Spedizione gratuita applicata!');
                 } else {
@@ -565,8 +607,7 @@
                 updateCartTotals();
             });
 
-            // Chiamata iniziale per renderizzare il carrello e i totali quando la pagina viene caricata
-            renderCartItems();
+            renderCartItems(); // Initial render on page load
         });
     </script>
 </body>
