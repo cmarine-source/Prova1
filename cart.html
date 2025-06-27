@@ -415,8 +415,7 @@
                         if (inputElement) {
                             inputElement.value = newQuantity;
                         }
-                        // *** THIS IS THE KEY CHANGE ***
-                        updateCartTotals(); // <--- Call updateCartTotals here
+                        updateCartTotals(); // Update totals immediately
                     }
                 }
             }
@@ -529,6 +528,8 @@
             }
 
             // Delegazione eventi per i bottoni di quantità e rimozione
+            // This event listener needs to be outside or called AFTER renderCartItems
+            // because the buttons are added dynamically.
             cartItemsContainer.addEventListener('click', function(event) {
                 const target = event.target;
                 
