@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Stili personalizzati di base */
-        .hero-image {
+        /* La classe .hero-image è stata rimossa, in quanto non più utilizzata */
+.hero-image {
             background-image: url('https://i.imgur.com/nszViUU.jpeg');
             background-size: cover;
             background-position: center;
         }
-
         .product-card:hover .product-overlay {
             opacity: 1;
         }
@@ -141,44 +141,49 @@
         }
     </style>
 </head>
-<header class="sticky top-0 z-50 bg-white shadow-sm">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div class="flex items-center">
-            <a href="index.html" class="flex items-center no-underline hover:no-underline">
-                <img src="https://i.imgur.com/PigMJrD.jpeg" alt="Il mio logo" class="h-10"> 
-            </a>
-        </div>
+<body class="bg-gray-50">
 
-        <div class="hidden md:flex space-x-8">
-            <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
-            <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
-            <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
-        </div>
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center no-underline hover:no-underline">
+                    <img src="https://i.imgur.com/PigMJrD.jpeg" alt="Il mio logo" class="h-10">
+                </a>
+            </div>
 
-        <div class="flex items-center space-x-4 md:space-x-6">
-            <a href="search.html" class="text-xl"><i class="fas fa-search"></i></a> 
-            <a href="cart.html" class="text-xl relative">
-                <i class="fas fa-shopping-bag"></i>
-                <span id="cart-item-count" class="cart-badge absolute -top-1 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center hidden">0</span>
-            </a>
+            <div class="hidden md:flex space-x-8">
+                <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
+                <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
+                <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
+            </div>
 
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="focus:outline-none">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <a href="search.html" class="text-xl"><i class="fas fa-search"></i></a>
+                
+                <a href="cart.html" class="text-xl relative">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-item-count" class="cart-badge hidden">0</span>
+                </a>
+
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-    <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
-        <div class="px-2 pt-2 pb-3 space-y-1">
-            <a href="shop.html?category=uomo" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
-            <a href="shop.html?category=donna" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
-            <a href="shop.html?category=bambini" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
-            <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
-            <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="shop.html?category=uomo" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
+                <a href="shop.html?category=donna" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
+                <a href="shop.html?category=bambini" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
+                <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
+                <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
+            </div>
         </div>
-    </div>
-</header>
+    </header>
+    </body>
+</html>
     <div class="relative h-screen flex items-center hero-image">
         <div class="absolute inset-0 bg-black bg-opacity-30"></div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
