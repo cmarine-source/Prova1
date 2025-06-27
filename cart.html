@@ -206,7 +206,7 @@
                 </div>
                 <div class="flex justify-between mb-3">
                     <span>Spedizione Stimata</span>
-                    <span id="shipping">$10.00</span>
+                    <span id="shipping">$0.00</span>
                 </div>
                 <div class="flex justify-between mb-6 border-b border-gray-200 pb-4">
                     <span>Sconto</span>
@@ -226,7 +226,7 @@
                     </div>
                 </div>
 
-                <button class="w-full bg-black text-white py-4 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out">Procedi al Checkout</button>
+                <button id="checkout-btn" class="w-full bg-black text-white py-4 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out">Procedi al Checkout</button>
             </div>
         </div>
     </main>
@@ -294,11 +294,11 @@
     </footer>
 
     <script>
-        // Global variables and functions for cart management
+        // GLOBAL CART FUNCTIONS - QUESTE DEVONO ESSERE UGUALI (O INCLUSE DA UN FILE ESTERNO) IN TUTTE LE PAGINE DEL TUO SITO
         let cart = JSON.parse(localStorage.getItem('cmarineCart')) || [];
         const CART_STORAGE_KEY = 'cmarineCart';
-        const SHIPPING_COST = 10.00;
-        let discountApplied = 0;
+        let currentShippingCost = 10.00; // Costo di spedizione di default
+        let discountAppliedAmount = 0; // Inizializza lo sconto applicato a 0
 
         function saveCartToLocalStorage() {
             localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
@@ -314,7 +314,6 @@
                 } else {
                     cartItemCountElement.classList.add('hidden');
                 }
-                // Add pulse animation on update
                 cartItemCountElement.classList.add('added-to-cart-pulse');
                 setTimeout(() => {
                     cartItemCountElement.classList.remove('added-to-cart-pulse');
@@ -322,21 +321,86 @@
             }
         }
 
-        window.addProductToCart = function(product) {
+        // Funzione per aggiungere prodotti al carrello (accessibile globalmente)
+        window.addProductToCart = function(product, animateButton = null) {
+            if (!product.id) {
+                console.warn("Product added to cart without an ID. Generating a temporary one.");
+                product.id = 'temp-prod-' + Date.now();
+            }
+            product.quantity = parseInt(product.quantity) || 1;
+            if (product.quantity < 1) {
+                product.quantity = 1;
+            }
+            product.price = parseFloat(product.price) || 0;
+
             const existingProductIndex = cart.findIndex(item => item.id === product.id);
             if (existingProductIndex > -1) {
-                cart[existingProductIndex].quantity++;
+                cart[existingProductIndex].quantity += product.quantity;
             } else {
-                cart.push({ ...product, quantity: 1 });
+                cart.push({ ...product, quantity: product.quantity });
             }
             saveCartToLocalStorage();
             updateCartCounter();
+
+            if (animateButton) {
+                animateButton.classList.add('added-to-cart-pulse');
+                setTimeout(() => {
+                    animateButton.classList.remove('added-to-cart-pulse');
+                }, 300);
+            }
         };
 
+        // Funzione per rimuovere un prodotto dal carrello (accessibile globalmente)
+        window.removeProductFromCart = function(productId, animateElement = null) {
+            const initialCartLength = cart.length;
+            cart = cart.filter(item => item.id !== productId);
+            if (cart.length < initialCartLength) {
+                saveCartToLocalStorage();
+                updateCartCounter();
+                // Se hai la pagina del carrello aperta, renderizza gli item dopo la rimozione
+                if (document.getElementById('cart-items-container')) {
+                    renderCartItems();
+                }
+            }
+        };
+
+
+        // Funzione per impostare la quantità di un prodotto nel carrello (accessibile globalmente)
+        window.setProductQuantityInCart = function(productId, newQuantity) {
+            newQuantity = parseInt(newQuantity);
+            if (isNaN(newQuantity) || newQuantity < 0) {
+                console.warn("Invalid quantity provided for setProductQuantityInCart.");
+                return;
+            }
+
+            const existingProductIndex = cart.findIndex(item => item.id === productId);
+
+            if (existingProductIndex > -1) {
+                if (newQuantity === 0) {
+                    cart.splice(existingProductIndex, 1);
+                } else {
+                    cart[existingProductIndex].quantity = newQuantity;
+                }
+                saveCartToLocalStorage();
+                updateCartCounter();
+                if (document.getElementById('cart-items-container')) {
+                    renderCartItems(); // Rirenderizza gli elementi del carrello per aggiornare l'UI
+                }
+            }
+        };
+
+        // Funzione di inizializzazione che carica il carrello e aggiorna il contatore all'avvio
+        function initializeCartFeatures() {
+            updateCartCounter();
+            // Puoi aggiungere qui altre inizializzazioni globali per il carrello
+        }
+
+        // Chiamata all'inizializzazione quando il DOM è completamente caricato
         document.addEventListener('DOMContentLoaded', initializeCartFeatures);
 
         // --- Logica Specifica per la Pagina cart.html ---
         document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Logic (Copied from shop.html for consistency)
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
@@ -346,8 +410,8 @@
                 });
             }
 
+            // Footer Accordion Logic (Copied from shop.html for consistency)
             const footerAccordions = document.querySelectorAll('.footer-accordion');
-
             footerAccordions.forEach(accordion => {
                 const header = accordion.querySelector('.footer-accordion-header');
                 const content = accordion.querySelector('.footer-accordion-content');
@@ -360,6 +424,7 @@
                 });
             });
 
+            // Cart Page Specific Elements
             const cartItemsContainer = document.getElementById('cart-items-container');
             const subtotalElement = document.getElementById('subtotal');
             const shippingElement = document.getElementById('shipping');
@@ -368,7 +433,7 @@
             const clearCartBtn = document.getElementById('clear-cart-btn');
             const applyDiscountBtn = document.getElementById('apply-discount-btn');
             const discountCodeInput = document.getElementById('discount-code');
-            const checkoutButton = document.querySelector('main button.w-full');
+            const checkoutButton = document.getElementById('checkout-btn'); // ID specifico per il bottone
 
             function renderCartItems() {
                 cartItemsContainer.innerHTML = '';
@@ -379,16 +444,19 @@
                 } else {
                     cart.forEach(item => {
                         const productHtml = `
-                            <div class="flex items-center border-b border-gray-200 py-4 product-item" data-price="${item.price}" data-id="${item.id}">
-                                <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover mr-4 rounded-md"> <div class="flex-grow">
-                                    <h2 class="text-base font-semibold">${item.name}</h2> <p class="text-gray-600 text-xs">${item.details}</p> <p class="text-base font-medium product-price">$${item.price.toFixed(2)}</p>
+                            <div class="flex items-center border-b border-gray-200 py-4 product-item" data-id="${item.id}">
+                                <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover mr-4 rounded-md">
+                                <div class="flex-grow">
+                                    <h2 class="text-base font-semibold">${item.name}</h2>
+                                    <p class="text-gray-600 text-xs">${item.details || ''}</p>
+                                    <p class="text-base font-medium product-price">€${(item.price || 0).toFixed(2)}</p>
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     <button class="quantity-btn decrease-btn px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-100">-</button>
-                                    <input type="number" value="${item.quantity}" min="1" class="w-12 text-center border border-gray-300 py-1 text-sm rounded quantity-input">
+                                    <input type="number" value="${item.quantity}" min="1" class="w-12 text-center border border-gray-300 py-1 text-sm rounded quantity-input" data-id="${item.id}">
                                     <button class="quantity-btn increase-btn px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-100">+</button>
                                 </div>
-                                <button class="remove-item-btn ml-4 text-gray-500">
+                                <button class="remove-item-btn ml-4 text-gray-500" data-id="${item.id}">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
@@ -402,71 +470,60 @@
             }
 
             function updateCartTotals() {
-                let subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                let total = subtotal + SHIPPING_COST - discountApplied;
+                let subtotal = cart.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0);
+                // Il costo di spedizione iniziale è currentShippingCost (può essere 10 o 0)
+                let total = subtotal + currentShippingCost - discountAppliedAmount;
 
-                subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
-                shippingElement.textContent = `$${SHIPPING_COST.toFixed(2)}`;
-                discountElement.textContent = `-$${discountApplied.toFixed(2)}`;
-                totalElement.textContent = `$${total.toFixed(2)}`;
+                subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
+                shippingElement.textContent = `€${currentShippingCost.toFixed(2)}`;
+                discountElement.textContent = `-€${discountAppliedAmount.toFixed(2)}`;
+                totalElement.textContent = `€${Math.max(0, total).toFixed(2)}`; // Assicurati che il totale non sia negativo
             }
 
+            // Delegazione eventi per i bottoni di quantità e rimozione
             cartItemsContainer.addEventListener('click', function(event) {
                 const target = event.target;
                 const productItem = target.closest('.product-item');
                 if (!productItem) return;
 
                 const productId = parseInt(productItem.dataset.id);
-                const itemIndex = cart.findIndex(item => item.id === productId);
-
-                if (itemIndex === -1) return;
 
                 if (target.classList.contains('increase-btn')) {
-                    cart[itemIndex].quantity++;
+                    // Chiama la funzione globale per aumentare la quantità
+                    const currentQuantity = cart.find(item => item.id === productId)?.quantity || 0;
+                    window.setProductQuantityInCart(productId, currentQuantity + 1);
                 } else if (target.classList.contains('decrease-btn')) {
-                    if (cart[itemIndex].quantity > 1) {
-                        cart[itemIndex].quantity--;
+                    // Chiama la funzione globale per diminuire la quantità
+                    const currentQuantity = cart.find(item => item.id === productId)?.quantity || 0;
+                    if (currentQuantity > 0) {
+                        window.setProductQuantityInCart(productId, currentQuantity - 1);
                     }
                 } else if (target.classList.contains('remove-item-btn') || target.closest('.remove-item-btn')) {
-                    // Aggiungi la classe per l'animazione di rimozione
                     productItem.classList.add('removing');
                     setTimeout(() => {
-                        cart.splice(itemIndex, 1);
-                        saveCartToLocalStorage();
-                        renderCartItems(); // Rirenderizza dopo l'animazione
-                        updateCartCounter();
+                        window.removeProductFromCart(productId);
                     }, 300); // Durata dell'animazione
-                    return; // Interrompi per evitare ri-renderizzazione immediata
                 }
-
-                saveCartToLocalStorage();
-                renderCartItems(); // Rirenderizza per aggiornare le quantità e i totali
-                updateCartCounter();
             });
 
+            // Gestione dell'input manuale della quantità
             cartItemsContainer.addEventListener('change', function(event) {
                 const target = event.target;
                 if (target.classList.contains('quantity-input')) {
-                    const productItem = target.closest('.product-item');
-                    const productId = parseInt(productItem.dataset.id);
-                    const itemIndex = cart.findIndex(item => item.id === productId);
-
+                    const productId = parseInt(target.dataset.id);
                     let newQuantity = parseInt(target.value);
-                    if (isNaN(newQuantity) || newQuantity < 1) {
-                        newQuantity = 1;
-                        target.value = 1;
+                    if (isNaN(newQuantity) || newQuantity < 0) { // Consenti 0 per rimuovere via input
+                        newQuantity = 0;
                     }
-                    cart[itemIndex].quantity = newQuantity;
-                    saveCartToLocalStorage();
-                    updateCartTotals();
-                    updateCartCounter();
+                    window.setProductQuantityInCart(productId, newQuantity);
                 }
             });
 
             clearCartBtn.addEventListener('click', function() {
                 if (confirm('Sei sicuro di voler svuotare il carrello?')) {
                     cart = [];
-                    discountApplied = 0;
+                    currentShippingCost = 10.00; // Reset della spedizione
+                    discountAppliedAmount = 0; // Reset dello sconto
                     discountCodeInput.value = '';
                     saveCartToLocalStorage();
                     renderCartItems();
@@ -476,25 +533,25 @@
 
             applyDiscountBtn.addEventListener('click', function() {
                 const code = discountCodeInput.value.trim().toUpperCase();
+                // Resetta sempre lo sconto applicato e il costo di spedizione prima di applicarne uno nuovo
+                discountAppliedAmount = 0;
+                currentShippingCost = 10.00; // Reset al costo standard
+
                 if (code === 'WELCOME10') {
-                    discountApplied = 10.00;
-                    alert('Sconto applicato: WELCOME10!');
+                    // Applica uno sconto fisso di 10€
+                    discountAppliedAmount = 10.00;
+                    alert('Sconto applicato: WELCOME10! Hai risparmiato €10.');
                 } else if (code === 'FREESHIP') {
-                    // Questa parte dovrebbe logicamente impostare lo SHIPPING_COST a 0,
-                    // ma per questo esempio con SHIPPING_COST fisso a 10,
-                    // mostriamo solo l'alert senza modificare il costo della spedizione.
-                    // In un'implementazione reale, dovresti modificare la variabile SHIPPING_COST
-                    // o la logica di calcolo.
-                    alert('Spedizione gratuita applicata! (Il costo di spedizione fisso di $10 nell\'esempio non verrà modificato, ma in un\'applicazione reale sarebbe gratuito).');
-                    discountApplied = 0; // Se FREESHIP è solo per spedizione, non deve dare sconto sul totale
-                }
-                else {
-                    discountApplied = 0;
+                    // Applica la spedizione gratuita
+                    currentShippingCost = 0.00;
+                    alert('Spedizione gratuita applicata!');
+                } else {
                     alert('Codice sconto non valido.');
                 }
                 updateCartTotals();
             });
 
+            // Chiamata iniziale per renderizzare il carrello e i totali quando la pagina viene caricata
             renderCartItems();
         });
     </script>
