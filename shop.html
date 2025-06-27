@@ -133,7 +133,7 @@
                 <a href="login.html" class="text-xl"><i class="far fa-user"></i></a>
                 <a href="cart.html" class="text-xl relative">
                     <i class="fas fa-shopping-bag"></i>
-                    <span id="cart-count" class="cart-badge hidden">0</span>
+                    <span id="cart-item-count" class="cart-badge hidden">0</span>
                 </a>
 
                 <div class="md:hidden">
@@ -269,40 +269,40 @@
     </footer>
 
     <script>
-        // Inizializza cartItems da localStorage o come array vuoto
-        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        const cartCountElement = document.getElementById('cart-count');
+        // GLOBAL CART FUNCTIONS - QUESTE DEVONO ESSERE UGUALI IN TUTTE LE PAGINE DEL TUO SITO
+        // Inizializza cart dal localStorage o come array vuoto
+        let cart = JSON.parse(localStorage.getItem('cmarineCart')) || [];
+        const CART_STORAGE_KEY = 'cmarineCart';
 
-        // Funzione per aggiornare il conteggio del carrello nella navbar
-        function updateCartCount() {
-            let totalItems = 0;
-            cartItems.forEach(item => {
-                totalItems += item.quantity;
-            });
+        // Funzione per salvare il carrello nel localStorage
+        function saveCartToLocalStorage() {
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        }
 
-            if (totalItems > 0) {
-                cartCountElement.textContent = totalItems;
-                cartCountElement.classList.remove('hidden');
-            } else {
-                cartCountElement.classList.add('hidden');
+        // Funzione per aggiornare il contatore del carrello nell'header
+        function updateCartCounter() {
+            const cartItemCountElement = document.getElementById('cart-item-count');
+            if (cartItemCountElement) { // Assicurati che l'elemento esista prima di aggiornarlo
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartItemCountElement.textContent = totalItems;
+                if (totalItems > 0) {
+                    cartItemCountElement.classList.remove('hidden');
+                } else {
+                    cartItemCountElement.classList.add('hidden');
+                }
+                // Aggiungi animazione al badge del carrello quando il conteggio cambia
+                cartItemCountElement.classList.add('added-to-cart-pulse');
+                setTimeout(() => {
+                    cartItemCountElement.classList.remove('added-to-cart-pulse');
+                }, 300);
             }
-            // Aggiungi animazione al badge del carrello quando il conteggio cambia
-            cartCountElement.classList.add('added-to-cart-pulse');
-            setTimeout(() => {
-                cartCountElement.classList.remove('added-to-cart-pulse');
-            }, 300);
         }
 
-        // Funzione per generare un ID univoco (per test, in un ambiente reale useresti ID dal database)
-        function generateUniqueId() {
-            return 'prod-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
-        }
-
-        // Funzione per aggiungere un prodotto al carrello (accessibile globalmente)
+        // Funzione per aggiungere prodotti al carrello (accessibile globalmente)
         window.addProductToCart = function(product, animateButton = null) {
-            // Assicurati che il prodotto abbia un ID. Se non specificato, generane uno.
+            // Assicurati che il prodotto abbia un ID. Se non specificato, genera un ID temporaneo.
             if (!product.id) {
-                product.id = generateUniqueId();
+                product.id = 'temp-prod-' + Date.now(); // ID semplice per l'esempio
             }
             // Assicurati che la quantità sia un numero e sia almeno 1.
             product.quantity = parseInt(product.quantity) || 1;
@@ -313,75 +313,104 @@
             // Assicurati che il prezzo sia un numero valido
             product.price = parseFloat(product.price) || 0;
 
-
-            // Controlla se il prodotto (con la stessa taglia/variante) esiste già nel carrello
-            // Per semplicità qui usiamo solo l'ID, ma in un vero e-commerce useresti anche taglia/colore
-            const existingItemIndex = cartItems.findIndex(item => item.id === product.id);
-
-            if (existingItemIndex > -1) {
-                // Se esiste, aumenta la quantità
-                cartItems[existingItemIndex].quantity += product.quantity;
+            // Controlla se il prodotto esiste già nel carrello (basandosi sull'ID)
+            const existingProductIndex = cart.findIndex(item => item.id === product.id);
+            if (existingProductIndex > -1) {
+                cart[existingProductIndex].quantity += product.quantity;
             } else {
-                // Altrimenti, aggiungi il nuovo prodotto
-                cartItems.push(product);
+                cart.push({ ...product, quantity: product.quantity });
             }
+            saveCartToLocalStorage();
+            updateCartCounter();
 
-            localStorage.setItem('cartItems', JSON.stringify(cartItems)); // Salva in localStorage
-            updateCartCount(); // Aggiorna il badge del carrello
-
-            // Esegui l'animazione sul pulsante se fornito
             if (animateButton) {
                 animateButton.classList.add('added-to-cart-pulse');
                 setTimeout(() => {
                     animateButton.classList.remove('added-to-cart-pulse');
-                }, 300); // Durata dell'animazione
+                }, 300);
             }
         };
 
+        // Funzione di inizializzazione che carica il carrello e aggiorna il contatore
+        function initializeCartFeatures() {
+            updateCartCounter(); // Aggiorna il contatore all'avvio della pagina
+        }
 
+        // Esegui la funzione di inizializzazione quando il DOM è caricato
+        document.addEventListener('DOMContentLoaded', initializeCartFeatures);
+
+        // FINE DELLE FUNZIONI GLOBALI DEL CARRELLO
+        // ---
+
+        // LOGICA SPECIFICA PER SHOP.HTML
         document.addEventListener('DOMContentLoaded', function() {
+            // Script per il menu mobile
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('open');
+                });
+            }
+
+            // Script per il footer a fisarmonica
+            const footerAccordions = document.querySelectorAll('.footer-accordion');
+
+            footerAccordions.forEach(accordion => {
+                const header = accordion.querySelector('.footer-accordion-header');
+                const content = accordion.querySelector('.footer-accordion-content');
+
+                header.addEventListener('click', () => {
+                    if (window.innerWidth < 768) {
+                        header.classList.toggle('open');
+                        content.classList.toggle('open');
+                    }
+                });
+            });
+
             // Dati dei prodotti
             const products = [
-                { id: 1, name: "HP AHIGA EVO 5", price: 120.00, imageUrl: "https://i.imgur.com/zfXG5hM.jpeg", category: "scarpe", gender: "uomo", size: "Standard" },
-                { id: 2, name: "W HP MARINE LS", price: 145.00, imageUrl: "https://i.imgur.com/fqxM50N.jpeg", category: "t-shirts", gender: "donna", size: "Standard" },
-                { id: 3, name: "W ANAKIN LEATHER 2", price: 133.00, imageUrl: "https://i.imgur.com/zrKojyK.jpeg", category: "scarpe", gender: "donna", size: "Standard" },
-                { id: 4, name: "CREW LOW", price: 135.00, imageUrl: "https://i.imgur.com/CTg03HI.jpeg", category: "t-shirts", gender: "uomo", size: "Standard" },
-                { id: 5, name: "HH QD CARGO SHORTS 11\"", price: 84.00, imageUrl: "https://i.imgur.com/llv2qYS.jpeg", category: "bottoms", gender: "uomo", size: "Standard" },
-                { id: 6, name: "HH QD CARGO SHORTS 11\" NEW", price: 84.00, imageUrl: "https://i.imgur.com/ktYclsZ.jpeg", category: "bottoms", gender: "uomo", size: "Standard" },
-                { id: 7, name: "HH QD CARGO SHORTS 11\" V2", price: 84.00, imageUrl: "https://i.imgur.com/YHrDIn5.jpeg", category: "bottoms", gender: "uomo", size: "Standard" },
-                { id: 8, name: "DRIFTLINE POLO", price: 73.00, imageUrl: "https://i.imgur.com/kllLabf.jpeg", category: "t-shirts", gender: "uomo", size: "Standard" },
-                { id: 9, name: "DRIFTLINE POLO V2", price: 73.00, imageUrl: "https://i.imgur.com/5Zv7i7u.jpeg", category: "outerwear", gender: "uomo", size: "Standard" },
-                { id: 10, name: "CREWLINE LS POLO", price: 78.00, imageUrl: "https://i.imgur.com/o3GMITe.jpeg", category: "t-shirts", gender: "unisex", size: "Standard" },
-                { id: 11, name: "HH LOGO T-SHIRT 2.0", price: 55.00, imageUrl: "https://i.imgur.com/deIc4Pn.jpeg", category: "t-shirts", gender: "donna", size: "Standard" },
-                { id: 12, name: "HH LOGO T-SHIRT 2.0 V2", price: 33.00, imageUrl: "https://i.imgur.com/8C8nM1b.jpeg", category: "t-shirts", gender: "uomo", size: "Standard" },
-                { id: 13, name: "HH TECH T-SHIRT 2.0", price: 33.00, imageUrl: "https://i.imgur.com/oUYUaxs.jpeg", category: "t-shirts", gender: "bambini", size: "Standard" },
-                { id: 14, name: "HH TECH T-SHIRT 2.0 V2", price: 33.00, imageUrl: "https://i.imgur.com/OZcqOw7.jpeg", category: "t-shirts", gender: "donna", size: "Standard" },
-                { id: 15, name: "HH TECH T-SHIRT 2.0 V3", price: 33.00, imageUrl: "https://i.imgur.com/x35MDY6.jpeg", category: "t-shirts", gender: "uomo", size: "Standard" },
-                { id: 16, name: "CREW JACKET 2.0", price: 170.00, imageUrl: "https://i.imgur.com/wg1uaVi.jpeg", category: "outerwear", gender: "uomo", size: "Standard" },
-                { id: 17, name: "CREW VEST 2.0", price: 152.00, imageUrl: "https://i.imgur.com/bUaRjSI.jpeg", category: "outerwear", gender: "uomo", size: "Standard" },
-                { id: 18, name: "CREW VEST 2.0 V2", price: 152.00, imageUrl: "https://i.imgur.com/4bP0Hco.jpeg", category: "outerwear", gender: "donna", size: "Standard" },
-                { id: 19, name: "PIER 3.0 JACKET", price: 280.00, imageUrl: "https://i.imgur.com/EHhpqhh.jpeg", category: "outerwear", gender: "uomo", size: "Standard" },
-                { id: 20, name: "PIER 3.0 BIB", price: 220.00, imageUrl: "https://i.imgur.com/ml5EvNy.jpeg", category: "bottoms", gender: "uomo", size: "Standard" },
-                { id: 21, name: "NEWPORT BOARD SHORTS 8\"", price: 73.00, imageUrl: "https://i.imgur.com/VZ2WEmB.jpeg", category: "bottoms", gender: "uomo", size: "Standard" },
-                { id: 22, name: "HP CURVE BOARD SHORTS 7\"", price: 73.00, imageUrl: "https://i.imgur.com/zifvZOk.jpeg", category: "bottoms", gender: "uomo", size: "Standard" },
-                { id: 23, name: "HH SOUWESTER", price: 35.00, imageUrl: "https://i.imgur.com/RRHdXJj.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
-                { id: 24, name: "CREW CAP 2.0", price: 33.00, imageUrl: "https://i.imgur.com/9Q7xIDe.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
-                { id: 25, name: "CREW CAP 2.0 V2", price: 33.00, imageUrl: "https://i.imgur.com/AhT9Amu.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
-                { id: 26, name: "CREW CAP 2.0 V3", price: 33.00, imageUrl: "https://i.imgur.com/KCCYcZD.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
-                { id: 27, name: "WANDERER SHOULDER BAG", price: 40.00, imageUrl: "https://i.imgur.com/waodFJQ.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
-                { id: 28, name: "WANDERER SHOULDER BAG V2", price: 40.00, imageUrl: "https://i.imgur.com/EEnpZx2.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
-                { id: 29, name: "CEDAR 25L BACKPACK", price: 150.00, imageUrl: "https://i.imgur.com/7rGHshF.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
-                { id: 30, name: "H/H SCOUT DUFFEL S", price: 60.00, imageUrl: "https://i.imgur.com/xtb6UCb.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
-                { id: 31, name: "SPORT II SANDALS", price: 54.00, imageUrl: "https://i.imgur.com/3kIe7Dg.jpeg", category: "scarpe", gender: "unisex", size: "Standard" },
-                { id: 32, name: "JR RIDER VEST", price: 50.00, imageUrl: "https://i.imgur.com/P1UtG8t.jpeg", category: "outerwear", gender: "bambini", size: "Standard" },
-                { id: 33, name: "ANKLE SOCKS 2-PACK", price: 10.00, imageUrl: "https://i.imgur.com/Q2hH3xX.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
-                { id: 34, name: "KIDS GRAPHIC TEE", price: 35.00, imageUrl: "https://i.imgur.com/R3iI4yY.jpeg", category: "t-shirts", gender: "bambini", size: "Standard" },
-                { id: 35, name: "SPORT SANDALS V2", price: 80.00, imageUrl: "https://i.imgur.com/S4jJ5zZ.jpeg", category: "scarpe", gender: "unisex", size: "Standard" },
-                { id: 36, name: "PUFFER VEST LIGHT", price: 100.00, imageUrl: "https://i.imgur.com/T5kK6aA.jpeg", category: "outerwear", gender: "uomo", size: "Standard" },
-                { id: 37, name: "DENIM SHORTS WOMAN", price: 65.00, imageUrl: "https://i.imgur.com/U6lL7bB.jpeg", category: "bottoms", gender: "donna", size: "Standard" },
-                { id: 38, name: "SUNGLASSES SPORT", price: 55.00, imageUrl: "https://i.imgur.com/V7mM8cC.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
-                { id: 39, name: "RUNNING SHOES PRO", price: 130.00, imageUrl: "https://i.imgur.com/W8nN9dD.jpeg", category: "scarpe", gender: "donna", size: "Standard" },
-                { id: 40, name: "BASIC T-SHIRT UNISEX", price: 20.00, imageUrl: "https://i.imgur.com/X9oO0eE.jpeg", category: "t-shirts", gender: "unisex", size: "Standard" }
+                { id: 1, name: "HP AHIGA EVO 5", price: 120.00, image: "https://i.imgur.com/zfXG5hM.jpeg", category: "scarpe", gender: "uomo", details: "Scarpe da uomo per sport acquatici." },
+                { id: 2, name: "W HP MARINE LS", price: 145.00, image: "https://i.imgur.com/fqxM50N.jpeg", category: "t-shirts", gender: "donna", details: "T-shirt a maniche lunghe da donna." },
+                { id: 3, name: "W ANAKIN LEATHER 2", price: 133.00, image: "https://i.imgur.com/zrKojyK.jpeg", category: "scarpe", gender: "donna", details: "Sneakers in pelle da donna." },
+                { id: 4, name: "CREW LOW", price: 135.00, image: "https://i.imgur.com/CTg03HI.jpeg", category: "t-shirts", gender: "uomo", details: "T-shirt casual da uomo." },
+                { id: 5, name: "HH QD CARGO SHORTS 11\"", price: 84.00, image: "https://i.imgur.com/llv2qYS.jpeg", category: "bottoms", gender: "uomo", details: "Shorts cargo quick dry da uomo." },
+                { id: 6, name: "HH QD CARGO SHORTS 11\" NEW", price: 84.00, image: "https://i.imgur.com/ktYclsZ.jpeg", category: "bottoms", gender: "uomo", details: "Nuovi shorts cargo quick dry da uomo." },
+                { id: 7, name: "HH QD CARGO SHORTS 11\" V2", price: 84.00, image: "https://i.imgur.com/YHrDIn5.jpeg", category: "bottoms", gender: "uomo", details: "Versione 2 degli shorts cargo quick dry da uomo." },
+                { id: 8, name: "DRIFTLINE POLO", price: 73.00, image: "https://i.imgur.com/kllLabf.jpeg", category: "t-shirts", gender: "uomo", details: "Polo Driftline per uomo." },
+                { id: 9, name: "DRIFTLINE POLO V2", price: 73.00, image: "https://i.imgur.com/5Zv7i7u.jpeg", category: "outerwear", gender: "uomo", details: "Polo Driftline per uomo, versione 2." },
+                { id: 10, name: "CREWLINE LS POLO", price: 78.00, image: "https://i.imgur.com/o3GMITe.jpeg", category: "t-shirts", gender: "unisex", details: "Polo a maniche lunghe unisex." },
+                { id: 11, name: "HH LOGO T-SHIRT 2.0", price: 55.00, image: "https://i.imgur.com/deIc4Pn.jpeg", category: "t-shirts", gender: "donna", details: "T-shirt con logo HH 2.0 da donna." },
+                { id: 12, name: "HH LOGO T-SHIRT 2.0 V2", price: 33.00, image: "https://i.imgur.com/8C8nM1b.jpeg", category: "t-shirts", gender: "uomo", details: "T-shirt con logo HH 2.0 v2 da uomo." },
+                { id: 13, name: "HH TECH T-SHIRT 2.0", price: 33.00, image: "https://i.imgur.com/oUYUaxs.jpeg", category: "t-shirts", gender: "bambini", details: "T-shirt tecnica HH 2.0 per bambini." },
+                { id: 14, name: "HH TECH T-SHIRT 2.0 V2", price: 33.00, image: "https://i.imgur.com/OZcqOw7.jpeg", category: "t-shirts", gender: "donna", details: "T-shirt tecnica HH 2.0 v2 da donna." },
+                { id: 15, name: "HH TECH T-SHIRT 2.0 V3", price: 33.00, image: "https://i.imgur.com/x35MDY6.jpeg", category: "t-shirts", gender: "uomo", details: "T-shirt tecnica HH 2.0 v3 da uomo." },
+                { id: 16, name: "CREW JACKET 2.0", price: 170.00, image: "https://i.imgur.com/wg1uaVi.jpeg", category: "outerwear", gender: "uomo", details: "Giacca Crew 2.0 per uomo." },
+                { id: 17, name: "CREW VEST 2.0", price: 152.00, image: "https://i.imgur.com/bUaRjSI.jpeg", category: "outerwear", gender: "uomo", details: "Gilet Crew 2.0 per uomo." },
+                { id: 18, name: "CREW VEST 2.0 V2", price: 152.00, image: "https://i.imgur.com/4bP0Hco.jpeg", category: "outerwear", gender: "donna", details: "Gilet Crew 2.0 v2 per donna." },
+                { id: 19, name: "PIER 3.0 JACKET", price: 280.00, image: "https://i.imgur.com/EHhpqhh.jpeg", category: "outerwear", gender: "uomo", details: "Giacca Pier 3.0 ad alte prestazioni." },
+                { id: 20, name: "PIER 3.0 BIB", price: 220.00, image: "https://i.imgur.com/ml5EvNy.jpeg", category: "bottoms", gender: "uomo", details: "Salopette Pier 3.0." },
+                { id: 21, name: "NEWPORT BOARD SHORTS 8\"", price: 73.00, image: "https://i.imgur.com/VZ2WEmB.jpeg", category: "bottoms", gender: "uomo", details: "Board shorts Newport 8 pollici." },
+                { id: 22, name: "HP CURVE BOARD SHORTS 7\"", price: 73.00, image: "https://i.imgur.com/zifvZOk.jpeg", category: "bottoms", gender: "uomo", details: "Board shorts HP Curve 7 pollici." },
+                { id: 23, name: "HH SOUWESTER", price: 35.00, image: "https://i.imgur.com/RRHdXJj.jpeg", category: "accessories", gender: "unisex", details: "Cappello impermeabile Souwester." },
+                { id: 24, name: "CREW CAP 2.0", price: 33.00, image: "https://i.imgur.com/9Q7xIDe.jpeg", category: "accessories", gender: "unisex", details: "Cappellino Crew 2.0." },
+                { id: 25, name: "CREW CAP 2.0 V2", price: 33.00, image: "https://i.imgur.com/AhT9Amu.jpeg", category: "accessories", gender: "unisex", details: "Cappellino Crew 2.0 v2." },
+                { id: 26, name: "CREW CAP 2.0 V3", price: 33.00, image: "https://i.imgur.com/KCCYcZD.jpeg", category: "accessories", gender: "unisex", details: "Cappellino Crew 2.0 v3." },
+                { id: 27, name: "WANDERER SHOULDER BAG", price: 40.00, image: "https://i.imgur.com/waodFJQ.jpeg", category: "accessories", gender: "unisex", details: "Borsa a tracolla Wanderer." },
+                { id: 28, name: "WANDERER SHOULDER BAG V2", price: 40.00, image: "https://i.imgur.com/EEnpZx2.jpeg", category: "accessories", gender: "unisex", details: "Borsa a tracolla Wanderer v2." },
+                { id: 29, name: "CEDAR 25L BACKPACK", price: 150.00, image: "https://i.imgur.com/7rGHshF.jpeg", category: "accessories", gender: "unisex", details: "Zaino Cedar da 25L." },
+                { id: 30, name: "H/H SCOUT DUFFEL S", price: 60.00, image: "https://i.imgur.com/xtb6UCb.jpeg", category: "accessories", gender: "unisex", details: "Borsone Scout S." },
+                { id: 31, name: "SPORT II SANDALS", price: 54.00, image: "https://i.imgur.com/3kIe7Dg.jpeg", category: "scarpe", gender: "unisex", details: "Sandali sportivi II." },
+                { id: 32, name: "JR RIDER VEST", price: 50.00, image: "https://i.imgur.com/P1UtG8t.jpeg", category: "outerwear", gender: "bambini", details: "Gilet da bambino JR Rider." },
+                { id: 33, name: "ANKLE SOCKS 2-PACK", price: 10.00, image: "https://i.imgur.com/Q2hH3xX.jpeg", category: "accessories", gender: "unisex", details: "Calzini alla caviglia (confezione da 2)." },
+                { id: 34, name: "KIDS GRAPHIC TEE", price: 35.00, image: "https://i.imgur.com/R3iI4yY.jpeg", category: "t-shirts", gender: "bambini", details: "T-shirt grafica per bambini." },
+                { id: 35, name: "SPORT SANDALS V2", price: 80.00, image: "https://i.imgur.com/S4jJ5zZ.jpeg", category: "scarpe", gender: "unisex", details: "Sandali sportivi v2." },
+                { id: 36, name: "PUFFER VEST LIGHT", price: 100.00, image: "https://i.imgur.com/T5kK6aA.jpeg", category: "outerwear", gender: "uomo", details: "Gilet imbottito leggero." },
+                { id: 37, name: "DENIM SHORTS WOMAN", price: 65.00, image: "https://i.imgur.com/U6lL7bB.jpeg", category: "bottoms", gender: "donna", details: "Shorts in denim da donna." },
+                { id: 38, name: "SUNGLASSES SPORT", price: 55.00, image: "https://i.imgur.com/V7mM8cC.jpeg", category: "accessories", gender: "unisex", details: "Occhiali da sole sportivi." },
+                { id: 39, name: "RUNNING SHOES PRO", price: 130.00, image: "https://i.imgur.com/W8nN9dD.jpeg", category: "scarpe", gender: "donna", details: "Scarpe da running professionali." },
+                { id: 40, name: "BASIC T-SHIRT UNISEX", price: 20.00, image: "https://i.imgur.com/X9oO0eE.jpeg", category: "t-shirts", gender: "unisex", details: "T-shirt basica unisex." }
             ];
 
             let filteredProducts = [...products]; // Copia per i filtri
@@ -415,7 +444,7 @@
                         <div class="product-card relative bg-white group rounded-lg overflow-hidden shadow-sm">
                             <div class="relative overflow-hidden">
                                 <a href="product-detail.html?id=${product.id}">
-                                    <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                                    <img src="${product.image}" alt="${product.name}" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
                                     <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                                         <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
                                     </div>
@@ -428,8 +457,8 @@
                                     data-product-id="${product.id}"
                                     data-product-name="${product.name}"
                                     data-product-price="${(product.price || 0).toFixed(2)}"
-                                    data-product-image="${product.imageUrl}"
-                                    data-product-size="${product.size}">
+                                    data-product-image="${product.image}"
+                                    data-product-details="${product.details}">
                                     Aggiungi al Carrello
                                 </button>
                             </div>
@@ -442,15 +471,7 @@
                 renderPagination();
             }
 
-            // Funzione per allegare event listener ai pulsanti "Aggiungi al Carrello" (delegazione)
-            function attachAddToCartListeners() {
-                // Rimuovi eventuali listener preesistenti sul container per evitare duplicati
-                // Non necessario con la delegazione se il listener è attaccato una volta sola sul productGrid
-                // ma utile se lo riattacchi su elementi specifici. Qui lo attacchiamo una volta sul productGrid.
-            }
-
             // Delegazione degli eventi per i pulsanti "Aggiungi al Carrello"
-            // Attacca il listener una sola volta al contenitore principale (productGrid)
             productGrid.addEventListener('click', function(event) {
                 const addToCartBtn = event.target.closest('.add-to-cart-btn');
                 if (addToCartBtn) {
@@ -458,9 +479,8 @@
                         id: parseInt(addToCartBtn.dataset.productId),
                         name: addToCartBtn.dataset.productName,
                         price: parseFloat(addToCartBtn.dataset.productPrice),
-                        imageUrl: addToCartBtn.dataset.productImage,
-                        quantity: 1, // Sempre 1 quando aggiunto dalla pagina prodotti
-                        size: addToCartBtn.dataset.productSize
+                        image: addToCartBtn.dataset.productImage,
+                        details: addToCartBtn.dataset.productDetails // Passa anche i dettagli
                     };
                     window.addProductToCart(product, addToCartBtn);
                 }
@@ -510,94 +530,69 @@
                         button.addEventListener('click', function(e) {
                             e.preventDefault();
                             currentPage = parseInt(this.dataset.page);
-                            renderProducts();
+                            applyFiltersAndSort(); // Applica i filtri e il sorting dopo il cambio pagina
                         });
                     });
                 }
             }
 
-            // Funzione per applicare filtri e ordinamento
+
+            // Funzione per filtrare e ordinare i prodotti
             function applyFiltersAndSort() {
-                let tempProducts = [...products];
+                filteredProducts = [...products]; // Resetta i prodotti filtrati
+                const selectedCategory = categoryFilter.value;
+                const sortOption = sortBy.value;
 
-                let selectedCategory = categoryFilter.value;
-                const urlCategory = getUrlParameter('category');
-
-                // Se c'è un parametro categoria nell'URL e il filtro non è già impostato
-                if (urlCategory && !selectedCategory) {
-                    selectedCategory = urlCategory; // Usa il parametro URL come filtro iniziale
-                    // Imposta il valore della select in base al parametro URL
-                    if (categoryFilter.querySelector(`option[value="${urlCategory}"]`)) {
-                        categoryFilter.value = urlCategory;
+                // Filtra per categoria (se selezionata)
+                if (selectedCategory) {
+                    // Controlla se la categoria selezionata è "uomo", "donna" o "bambini"
+                    // Questi sono considerati "generi" nei tuoi dati, non categorie di prodotto in senso stretto.
+                    if (['uomo', 'donna', 'bambini'].includes(selectedCategory)) {
+                        filteredProducts = filteredProducts.filter(product =>
+                            product.gender.toLowerCase() === selectedCategory.toLowerCase()
+                        );
                     } else {
-                        categoryFilter.value = ""; // Se il valore non esiste, resetta il filtro
+                        // Altrimenti, filtra per categoria normale (scarpe, t-shirts, ecc.)
+                        filteredProducts = filteredProducts.filter(product =>
+                            product.category.toLowerCase() === selectedCategory.toLowerCase()
+                        );
                     }
                 }
 
-                if (selectedCategory) {
-                    tempProducts = tempProducts.filter(product =>
-                        product.category === selectedCategory || product.gender === selectedCategory
-                    );
-                }
+                // Applica l'ordinamento
+                filteredProducts.sort((a, b) => {
+                    if (sortOption === 'price-asc') {
+                        return a.price - b.price;
+                    } else if (sortOption === 'price-desc') {
+                        return b.price - a.price;
+                    } else if (sortOption === 'name-asc') {
+                        return a.name.localeCompare(b.name);
+                    } else if (sortOption === 'name-desc') {
+                        return b.name.localeCompare(a.name);
+                    }
+                    return 0; // Rilevanza (nessun ordinamento specifico)
+                });
 
-                const sortMethod = sortBy.value;
-
-                switch (sortMethod) {
-                    case 'price-asc':
-                        tempProducts.sort((a, b) => a.price - b.price);
-                        break;
-                    case 'price-desc':
-                        tempProducts.sort((a, b) => b.price - a.price);
-                        break;
-                    case 'name-asc':
-                        tempProducts.sort((a, b) => a.name.localeCompare(b.name));
-                        break;
-                    case 'name-desc':
-                        tempProducts.sort((a, b) => b.name.localeCompare(a.name));
-                        break;
-                    case 'relevance':
-                    default:
-                        break;
-                }
-
-                filteredProducts = tempProducts;
-                currentPage = 1; // Resetta alla prima pagina dopo aver applicato filtri/ordinamento
-                renderProducts();
+                currentPage = 1; // Resetta la paginazione dopo aver applicato filtri/sort
+                renderProducts(); // Rirenderizza con i prodotti filtrati/ordinati
             }
 
-            // Event Listeners per filtri e ordinamento
+            // Event listeners per i filtri e l'ordinamento
             categoryFilter.addEventListener('change', applyFiltersAndSort);
             sortBy.addEventListener('change', applyFiltersAndSort);
 
-            // Inizializza i prodotti al caricamento della pagina
-            applyFiltersAndSort(); // Applica filtri iniziali (anche da URL) e ordina
-            updateCartCount(); // Aggiorna il conteggio del carrello all'avvio
 
-            // Mobile menu toggle
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('open');
-                });
+            // Inizializzazione basata sul parametro URL della categoria
+            const initialCategory = getUrlParameter('category');
+            if (initialCategory) {
+                const categoryOption = Array.from(categoryFilter.options).find(option => option.value === initialCategory);
+                if (categoryOption) {
+                    categoryFilter.value = initialCategory;
+                }
             }
 
-            // Footer Accordion (aggiunto per completezza, era presente nello stile)
-            document.querySelectorAll('.footer-accordion-header').forEach(header => {
-                // Controlla se la dimensione dello schermo è mobile
-                const isMobile = window.matchMedia('(max-width: 767px)').matches;
-
-                if (isMobile) {
-                    header.addEventListener('click', () => {
-                        header.classList.toggle('open');
-                        const content = header.nextElementSibling;
-                        if (content) {
-                            content.classList.toggle('open');
-                        }
-                    });
-                }
-            });
+            // Primo render dei prodotti all'apertura della pagina
+            applyFiltersAndSort();
         });
     </script>
 </body>
