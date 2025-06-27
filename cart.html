@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop | Cmarine</title>
-    <meta name="description" content="Esplora la vasta collezione di menswear, streetwear e accessori di Cmarine. Trova abbigliamento di alta qualità per uomo, donna e bambini.">
+    <title>Il Mio Carrello | Cmarine</title>
+    <meta name="description" content="Rivedi i prodotti nel tuo carrello Cmarine e procedi al checkout.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-         
-
         .product-card:hover .product-overlay {
             opacity: 1;
         }
@@ -133,7 +131,7 @@
             0% { transform: scale(0); opacity: 0; }
             50% { transform: scale(1.2); opacity: 1; }
             100% { transform: scale(1); }
-        } /* Animazione "added to cart" (se usata altrove) */
+        }/* Animazione "added to cart" (se usata altrove) */
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
@@ -167,7 +165,6 @@
             padding-top: 0 !important;
             padding-bottom: 0 !important;
         }
-    </style>
     </style>
 </head>
 <body class="bg-gray-50">
@@ -210,6 +207,7 @@
             </div>
         </div>
     </header>
+
 
     <main class="container mx-auto px-4 py-16">
         <h1 class="text-4xl font-bold text-center mb-12">Il Tuo Carrello</h1>
@@ -481,6 +479,408 @@
     </footer>
 
     <script>
+        // GLOBAL CART FUNCTIONS - QUESTE DEVONO ESSERE UGUALI (O INCLUSE DA UN FILE ESTERNO) IN TUTTE LE PAGINE DEL TUO SITO
+        let cart = JSON.parse(localStorage.getItem('cmarineCart')) || [];
+        const CART_STORAGE_KEY = 'cmarineCart';
+        let currentShippingCost = 10.00; // Costo di spedizione di default
+        let discountAppliedAmount = 0; // Inizializza lo sconto applicato a 0
+
+        function saveCartToLocalStorage() {
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        }
+
+        function updateCartCounter() {
+            const cartItemCountElement = document.getElementById('cart-item-count');
+            if (cartItemCountElement) {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartItemCountElement.textContent = totalItems;
+                if (totalItems > 0) {
+                    cartItemCountElement.classList.remove('hidden');
+                } else {
+                    cartItemCountElement.classList.add('hidden');
+                }
+                cartItemCountElement.classList.add('added-to-cart-pulse');
+                setTimeout(() => {
+                    cartItemCountElement.classList.remove('added-to-cart-pulse');
+                }, 300);
+            }
+        }
+
+        // Funzione per aggiungere prodotti al carrello (accessibile globalmente)
+        window.addProductToCart = function(product, animateButton = null) {
+            if (!product.id) {
+                // If product doesn't have an ID, generate a unique one
+                product.id = 'temp-prod-' + Date.now();
+                console.warn("Product added to cart without an ID. Generating a temporary one: " + product.id);
+            }
+            product.quantity = parseInt(product.quantity) || 1;
+            if (product.quantity < 1) {
+                product.quantity = 1;
+            }
+            product.price = parseFloat(product.price) || 0;
+
+            // Ensure product.id is treated as a string for comparison
+            const existingProductIndex = cart.findIndex(item => String(item.id) === String(product.id));
+
+            if (existingProductIndex > -1) {
+                cart[existingProductIndex].quantity += product.quantity;
+            } else {
+                cart.push({ ...product, quantity: product.quantity });
+            }
+            saveCartToLocalStorage();
+            updateCartCounter();
+
+            if (animateButton) {
+                animateButton.classList.add('added-to-cart-pulse');
+                setTimeout(() => {
+                    animateButton.classList.remove('added-to-cart-pulse');
+                }, 300);
+            }
+        };
+
+        // Funzione per rimuovere un prodotto dal carrello (accessibile globalmente)
+        window.removeProductFromCart = function(productId) {
+            const initialCartLength = cart.length;
+            // Ensure productId is treated as a string for comparison
+            cart = cart.filter(item => String(item.id) !== String(productId));
+            if (cart.length < initialCartLength) {
+                saveCartToLocalStorage();
+                updateCartCounter();
+                if (document.getElementById('cart-items-container')) {
+                    renderCartItems(); // Re-render to update UI after removal
+                }
+            }
+        };
+
+        // Funzione per impostare la quantità di un prodotto nel carrello (accessibile globalmente)
+        window.setProductQuantityInCart = function(productId, newQuantity) {
+            newQuantity = parseInt(newQuantity);
+            if (isNaN(newQuantity) || newQuantity < 0) {
+                console.warn("Invalid quantity provided for setProductQuantityInCart. Setting to 0.");
+                newQuantity = 0;
+            }
+
+            // Ensure productId is treated as a string for comparison
+            const existingProductIndex = cart.findIndex(item => String(item.id) === String(productId));
+
+            if (existingProductIndex > -1) {
+                if (newQuantity === 0) {
+                    const productItem = document.querySelector(`.product-item[data-id="${productId}"]`);
+                    if (productItem) {
+                        productItem.classList.add('removing');
+                        productItem.addEventListener('transitionend', function handler() {
+                            cart.splice(existingProductIndex, 1);
+                            saveCartToLocalStorage();
+                            updateCartCounter();
+                            renderCartItems(); // Re-render to update UI immediately after removal
+                            productItem.removeEventListener('transitionend', handler);
+                        }, { once: true });
+                    } else {
+                        // Fallback if animation is not needed or element not found
+                        cart.splice(existingProductIndex, 1);
+                        saveCartToLocalStorage();
+                        updateCartCounter();
+                        renderCartItems();
+                    }
+                } else {
+                    cart[existingProductIndex].quantity = newQuantity;
+                    saveCartToLocalStorage();
+                    updateCartCounter();
+                    if (document.getElementById('cart-items-container')) {
+                        const inputElement = document.querySelector(`.quantity-input[data-id="${productId}"]`);
+                        if (inputElement) {
+                            inputElement.value = newQuantity;
+                        }
+                        updateCartTotals();
+                    }
+                }
+            }
+        };
+
+        // Funzione di inizializzazione che carica il carrello e aggiorna il contatore all'avvio
+        function initializeCartFeatures() {
+            updateCartCounter();
+            // --- INIZIO: CODICE DI TEST RIMOSSO ---
+            // Se in futuro ti serviranno prodotti di esempio per lo sviluppo,
+            // potrai riabilitare questa sezione, ma ricorda di rimuoverla
+            // prima di andare in produzione.
+            /*
+            if (cart.length === 0) {
+                window.addProductToCart({
+                    id: 101,
+                    name: 'Camicia Marina Classica',
+                    details: 'Taglia M, Colore Blu',
+                    price: 49.99,
+                    image: 'https://via.placeholder.com/150/0000FF/FFFFFF?text=Camicia'
+                }, null);
+                window.addProductToCart({
+                    id: 'SKU-002',
+                    name: 'Pantaloncini Estivi',
+                    details: 'Taglia L, Colore Beige',
+                    price: 34.50,
+                    image: 'https://via.placeholder.com/150/FF0000/FFFFFF?text=Pantaloncini'
+                }, null);
+            }
+            */
+            // --- FINE: CODICE DI TEST RIMOSSO ---
+        }
+
+        // Chiamata all'inizializzazione quando il DOM è completamente caricato
+        document.addEventListener('DOMContentLoaded', initializeCartFeatures);
+
+        // --- Logica Specifica per la Pagina cart.html ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Logic (Copied from shop.html for consistency)
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('open');
+                });
+            }
+
+            // Footer Accordion Logic (Copied from shop.html for consistency)
+            const footerAccordions = document.querySelectorAll('.footer-accordion');
+            footerAccordions.forEach(accordion => {
+                const header = accordion.querySelector('.footer-accordion-header');
+                const content = accordion.querySelector('.footer-accordion-content');
+
+                header.addEventListener('click', () => {
+                    if (window.innerWidth < 768) {
+                        header.classList.toggle('open');
+                        content.classList.toggle('open');
+                    }
+                });
+            });
+
+            // Cart Page Specific Elements
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const subtotalElement = document.getElementById('subtotal');
+            const shippingElement = document.getElementById('shipping');
+            const discountElement = document.getElementById('discount');
+            const totalElement = document.getElementById('total');
+            const clearCartBtn = document.getElementById('clear-cart-btn');
+            const applyDiscountBtn = document.getElementById('apply-discount-btn');
+            const discountCodeInput = document.getElementById('discount-code');
+            const checkoutButton = document.getElementById('checkout-btn'); // ID specifico per il bottone
+
+            function renderCartItems() {
+                cartItemsContainer.innerHTML = '';
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<p class="text-center text-gray-600 py-8">Il tuo carrello è vuoto.</p>';
+                    checkoutButton.disabled = true;
+                    checkoutButton.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    cart.forEach(item => {
+                        const productHtml = `
+                            <div class="flex items-center border-b border-gray-200 py-4 product-item" data-id="${item.id}">
+                                <img src="${item.image}" alt="${item.name}" class="w-24 h-24 object-contain mr-6 rounded-md">
+                                <div class="flex-grow">
+                                    <h2 class="text-base font-semibold">${item.name}</h2>
+                                    <p class="text-gray-600 text-xs">${item.details || ''}</p>
+                                    <p class="text-base font-medium product-price">€${(item.price || 0).toFixed(2)}</p>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <button class="quantity-btn decrease-btn px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-100" data-id="${item.id}">-</button>
+                                    <input type="number" value="${item.quantity}" min="0" class="w-12 text-center border border-gray-300 py-1 text-sm rounded quantity-input" data-id="${item.id}">
+                                    <button class="quantity-btn increase-btn px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-100" data-id="${item.id}">+</button>
+                                </div>
+                                <button class="remove-item-btn ml-4 text-gray-500" data-id="${item.id}">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        `;
+                        cartItemsContainer.insertAdjacentHTML('beforeend', productHtml);
+                    });
+                    checkoutButton.disabled = false;
+                    checkoutButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+                updateCartTotals();
+            }
+
+            function updateCartTotals() {
+                let subtotal = cart.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0);
+                let total = subtotal + currentShippingCost - discountAppliedAmount;
+
+                subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
+                shippingElement.textContent = `€${currentShippingCost.toFixed(2)}`;
+                discountElement.textContent = `-€${discountAppliedAmount.toFixed(2)}`;
+                totalElement.textContent = `€${Math.max(0, total).toFixed(2)}`; // Assicurati che il totale non sia negativo
+            }
+
+            // Delegazione eventi per i bottoni di quantità e rimozione
+            cartItemsContainer.addEventListener('click', function(event) {
+                const target = event.target;
+                
+                // Get the product ID from the dataset of the clicked element or its closest parent with data-id
+                const productId = String(target.dataset.id || target.closest('[data-id]')?.dataset.id);
+
+                // If productId is undefined or null after conversion, return
+                if (!productId || productId === 'undefined' || productId === 'null') return;
+
+                if (target.classList.contains('increase-btn')) {
+                    const currentItem = cart.find(item => String(item.id) === productId);
+                    const currentQuantity = currentItem ? currentItem.quantity : 0;
+                    window.setProductQuantityInCart(productId, currentQuantity + 1);
+                } else if (target.classList.contains('decrease-btn')) {
+                    const currentItem = cart.find(item => String(item.id) === productId);
+                    const currentQuantity = currentItem ? currentItem.quantity : 0;
+                    if (currentQuantity > 0) {
+                        window.setProductQuantityInCart(productId, currentQuantity - 1);
+                    } else {
+                        // If quantity is 0 or less, effectively remove the item
+                        window.setProductQuantityInCart(productId, 0); 
+                    }
+                } else if (target.classList.contains('remove-item-btn') || target.closest('.remove-item-btn')) {
+                    const productItem = target.closest('.product-item');
+                    if (productItem) {
+                        productItem.classList.add('removing');
+                        productItem.addEventListener('transitionend', function handler() {
+                            window.removeProductFromCart(productId);
+                            productItem.removeEventListener('transitionend', handler);
+                        }, { once: true });
+                    }
+                }
+            });
+
+            // Gestione dell'input manuale della quantità
+            cartItemsContainer.addEventListener('change', function(event) {
+                const target = event.target;
+                if (target.classList.contains('quantity-input')) {
+                    const productId = String(target.dataset.id); // Treat as string
+                    let newQuantity = parseInt(target.value);
+                    if (isNaN(newQuantity) || newQuantity < 0) {
+                        newQuantity = 0;
+                        target.value = 0;
+                    }
+                    window.setProductQuantityInCart(productId, newQuantity);
+                }
+            });
+
+            clearCartBtn.addEventListener('click', function() {
+                if (confirm('Sei sicuro di voler svuotare il carrello?')) {
+                    cart = [];
+                    currentShippingCost = 10.00;
+                    discountAppliedAmount = 0;
+                    discountCodeInput.value = '';
+                    saveCartToLocalStorage();
+                    renderCartItems();
+                    updateCartCounter();
+                }
+            });
+
+            applyDiscountBtn.addEventListener('click', function() {
+                const code = discountCodeInput.value.trim().toUpperCase();
+                discountAppliedAmount = 0;
+                currentShippingCost = 10.00;
+
+                if (code === 'WELCOME10') {
+                    discountAppliedAmount = 10.00;
+                    alert('Sconto applicato: WELCOME10! Hai risparmiato €10.');
+                } else if (code === 'FREESHIP') {
+                    currentShippingCost = 0.00;
+                    alert('Spedizione gratuita applicata!');
+                } else {
+                    alert('Codice sconto non valido.');
+                }
+                updateCartTotals();
+            });
+
+            renderCartItems(); // Initial render on page load
+        });  window.REQUIRED_CODE_ERROR_MESSAGE = 'Scegli un prefisso paese';
+  window.LOCALE = 'it';
+  window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE = "Le informazioni fornite non sono valide. Controlla il formato del campo e riprova.";
+
+  window.REQUIRED_ERROR_MESSAGE = "Questo campo non può essere lasciato vuoto. ";
+
+  window.GENERIC_INVALID_MESSAGE = "Le informazioni fornite non sono valide. Controlla il formato del campo e riprova.";
+
+
+
+
+  window.translation = {
+    common: {
+      selectedList: '{quantity} lista selezionata',
+      selectedLists: '{quantity} liste selezionate',
+      selectedOption: '{quantity} selezionato',
+      selectedOptions: '{quantity} selezionati',
+    }
+  };
+
+  var AUTOHIDE = Boolean(0);
+</script>
+
+<script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+
+
+<!-- END - We recommend to place the above code in footer or bottom of your website html  -->
+<!-- End Brevo Form -->
+
+    <footer class="bg-gray-100 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+
+                <div class="footer-accordion">
+                    <div class="footer-accordion-header md:mb-4">
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Acquista</h3>
+                        <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
+                    </div>
+                    <ul class="space-y-2 footer-accordion-content">
+                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Nuovi Arrivi</a></li>
+                        <li><a href="collections.html" class="text-sm hover:underline text-gray-700">Collezioni</a></li>
+                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Saldi</a></li>
+                        
+                    </ul>
+                </div>
+
+                <div class="footer-accordion">
+                    <div class="footer-accordion-header md:mb-4">
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Chi Siamo</h3>
+                        <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
+                    </div>
+                    <ul class="space-y-2 footer-accordion-content">
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">La Nostra Storia</a></li>
+                        <li><a href="features.html" class="text-sm hover:underline text-gray-700">Partnership</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Dove Trovarci</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-accordion">
+                    <div class="footer-accordion-header md:mb-4">
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Aiuto</h3>
+                        <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
+                    </div>
+                    <ul class="space-y-2 footer-accordion-content">
+                        <li><a href="contact.html" class="text-sm hover:underline text-gray-700">Contattaci</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Spedizione</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Resi</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Connettiti</h3>
+                    <div class="flex justify-center md:justify-start space-x-4 mb-4">
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-facebook-f text-xl"></i></a>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">Iscriviti alla nostra newsletter per ricevere aggiornamenti sui nuovi arrivi, offerte speciali e altre informazioni sugli sconti.</p>
+                </div>
+
+            </div>
+            <div class="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600">
+                <p class="text-sm text-center md:text-left mb-4 md:mb-0">© 2025 Cmarine. Tutti i diritti riservati.</p>
+                <div class="flex flex-wrap justify-center md:justify-end space-x-4 sm:space-x-6">
+                    <a href="#" class="text-sm hover:underline">Privacy Policy</a>
+                    <a href="#" class="text-sm hover:underline">Terms of Service</a>
+                    <a href="#" class="text-sm hover:underline">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+<script>
        
         // GLOBAL CART FUNCTIONS - QUESTE DEVONO ESSERE UGUALI IN TUTTE LE PAGINE DEL TUO SITO
         // Inizializza cart dal localStorage o come array vuoto
