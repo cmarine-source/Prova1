@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Menswear and Streetwear | Cmarine</title>
-    <meta name="description" content="Scopri la collezione premium di menswear e streetwear di Cmarine. Abbigliamento di alta qualità, calzature e accessori per l'uomo moderno. Spedizione gratuita sul primo ordine.">
+    <title>Il Mio Carrello | Cmarine</title>
+    <meta name="description" content="Rivedi i prodotti nel tuo carrello Cmarine e procedi al checkout.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Stili personalizzati di base */
+        /* Stili personalizzati dalla homepage per coerenza */
         .hero-image {
             background-image: url('https://i.imgur.com/nszViUU.jpeg');
             background-size: cover;
@@ -57,12 +57,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 1rem; /* Spazio sotto il titolo */
-            border-bottom: 1px solid #e5e7eb; /* Linea separatrice */
-            margin-bottom: 1rem; /* Spazio sotto la linea */
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
         }
 
-        /* Nasconde le liste di link per impostazione predefinita */
         .footer-accordion-content {
             max-height: 0;
             overflow: hidden;
@@ -70,14 +69,12 @@
             opacity: 0;
         }
 
-        /* Mostra le liste di link quando la classe 'open' è presente */
         .footer-accordion-content.open {
-            max-height: 200px; /* Un valore sufficientemente grande per contenere il contenuto */
+            max-height: 200px;
             opacity: 1;
             transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
         }
 
-        /* Ruota l'icona freccia quando la sezione è aperta */
         .footer-accordion-header .arrow-icon {
             transition: transform 0.3s ease;
         }
@@ -86,130 +83,113 @@
             transform: rotate(180deg);
         }
 
-        /* Rimuovi la border-bottom e i margini per desktop, mantenendo il layout originale */
         @media (min-width: 768px) {
             .footer-accordion-header {
-                cursor: default; /* Non cliccabile su desktop */
+                cursor: default;
                 border-bottom: none;
-                margin-bottom: 1rem; /* Mantieni il margine se desiderato */
+                margin-bottom: 1rem;
             }
             .footer-accordion-header .arrow-icon {
-                display: none; /* Nascondi la freccia su desktop */
+                display: none;
             }
             .footer-accordion-content {
-                max-height: none; /* Sempre visibile su desktop */
+                max-height: none;
                 opacity: 1;
             }
         }
-
-        /* Stile per il badge del carrello */
-        .cart-badge {
-            position: absolute;
-            top: -8px; /* Regola la posizione verticale */
-            right: -8px; /* Regola la posizione orizzontale */
-            background-color: #ef4444; /* Rosso */
-            color: white;
-            border-radius: 9999px; /* Completamente rotondo */
-            padding: 2px 6px;
-            font-size: 0.75rem; /* Testo piccolo */
-            font-weight: bold;
-            line-height: 1;
-            min-width: 20px; /* Larghezza minima per numeri a singola cifra */
-            text-align: center;
-        }
     </style>
 </head>
-<body>
+<body class="font-sans text-gray-900">
     <header class="sticky top-0 z-50 bg-white shadow-sm">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div class="flex items-center">
-            <a href="index.html" class="flex items-center no-underline hover:no-underline">
-                <img src="https://i.imgur.com/PigMJrD.jpeg" alt="Il mio logo" class="h-10">
-            </a>
-        </div>
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center no-underline hover:no-underline">
+                    <img src="https://i.imgur.com/PigMJrD.jpeg" alt="Il mio logo" class="h-10">
+                </a>
+            </div>
 
-        <div class="hidden md:flex space-x-8">
-            <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
-            <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
-            <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
-        </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
+                <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
+                <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
+            </div>
 
-        <div class="flex items-center space-x-4 md:space-x-6">
-            <a href="search.html" class="text-xl"><i class="fas fa-search"></i></a>
-            <a href="cart.html" class="text-xl relative">
-                <i class="fas fa-shopping-bag"></i>
-                <span id="cart-count" class="cart-badge hidden">0</span>
-            </a>
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <a href="search.html" class="text-xl"><i class="fas fa-search"></i></a>
+                <a href="cart.html" class="text-xl relative">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-item-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                </a>
 
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="focus:outline-none">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-    <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
-        <div class="px-2 pt-2 pb-3 space-y-1">
-            <a href="shop.html?category=uomo" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
-            <a href="shop.html?category=donna" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
-            <a href="shop.html?category=bambini" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
-            <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
-            <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="shop.html?category=uomo" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
+                <a href="shop.html?category=donna" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
+                <a href="shop.html?category=bambini" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
+                <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
+                <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
+            </div>
         </div>
-    </div>
-</header>
+    </header>
 
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 class="text-4xl font-bold mb-8 text-center">Il Tuo Carrello</h1>
+    <main class="container mx-auto px-4 py-16">
+        <h1 class="text-4xl font-bold text-center mb-12">Il Tuo Carrello</h1>
 
         <div class="flex flex-col lg:flex-row gap-8">
-            <div class="lg:w-2/3 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div class="lg:w-2/3">
                 <div id="cart-items-container">
                     </div>
 
-                <div class="mt-6 flex justify-between items-center">
-                    <span id="empty-cart-message" class="text-gray-600 italic hidden">Il tuo carrello è vuoto.</span>
-                    <a href="shop.html" class="text-sm text-gray-600 hover:underline">Continua lo Shopping</a>
+                <div class="flex justify-between mt-8">
+                    <a href="shop.html" class="inline-block border border-black px-6 py-3 text-sm uppercase tracking-wider hover:bg-black hover:text-white transition duration-300 ease-in-out">Continua lo Shopping</a>
+                    <button id="clear-cart-btn" class="inline-block bg-gray-200 text-gray-800 px-6 py-3 text-sm uppercase tracking-wider hover:bg-gray-300 transition duration-300 ease-in-out">Svuota Carrello</button>
                 </div>
             </div>
 
-            <div class="lg:w-1/3 bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
-                <h2 class="text-2xl font-bold mb-4">Riepilogo Ordine</h2>
-                <div class="space-y-3 mb-6">
-                    <div class="flex justify-between">
-                        <span class="text-gray-700">Subtotale:</span>
-                        <span class="font-semibold" id="cart-subtotal">$0.00</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-700">Spedizione:</span>
-                        <span class="font-semibold">Calcolata al checkout</span>
-                    </div>
-                    <div class="flex justify-between font-bold text-lg border-t border-gray-300 pt-3">
-                        <span>Totale:</span>
-                        <span id="cart-total">$0.00</span>
+            <div class="lg:w-1/3 bg-gray-50 p-6 rounded-lg shadow-sm">
+                <h2 class="text-2xl font-bold mb-6">Riepilogo Ordine</h2>
+
+                <div class="flex justify-between mb-3">
+                    <span>Subtotale</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="flex justify-between mb-3">
+                    <span>Spedizione Stimata</span>
+                    <span id="shipping">$10.00</span>
+                </div>
+                <div class="flex justify-between mb-6 border-b border-gray-200 pb-4">
+                    <span>Sconto</span>
+                    <span id="discount">-$0.00</span>
+                </div>
+
+                <div class="flex justify-between items-center mb-6 text-xl font-bold">
+                    <span>Totale</span>
+                    <span id="total">$0.00</span>
+                </div>
+
+                <div class="mb-6">
+                    <label for="discount-code" class="block text-sm font-medium text-gray-700 mb-2">Codice Sconto</label>
+                    <div class="flex">
+                        <input type="text" id="discount-code" placeholder="Inserisci il codice" class="flex-grow border border-gray-300 p-2 rounded-l-md focus:outline-none focus:ring-1 focus:ring-black">
+                        <button id="apply-discount-btn" class="bg-black text-white px-4 py-2 rounded-r-md hover:bg-gray-800 transition">Applica</button>
                     </div>
                 </div>
-                <button class="w-full bg-black text-white px-6 py-3 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 rounded-sm">Procedi al Checkout</button>
+
+                <button class="w-full bg-black text-white py-4 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out">Procedi al Checkout</button>
             </div>
         </div>
     </main>
 
-    <div class="bg-black text-white py-16 md:py-20">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="mb-2 text-sm uppercase tracking-widest">SPEDIZIONE GRATUITA SUL TUO PRIMO ORDINE</div>
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">Iscriviti alla Nostra Newsletter</h2>
-            <p class="mb-8 text-gray-300 leading-relaxed">Iscriviti per accesso anticipato a lanci, promozioni ed eventi.</p>
-            <form class="flex flex-col sm:flex-row gap-4 justify-center">
-                <input type="email" placeholder="Il tuo indirizzo email" required class="newsletter-input bg-transparent py-3 px-4 text-white placeholder-gray-400 focus:placeholder-gray-600 w-full sm:w-80 rounded-none border-b border-gray-500 focus:border-white transition duration-300 ease-in-out">
-                <button type="submit" class="bg-white text-black px-8 py-3 text-sm uppercase tracking-wider hover:bg-gray-200 transition duration-300 ease-in-out rounded-sm">Iscriviti</button>
-            </form>
-        </div>
-    </div>
-
     <footer class="bg-gray-100 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
-
                 <div class="footer-accordion">
                     <div class="footer-accordion-header md:mb-4">
                         <h3 class="text-sm font-semibold uppercase tracking-wider">Acquista</h3>
@@ -256,7 +236,6 @@
                     </div>
                     <p class="text-sm text-gray-600 leading-relaxed">Iscriviti alla nostra newsletter per ricevere aggiornamenti sui nuovi arrivi, offerte speciali e altre informazioni sugli sconti.</p>
                 </div>
-
             </div>
             <div class="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600">
                 <p class="text-sm text-center md:text-left mb-4 md:mb-0">© 2025 Cmarine. Tutti i diritti riservati.</p>
@@ -270,264 +249,220 @@
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let cartItems = [];
+        // Global variables and functions for cart management
+        // Initialize cart from localStorage or as empty array
+        let cart = JSON.parse(localStorage.getItem('cmarineCart')) || [];
+        const CART_STORAGE_KEY = 'cmarineCart'; // Chiave per il localStorage
+        const SHIPPING_COST = 10.00;
+        let discountApplied = 0;
 
-            const cartItemsContainer = document.getElementById('cart-items-container');
-            const cartSubtotalElement = document.getElementById('cart-subtotal');
-            const cartTotalElement = document.getElementById('cart-total');
-            const emptyCartMessage = document.getElementById('empty-cart-message');
-            const cartCountElement = document.getElementById('cart-count');
+        // Funzione per salvare il carrello nel localStorage
+        function saveCartToLocalStorage() {
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        }
 
-            /**
-             * Generates a unique ID for a product.
-             * @returns {string} A unique product ID.
-             */
-            function generateUniqueId() {
-                return 'prod-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
-            }
-
-            /**
-             * Adds a product to the cart or updates its quantity if it already exists.
-             * @param {object} product - The product object to add.
-             * @param {string} product.name - The name of the product.
-             * @param {string} product.image - The URL of the product image.
-             * @param {number} product.price - The price of the product.
-             * @param {string} product.size - The size of the product.
-             * @param {number} [product.quantity=1] - The quantity to add.
-             * @param {string} [product.id] - Optional unique ID for the product. If not provided, one will be generated.
-             */
-            window.addProductToCart = function(product) {
-                if (!product.id) {
-                    product.id = generateUniqueId();
-                }
-                if (!product.quantity || product.quantity < 1) {
-                    product.quantity = 1;
-                }
-
-                // Check if an item with the same ID or (name and size) already exists
-                const existingItemIndex = cartItems.findIndex(item =>
-                    item.id === product.id ||
-                    (item.name === product.name && item.size === product.size) // Fallback for items without specific IDs
-                );
-
-                if (existingItemIndex > -1) {
-                    cartItems[existingItemIndex].quantity += product.quantity;
-                } else {
-                    cartItems.push(product);
-                }
-                renderCart();
-                localStorage.setItem('cartItems', JSON.stringify(cartItems));
-            };
-
-            /**
-             * Renders the cart items in the HTML and updates totals.
-             */
-            function renderCart() {
-                cartItemsContainer.innerHTML = ''; // Clears the container
-
-                if (cartItems.length === 0) {
-                    emptyCartMessage.classList.remove('hidden');
-                } else {
-                    emptyCartMessage.classList.add('hidden');
-                    cartItems.forEach(item => {
-                        const itemHtml = `
-                            <div class="flex items-center justify-between border-b border-gray-200 py-4" data-product-id="${item.id}">
-                                <div class="flex items-center space-x-4">
-                                    <img src="${item.image}" alt="Immagine di ${item.name}" class="w-20 h-20 object-cover rounded-md">
-                                    <div>
-                                        <h3 class="font-semibold">${item.name}</h3>
-                                        <p class="text-sm text-gray-600">Taglia: ${item.size}</p>
-                                        <p class="text-sm text-gray-600">$${item.price.toFixed(2)}</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center space-x-4">
-                                    <input type="number" value="${item.quantity}" min="1" aria-label="Quantità per ${item.name}" class="w-16 px-2 py-1 border border-gray-300 rounded-md text-center product-quantity" data-product-id="${item.id}">
-                                    <button class="text-gray-500 hover:text-red-600 transition remove-item-button" data-product-id="${item.id}">
-                                        <i class="fas fa-times text-lg"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-                        cartItemsContainer.insertAdjacentHTML('beforeend', itemHtml);
-                    });
-                }
-                updateCartTotals();
-                updateCartCount();
-                attachEventListeners(); // Re-attach event listeners after rendering
-            }
-
-            /**
-             * Updates the subtotal and total displayed in the cart summary.
-             */
-            function updateCartTotals() {
-                let subtotal = 0;
-                cartItems.forEach(item => {
-                    subtotal += item.price * item.quantity;
-                });
-                cartSubtotalElement.textContent = `$${subtotal.toFixed(2)}`;
-                cartTotalElement.textContent = `$${subtotal.toFixed(2)}`; // Assuming total is same as subtotal for now
-            }
-
-            /**
-             * Updates the cart badge count in the header.
-             */
-            function updateCartCount() {
-                let totalItems = 0;
-                cartItems.forEach(item => {
-                    totalItems += item.quantity;
-                });
-
+        // Funzione per aggiornare il contatore del carrello nell'header
+        function updateCartCounter() {
+            const cartItemCountElement = document.getElementById('cart-item-count');
+            if (cartItemCountElement) { // Assicurati che l'elemento esista prima di aggiornarlo
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartItemCountElement.textContent = totalItems;
                 if (totalItems > 0) {
-                    cartCountElement.textContent = totalItems;
-                    cartCountElement.classList.remove('hidden');
+                    cartItemCountElement.classList.remove('hidden');
                 } else {
-                    cartCountElement.classList.add('hidden');
+                    cartItemCountElement.classList.add('hidden');
                 }
             }
+        }
 
-            /**
-             * Attaches event listeners to dynamically added cart elements.
-             */
-            function attachEventListeners() {
-                // Event Listener for product removal
-                document.querySelectorAll('.remove-item-button').forEach(button => {
-                    // It's important to use removeEventListener before addEventListener
-                    // to prevent attaching the same listener multiple times to the same element.
-                    button.removeEventListener('click', handleRemoveItem);
-                    button.addEventListener('click', handleRemoveItem);
-                });
-
-                // Event Listener for quantity modification
-                document.querySelectorAll('.product-quantity').forEach(input => {
-                    input.removeEventListener('change', handleQuantityChange);
-                    input.removeEventListener('input', handleQuantityChange); // Listen to input for real-time updates
-
-                    input.addEventListener('change', handleQuantityChange);
-                    input.addEventListener('input', handleQuantityChange);
-                });
+        // Funzione per aggiungere prodotti al carrello (accessibile globalmente)
+        window.addProductToCart = function(product) {
+            const existingProductIndex = cart.findIndex(item => item.id === product.id);
+            if (existingProductIndex > -1) {
+                cart[existingProductIndex].quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
             }
+            saveCartToLocalStorage(); // Salva dopo ogni modifica
+            updateCartCounter(); // Aggiorna il contatore
+            // Opzionale: un alert o una piccola notifica "Prodotto aggiunto!"
+            // alert(`'${product.name}' aggiunto al carrello!`);
+        };
 
-            /**
-             * Handler for removing a product from the cart.
-             * @param {Event} event - The click event.
-             */
-            function handleRemoveItem(event) {
-                const productId = event.currentTarget.dataset.productId;
-                cartItems = cartItems.filter(item => item.id !== productId);
-                renderCart(); // Re-render the cart after removal
-                localStorage.setItem('cartItems', JSON.stringify(cartItems));
-            }
+        // Funzione di inizializzazione che carica il carrello e aggiorna il contatore
+        function initializeCartFeatures() {
+            updateCartCounter(); // Aggiorna il contatore all'avvio della pagina
+        }
 
-            /**
-             * Handler for changing the quantity of a product in the cart.
-             * @param {Event} event - The change or input event.
-             */
-            function handleQuantityChange(event) {
-                const productId = event.currentTarget.dataset.productId;
-                let newQuantity = parseInt(event.currentTarget.value);
+        // Esegui la funzione di inizializzazione quando il DOM è caricato
+        document.addEventListener('DOMContentLoaded', initializeCartFeatures);
 
-                if (newQuantity < 1 || isNaN(newQuantity)) {
-                    newQuantity = 1;
-                    event.currentTarget.value = 1; // Force the value to 1 if invalid
-                }
-
-                const itemIndex = cartItems.findIndex(item => item.id === productId);
-                if (itemIndex > -1) {
-                    cartItems[itemIndex].quantity = newQuantity;
-                    updateCartTotals(); // Update totals
-                    updateCartCount(); // Update cart badge
-                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-                }
-            }
-
-            // --- Initialization ---
-            // Load products from localStorage when the page starts
-            const storedCartItems = localStorage.getItem('cartItems');
-            if (storedCartItems) {
-                cartItems = JSON.parse(storedCartItems);
-            }
-            renderCart(); // Render the initial cart with loaded data
-
-            // --- Script for mobile menu (remains unchanged) ---
+        // --- Logica Specifica per la Pagina cart.html ---
+        // (Questa parte del codice è specifica per la pagina del carrello e non dovrebbe essere inclusa in ogni pagina)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Script per il menu mobile (dalla homepage)
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuButton) {
+
+            if (mobileMenuButton && mobileMenu) {
                 mobileMenuButton.addEventListener('click', function() {
                     mobileMenu.classList.toggle('open');
                 });
             }
 
-            // --- Script for accordion footer (remains unchanged) ---
-            const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
-            accordionHeaders.forEach(header => {
-                const accordionContent = header.nextElementSibling;
-                // Initially close on mobile
-                if (window.innerWidth < 768) {
-                    accordionContent.classList.remove('open');
-                }
+            // Script per il footer a fisarmonica (dalla homepage)
+            const footerAccordions = document.querySelectorAll('.footer-accordion');
+
+            footerAccordions.forEach(accordion => {
+                const header = accordion.querySelector('.footer-accordion-header');
+                const content = accordion.querySelector('.footer-accordion-content');
+
                 header.addEventListener('click', () => {
-                    // Only toggle on mobile
+                    // Solo su schermi piccoli (mobile)
                     if (window.innerWidth < 768) {
                         header.classList.toggle('open');
-                        accordionContent.classList.toggle('open');
+                        content.classList.toggle('open');
                     }
                 });
             });
 
-            // Handle resize for accordion
-            window.addEventListener('resize', () => {
-                accordionHeaders.forEach(header => {
-                    const accordionContent = header.nextElementSibling;
-                    if (window.innerWidth >= 768) {
-                        // Ensure it's open and non-clickable on desktop
-                        header.classList.remove('open'); // Remove 'open' class from header
-                        accordionContent.classList.add('open'); // Ensure content is visible
-                    } else {
-                        // Ensure it's closed on mobile if not explicitly opened by user
-                        if (!header.classList.contains('open')) {
-                            accordionContent.classList.remove('open');
-                        }
-                    }
-                });
-            });
+            // Elementi specifici di cart.html
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const subtotalElement = document.getElementById('subtotal');
+            const shippingElement = document.getElementById('shipping');
+            const discountElement = document.getElementById('discount');
+            const totalElement = document.getElementById('total');
+            const clearCartBtn = document.getElementById('clear-cart-btn');
+            const applyDiscountBtn = document.getElementById('apply-discount-btn');
+            const discountCodeInput = document.getElementById('discount-code');
 
-
-            /**
-             * Function to clear all items from the cart (for demo/debugging, accessible from console).
-             */
-            window.clearAllItemsFromCart = function() {
-                cartItems = [];
-                renderCart();
-                localStorage.removeItem('cartItems');
-                console.log("Carrello svuotato.");
-            };
-
-            // *** Block to add test products (UNCOMMENT TO TEST!) ***
-            // If the cart is empty initially, it adds some products for quick testing.
-            // Remember to comment this block out again when you don't need it, to have an initially empty cart.
-            /*
-            if (cartItems.length === 0) {
-                console.log("Carrello vuoto, aggiungo prodotti di test.");
-                addProductToCart({
-                    id: 'nb-1906l',
-                    name: 'New Balance 1906L Raincloud/Slate Grey',
-                    image: 'https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-1.jpg?v=1748535639&width=100&crop=center',
-                    price: 220.00,
-                    size: 'US 9',
-                    quantity: 1
-                });
-                addProductToCart({
-                    id: 'wtaps-netminder',
-                    name: 'WTAPS Netminder / LS / Poly Black',
-                    image: 'https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-1.jpg?v=1748527318&width=100&crop=center',
-                    price: 180.00,
-                    size: 'M',
-                    quantity: 1
-                });
-                // Calling renderCart() here is not strictly necessary because addProductToCart() already does it.
+            // Funzione per renderizzare gli elementi del carrello (solo in cart.html)
+            function renderCartItems() {
+                cartItemsContainer.innerHTML = ''; // Svuota il contenitore
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<p class="text-center text-gray-600 py-8">Il tuo carrello è vuoto.</p>';
+                    // Disabilita i pulsanti di checkout se il carrello è vuoto
+                    document.querySelector('main button.w-full').disabled = true;
+                    document.querySelector('main button.w-full').classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    cart.forEach(item => {
+                        const productHtml = `
+                            <div class="flex items-center border-b border-gray-200 py-4 product-item" data-price="${item.price}" data-id="${item.id}">
+                                <img src="${item.image}" alt="${item.name}" class="w-24 h-24 object-cover mr-4">
+                                <div class="flex-grow">
+                                    <h2 class="text-lg font-semibold">${item.name}</h2>
+                                    <p class="text-gray-600 text-sm">${item.details}</p>
+                                    <p class="text-lg font-medium product-price">$${item.price.toFixed(2)}</p>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <button class="quantity-btn decrease-btn px-3 py-1 border border-gray-300 hover:bg-gray-100">-</button>
+                                    <input type="number" value="${item.quantity}" min="1" class="w-16 text-center border border-gray-300 py-1 quantity-input">
+                                    <button class="quantity-btn increase-btn px-3 py-1 border border-gray-300 hover:bg-gray-100">+</button>
+                                </div>
+                                <button class="remove-item-btn ml-4 text-gray-500 hover:text-red-600">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        `;
+                        cartItemsContainer.insertAdjacentHTML('beforeend', productHtml);
+                    });
+                    // Riabilita i pulsanti di checkout se il carrello ha prodotti
+                    document.querySelector('main button.w-full').disabled = false;
+                    document.querySelector('main button.w-full').classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+                updateCartTotals();
+                // updateCartCounter() è già chiamato dalle funzioni che modificano il carrello
+                // o all'inizializzazione globale. Qui non è strettamente necessario se non per ridondanza.
             }
-            */
+
+            // Funzione per aggiornare i totali del carrello
+            function updateCartTotals() {
+                let subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                let total = subtotal + SHIPPING_COST - discountApplied;
+
+                subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+                shippingElement.textContent = `$${SHIPPING_COST.toFixed(2)}`;
+                discountElement.textContent = `-$${discountApplied.toFixed(2)}`;
+                totalElement.textContent = `$${total.toFixed(2)}`;
+            }
+
+            // Gestione eventi per la quantità e rimozione (solo in cart.html)
+            cartItemsContainer.addEventListener('click', function(event) {
+                const target = event.target;
+                const productItem = target.closest('.product-item');
+                if (!productItem) return;
+
+                const productId = parseInt(productItem.dataset.id);
+                const itemIndex = cart.findIndex(item => item.id === productId);
+
+                if (itemIndex === -1) return;
+
+                const quantityInput = productItem.querySelector('.quantity-input');
+                let currentQuantity = parseInt(quantityInput.value);
+
+                if (target.classList.contains('increase-btn')) {
+                    currentQuantity++;
+                    cart[itemIndex].quantity = currentQuantity;
+                } else if (target.classList.contains('decrease-btn')) {
+                    if (currentQuantity > 1) {
+                        currentQuantity--;
+                        cart[itemIndex].quantity = currentQuantity;
+                    }
+                } else if (target.classList.contains('remove-item-btn') || target.closest('.remove-item-btn')) {
+                    cart.splice(itemIndex, 1);
+                }
+
+                saveCartToLocalStorage(); // Salva dopo ogni modifica
+                renderCartItems(); // Rirenderizza e aggiorna i totali/contatore
+            });
+
+            cartItemsContainer.addEventListener('change', function(event) {
+                const target = event.target;
+                if (target.classList.contains('quantity-input')) {
+                    const productItem = target.closest('.product-item');
+                    const productId = parseInt(productItem.dataset.id);
+                    const itemIndex = cart.findIndex(item => item.id === productId);
+
+                    let newQuantity = parseInt(target.value);
+                    if (isNaN(newQuantity) || newQuantity < 1) {
+                        newQuantity = 1;
+                        target.value = 1;
+                    }
+                    cart[itemIndex].quantity = newQuantity;
+                    saveCartToLocalStorage(); // Salva dopo ogni modifica
+                    updateCartTotals();
+                    updateCartCounter();
+                }
+            });
+
+            // Svuota Carrello (solo in cart.html)
+            clearCartBtn.addEventListener('click', function() {
+                cart = [];
+                discountApplied = 0;
+                discountCodeInput.value = '';
+                saveCartToLocalStorage(); // Salva carrello vuoto
+                renderCartItems(); // Rirenderizza e aggiorna i totali/contatore
+            });
+
+            // Applica Sconto (logica di esempio, solo in cart.html)
+            applyDiscountBtn.addEventListener('click', function() {
+                const code = discountCodeInput.value.trim().toUpperCase();
+                if (code === 'WELCOME10') {
+                    discountApplied = 10.00;
+                    alert('Sconto applicato: WELCOME10!');
+                } else if (code === 'FREESHIP') {
+                    alert('Spedizione gratuita applicata! (La logica di spedizione gratuita qui è solo dimostrativa e non influenza il costo fisso di $10 nell\'esempio).');
+                    discountApplied = 0;
+                }
+                else {
+                    discountApplied = 0;
+                    alert('Codice sconto non valido.');
+                }
+                updateCartTotals();
+            });
+
+            // Inizializza la pagina carrello con gli elementi salvati
+            renderCartItems();
         });
     </script>
 </body>
