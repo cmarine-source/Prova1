@@ -3,17 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il Mio Carrello | Cmarine</title>
-    <meta name="description" content="Rivedi i prodotti nel tuo carrello Cmarine e procedi al checkout.">
+    <title>Shop | Cmarine</title>
+    <meta name="description" content="Esplora la vasta collezione di menswear, streetwear e accessori di Cmarine. Trova abbigliamento di alta qualità per uomo, donna e bambini.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Stili personalizzati dalla homepage per coerenza */
-        .hero-image {
-            background-image: url('https://i.imgur.com/nszViUU.jpeg');
-            background-size: cover;
-            background-position: center;
-        }
+         
 
         .product-card:hover .product-overlay {
             opacity: 1;
@@ -57,11 +52,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e5e7eb;
-            margin-bottom: 1rem;
+            padding-bottom: 1rem; /* Spazio sotto il titolo */
+            border-bottom: 1px solid #e5e7eb; /* Linea separatrice */
+            margin-bottom: 1rem; /* Spazio sotto la linea */
         }
 
+        /* Nasconde le liste di link per impostazione predefinita */
         .footer-accordion-content {
             max-height: 0;
             overflow: hidden;
@@ -69,12 +65,14 @@
             opacity: 0;
         }
 
+        /* Mostra le liste di link quando la classe 'open' è presente */
         .footer-accordion-content.open {
-            max-height: 200px;
+            max-height: 200px; /* Un valore sufficientemente grande per contenere il contenuto */
             opacity: 1;
             transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
         }
 
+        /* Ruota l'icona freccia quando la sezione è aperta */
         .footer-accordion-header .arrow-icon {
             transition: transform 0.3s ease;
         }
@@ -83,38 +81,59 @@
             transform: rotate(180deg);
         }
 
+        /* Rimuovi la border-bottom e i margini per desktop, mantenendo il layout originale */
         @media (min-width: 768px) {
             .footer-accordion-header {
-                cursor: default;
+                cursor: default; /* Non cliccabile su desktop */
                 border-bottom: none;
-                margin-bottom: 1rem;
+                margin-bottom: 1rem; /* Mantieni il margine se desiderato */
             }
             .footer-accordion-header .arrow-icon {
-                display: none;
+                display: none; /* Nascondi la freccia su desktop */
             }
             .footer-accordion-content {
-                max-height: none;
+                max-height: none; /* Sempre visibile su desktop */
                 opacity: 1;
             }
         }
 
-        /* Stile per il badge del carrello */
+        /* Stili per il badge del carrello */
         .cart-badge {
+            font-family: sans-serif; /* Assicurati che il font sia leggibile */
             position: absolute;
-            top: -8px; /* Regola la posizione verticale */
-            right: -8px; /* Regola la posizione orizzontale */
-            background-color: #ef4444; /* Rosso */
+            top: -5px; /* Sposta più in alto */
+            right: -10px; /* Sposta più a destra */
+            background-color: #ef4444; /* Rosso vibrante */
             color: white;
-            border-radius: 9999px; /* Completamente rotondo */
-            padding: 2px 6px;
-            font-size: 0.75rem; /* Testo piccolo */
+            font-size: 0.75rem; /* Testo più piccolo */
             font-weight: bold;
-            line-height: 1;
-            min-width: 20px; /* Larghezza minima per numeri a singola cifra */
-            text-align: center;
+            border-radius: 9999px; /* Completamente rotondo */
+            height: 18px; /* Altezza fissa */
+            width: 18px; /* Larghezza fissa per renderlo un cerchio */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0; /* Rimuovi padding per controllo dimensione */
+            line-height: 1; /* Assicurati che il testo sia centrato verticalmente */
+            box-shadow: 0 0 0 2px white; /* Bordo bianco per far risaltare */
+            transform: scale(0.9); /* Leggermente più piccolo */
+            transform-origin: center;
+            transition: transform 0.2s ease-out;
         }
 
-        /* Animazione "added to cart" (se usata altrove) */
+        .cart-badge.hidden {
+            display: none;
+        }
+
+        .cart-badge:not(.hidden) {
+            animation: bounceIn 0.3s forwards;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); }
+        } /* Animazione "added to cart" (se usata altrove) */
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
@@ -149,8 +168,9 @@
             padding-bottom: 0 !important;
         }
     </style>
+    </style>
 </head>
-<body class="font-sans text-gray-900">
+<body class="bg-gray-50">
     <header class="sticky top-0 z-50 bg-white shadow-sm">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center">
@@ -461,19 +481,21 @@
     </footer>
 
     <script>
-        // GLOBAL CART FUNCTIONS - QUESTE DEVONO ESSERE UGUALI (O INCLUSE DA UN FILE ESTERNO) IN TUTTE LE PAGINE DEL TUO SITO
+       
+        // GLOBAL CART FUNCTIONS - QUESTE DEVONO ESSERE UGUALI IN TUTTE LE PAGINE DEL TUO SITO
+        // Inizializza cart dal localStorage o come array vuoto
         let cart = JSON.parse(localStorage.getItem('cmarineCart')) || [];
         const CART_STORAGE_KEY = 'cmarineCart';
-        let currentShippingCost = 10.00; // Costo di spedizione di default
-        let discountAppliedAmount = 0; // Inizializza lo sconto applicato a 0
 
+        // Funzione per salvare il carrello nel localStorage
         function saveCartToLocalStorage() {
             localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
         }
 
+        // Funzione per aggiornare il contatore del carrello nell'header
         function updateCartCounter() {
             const cartItemCountElement = document.getElementById('cart-item-count');
-            if (cartItemCountElement) {
+            if (cartItemCountElement) { // Assicurati che l'elemento esista prima di aggiornarlo
                 const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
                 cartItemCountElement.textContent = totalItems;
                 if (totalItems > 0) {
@@ -481,6 +503,7 @@
                 } else {
                     cartItemCountElement.classList.add('hidden');
                 }
+                // Aggiungi animazione al badge del carrello quando il conteggio cambia
                 cartItemCountElement.classList.add('added-to-cart-pulse');
                 setTimeout(() => {
                     cartItemCountElement.classList.remove('added-to-cart-pulse');
@@ -490,20 +513,23 @@
 
         // Funzione per aggiungere prodotti al carrello (accessibile globalmente)
         window.addProductToCart = function(product, animateButton = null) {
+            // Assicurati che il prodotto abbia un ID. Se non specificato, genera un ID temporaneo.
+            // È CRUCIALE che il prodotto abbia un ID unico per poterlo gestire nel carrello.
             if (!product.id) {
-                // If product doesn't have an ID, generate a unique one
-                product.id = 'temp-prod-' + Date.now();
-                console.warn("Product added to cart without an ID. Generating a temporary one: " + product.id);
+                console.warn("Product added to cart without an ID. Generating a temporary one.");
+                product.id = 'temp-prod-' + Date.now(); // ID semplice per l'esempio
             }
+            // Assicurati che la quantità sia un numero e sia almeno 1.
             product.quantity = parseInt(product.quantity) || 1;
             if (product.quantity < 1) {
                 product.quantity = 1;
             }
+
+            // Assicurati che il prezzo sia un numero valido
             product.price = parseFloat(product.price) || 0;
 
-            // Ensure product.id is treated as a string for comparison
-            const existingProductIndex = cart.findIndex(item => String(item.id) === String(product.id));
-
+            // Controlla se il prodotto esiste già nel carrello (basandosi sull'ID)
+            const existingProductIndex = cart.findIndex(item => item.id === product.id);
             if (existingProductIndex > -1) {
                 cart[existingProductIndex].quantity += product.quantity;
             } else {
@@ -520,99 +546,59 @@
             }
         };
 
-        // Funzione per rimuovere un prodotto dal carrello (accessibile globalmente)
-        window.removeProductFromCart = function(productId) {
-            const initialCartLength = cart.length;
-            // Ensure productId is treated as a string for comparison
-            cart = cart.filter(item => String(item.id) !== String(productId));
-            if (cart.length < initialCartLength) {
+        // NUOVA FUNZIONE: Rimuovi un prodotto dal carrello (accessibile globalmente)
+        window.removeProductFromCart = function(productId, quantityToRemove = 1) {
+            const existingProductIndex = cart.findIndex(item => item.id === productId);
+
+            if (existingProductIndex > -1) {
+                cart[existingProductIndex].quantity -= quantityToRemove;
+                if (cart[existingProductIndex].quantity <= 0) {
+                    // Rimuovi completamente il prodotto se la quantità scende a zero o meno
+                    cart.splice(existingProductIndex, 1);
+                }
                 saveCartToLocalStorage();
                 updateCartCounter();
-                if (document.getElementById('cart-items-container')) {
-                    renderCartItems(); // Re-render to update UI after removal
-                }
+                // Puoi aggiungere una logica per aggiornare l'UI del carrello se sei sulla pagina cart.html
             }
         };
 
-        // Funzione per impostare la quantità di un prodotto nel carrello (accessibile globalmente)
+        // NUOVA FUNZIONE: Imposta la quantità di un prodotto nel carrello (accessibile globalmente)
         window.setProductQuantityInCart = function(productId, newQuantity) {
             newQuantity = parseInt(newQuantity);
             if (isNaN(newQuantity) || newQuantity < 0) {
-                console.warn("Invalid quantity provided for setProductQuantityInCart. Setting to 0.");
-                newQuantity = 0;
+                console.warn("Invalid quantity provided for setProductQuantityInCart.");
+                return;
             }
 
-            // Ensure productId is treated as a string for comparison
-            const existingProductIndex = cart.findIndex(item => String(item.id) === String(productId));
+            const existingProductIndex = cart.findIndex(item => item.id === productId);
 
             if (existingProductIndex > -1) {
                 if (newQuantity === 0) {
-                    const productItem = document.querySelector(`.product-item[data-id="${productId}"]`);
-                    if (productItem) {
-                        productItem.classList.add('removing');
-                        productItem.addEventListener('transitionend', function handler() {
-                            cart.splice(existingProductIndex, 1);
-                            saveCartToLocalStorage();
-                            updateCartCounter();
-                            renderCartItems(); // Re-render to update UI immediately after removal
-                            productItem.removeEventListener('transitionend', handler);
-                        }, { once: true });
-                    } else {
-                        // Fallback if animation is not needed or element not found
-                        cart.splice(existingProductIndex, 1);
-                        saveCartToLocalStorage();
-                        updateCartCounter();
-                        renderCartItems();
-                    }
+                    cart.splice(existingProductIndex, 1); // Rimuovi se la quantità è 0
                 } else {
                     cart[existingProductIndex].quantity = newQuantity;
-                    saveCartToLocalStorage();
-                    updateCartCounter();
-                    if (document.getElementById('cart-items-container')) {
-                        const inputElement = document.querySelector(`.quantity-input[data-id="${productId}"]`);
-                        if (inputElement) {
-                            inputElement.value = newQuantity;
-                        }
-                        updateCartTotals();
-                    }
                 }
+                saveCartToLocalStorage();
+                updateCartCounter();
+                // Puoi aggiungere una logica per aggiornare l'UI del carrello se sei sulla pagina cart.html
             }
         };
 
-        // Funzione di inizializzazione che carica il carrello e aggiorna il contatore all'avvio
+
+        // Funzione di inizializzazione che carica il carrello e aggiorna il contatore
         function initializeCartFeatures() {
-            updateCartCounter();
-            // --- INIZIO: CODICE DI TEST RIMOSSO ---
-            // Se in futuro ti serviranno prodotti di esempio per lo sviluppo,
-            // potrai riabilitare questa sezione, ma ricorda di rimuoverla
-            // prima di andare in produzione.
-            /*
-            if (cart.length === 0) {
-                window.addProductToCart({
-                    id: 101,
-                    name: 'Camicia Marina Classica',
-                    details: 'Taglia M, Colore Blu',
-                    price: 49.99,
-                    image: 'https://via.placeholder.com/150/0000FF/FFFFFF?text=Camicia'
-                }, null);
-                window.addProductToCart({
-                    id: 'SKU-002',
-                    name: 'Pantaloncini Estivi',
-                    details: 'Taglia L, Colore Beige',
-                    price: 34.50,
-                    image: 'https://via.placeholder.com/150/FF0000/FFFFFF?text=Pantaloncini'
-                }, null);
-            }
-            */
-            // --- FINE: CODICE DI TEST RIMOSSO ---
+            updateCartCounter(); // Aggiorna il contatore all'avvio della pagina
         }
 
-        // Chiamata all'inizializzazione quando il DOM è completamente caricato
+        // Esegui la funzione di inizializzazione quando il DOM è caricato
         document.addEventListener('DOMContentLoaded', initializeCartFeatures);
 
-        // --- Logica Specifica per la Pagina cart.html ---
+        // FINE DELLE FUNZIONI GLOBALI DEL CARRELLO
+        // ---
+
+        // LOGICA SPECIFICA PER SHOP.HTML
         document.addEventListener('DOMContentLoaded', function() {
-            // Mobile Menu Logic (Copied from shop.html for consistency)
+            // Script per il menu mobile
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
@@ -622,8 +608,9 @@
                 });
             }
 
-            // Footer Accordion Logic (Copied from shop.html for consistency)
+            // Script per il footer a fisarmonica
             const footerAccordions = document.querySelectorAll('.footer-accordion');
+
             footerAccordions.forEach(accordion => {
                 const header = accordion.querySelector('.footer-accordion-header');
                 const content = accordion.querySelector('.footer-accordion-content');
@@ -636,140 +623,229 @@
                 });
             });
 
-            // Cart Page Specific Elements
-            const cartItemsContainer = document.getElementById('cart-items-container');
-            const subtotalElement = document.getElementById('subtotal');
-            const shippingElement = document.getElementById('shipping');
-            const discountElement = document.getElementById('discount');
-            const totalElement = document.getElementById('total');
-            const clearCartBtn = document.getElementById('clear-cart-btn');
-            const applyDiscountBtn = document.getElementById('apply-discount-btn');
-            const discountCodeInput = document.getElementById('discount-code');
-            const checkoutButton = document.getElementById('checkout-btn'); // ID specifico per il bottone
+            // Dati dei prodotti
+            const products = [
+                { id: 1, name: "HP AHIGA EVO 5", price: 120.00, image: "https://i.imgur.com/zfXG5hM.jpeg", category: "scarpe", gender: "uomo", details: "Scarpe da uomo per sport acquatici." },
+                { id: 2, name: "W HP MARINE LS", price: 145.00, image: "https://i.imgur.com/fqxM50N.jpeg", category: "t-shirts", gender: "donna", details: "T-shirt a maniche lunghe da donna." },
+                { id: 3, name: "W ANAKIN LEATHER 2", price: 133.00, image: "https://i.imgur.com/zrKojyK.jpeg", category: "scarpe", gender: "donna", details: "Sneakers in pelle da donna." },
+                { id: 4, name: "CREW LOW", price: 135.00, image: "https://i.imgur.com/CTg03HI.jpeg", category: "t-shirts", gender: "uomo", details: "T-shirt casual da uomo." },
+                { id: 5, name: "HH QD CARGO SHORTS 11\"", price: 84.00, image: "https://i.imgur.com/llv2qYS.jpeg", category: "bottoms", gender: "uomo", details: "Shorts cargo quick dry da uomo." },
+                { id: 6, name: "HH QD CARGO SHORTS 11\" NEW", price: 84.00, image: "https://i.imgur.com/ktYclsZ.jpeg", category: "bottoms", gender: "uomo", details: "Nuovi shorts cargo quick dry da uomo." },
+                { id: 7, name: "HH QD CARGO SHORTS 11\" V2", price: 84.00, image: "https://i.imgur.com/YHrDIn5.jpeg", category: "bottoms", gender: "uomo", details: "Versione 2 degli shorts cargo quick dry da uomo." },
+                { id: 8, name: "DRIFTLINE POLO", price: 73.00, image: "https://i.imgur.com/kllLabf.jpeg", category: "t-shirts", gender: "uomo", details: "Polo Driftline per uomo." },
+                { id: 9, name: "DRIFTLINE POLO V2", price: 73.00, image: "https://i.imgur.com/5Zv7i7u.jpeg", category: "outerwear", gender: "uomo", details: "Polo Driftline per uomo, versione 2." },
+                { id: 10, name: "CREWLINE LS POLO", price: 78.00, image: "https://i.imgur.com/o3GMITe.jpeg", category: "t-shirts", gender: "unisex", details: "Polo a maniche lunghe unisex." },
+                { id: 11, name: "HH LOGO T-SHIRT 2.0", price: 55.00, image: "https://i.imgur.com/deIc4Pn.jpeg", category: "t-shirts", gender: "donna", details: "T-shirt con logo HH 2.0 da donna." },
+                { id: 12, name: "HH LOGO T-SHIRT 2.0 V2", price: 33.00, image: "https://i.imgur.com/8C8nM1b.jpeg", category: "t-shirts", gender: "uomo", details: "T-shirt con logo HH 2.0 v2 da uomo." },
+                { id: 13, name: "HH TECH T-SHIRT 2.0", price: 33.00, image: "https://i.imgur.com/oUYUaxs.jpeg", category: "t-shirts", gender: "bambini", details: "T-shirt tecnica HH 2.0 per bambini." },
+                { id: 14, name: "HH TECH T-SHIRT 2.0 V2", price: 33.00, image: "https://i.imgur.com/OZcqOw7.jpeg", category: "t-shirts", gender: "donna", details: "T-shirt tecnica HH 2.0 v2 da donna." },
+                { id: 15, name: "HH TECH T-SHIRT 2.0 V3", price: 33.00, image: "https://i.imgur.com/x35MDY6.jpeg", category: "t-shirts", gender: "uomo", details: "T-shirt tecnica HH 2.0 v3 da uomo." },
+                { id: 16, name: "CREW JACKET 2.0", price: 170.00, image: "https://i.imgur.com/wg1uaVi.jpeg", category: "outerwear", gender: "uomo", details: "Giacca Crew 2.0 per uomo." },
+                { id: 17, name: "CREW VEST 2.0", price: 152.00, image: "https://i.imgur.com/bUaRjSI.jpeg", category: "outerwear", gender: "uomo", details: "Gilet Crew 2.0 per uomo." },
+                { id: 18, name: "CREW VEST 2.0 V2", price: 152.00, image: "https://i.imgur.com/4bP0Hco.jpeg", category: "outerwear", gender: "donna", details: "Gilet Crew 2.0 v2 per donna." },
+                { id: 19, name: "PIER 3.0 JACKET", price: 280.00, image: "https://i.imgur.com/EHhpqhh.jpeg", category: "outerwear", gender: "uomo", details: "Giacca Pier 3.0 ad alte prestazioni." },
+                { id: 20, name: "PIER 3.0 BIB", price: 220.00, image: "https://i.imgur.com/ml5EvNy.jpeg", category: "bottoms", gender: "uomo", details: "Salopette Pier 3.0." },
+                { id: 21, name: "NEWPORT BOARD SHORTS 8\"", price: 73.00, image: "https://i.imgur.com/VZ2WEmB.jpeg", category: "bottoms", gender: "uomo", details: "Board shorts Newport 8 pollici." },
+                { id: 22, name: "HP CURVE BOARD SHORTS 7\"", price: 73.00, image: "https://i.imgur.com/zifvZOk.jpeg", category: "bottoms", gender: "uomo", details: "Board shorts HP Curve 7 pollici." },
+                { id: 23, name: "HH SOUWESTER", price: 35.00, image: "https://i.imgur.com/RRHdXJj.jpeg", category: "accessories", gender: "unisex", details: "Cappello impermeabile Souwester." },
+                { id: 24, name: "CREW CAP 2.0", price: 33.00, image: "https://i.imgur.com/9Q7xIDe.jpeg", category: "accessories", gender: "unisex", details: "Cappellino Crew 2.0." },
+                { id: 25, name: "CREW CAP 2.0 V2", price: 33.00, image: "https://i.imgur.com/AhT9Amu.jpeg", category: "accessories", gender: "unisex", details: "Cappellino Crew 2.0 v2." },
+                { id: 26, name: "CREW CAP 2.0 V3", price: 33.00, image: "https://i.imgur.com/KCCYcZD.jpeg", category: "accessories", gender: "unisex", details: "Cappellino Crew 2.0 v3." },
+                { id: 27, name: "WANDERER SHOULDER BAG", price: 40.00, image: "https://i.imgur.com/waodFJQ.jpeg", category: "accessories", gender: "unisex", details: "Borsa a tracolla Wanderer." },
+                { id: 28, name: "WANDERER SHOULDER BAG V2", price: 40.00, image: "https://i.imgur.com/EEnpZx2.jpeg", category: "accessories", gender: "unisex", details: "Borsa a tracolla Wanderer v2." },
+                { id: 29, name: "CEDAR 25L BACKPACK", price: 150.00, image: "https://i.imgur.com/7rGHshF.jpeg", category: "accessories", gender: "unisex", details: "Zaino Cedar da 25L." },
+                { id: 30, name: "H/H SCOUT DUFFEL S", price: 60.00, image: "https://i.imgur.com/xtb6UCb.jpeg", category: "accessories", gender: "unisex", details: "Borsone Scout S." },
+                { id: 31, name: "SPORT II SANDALS", price: 54.00, image: "https://i.imgur.com/3kIe7Dg.jpeg", category: "scarpe", gender: "unisex", details: "Sandali sportivi II." },
+                { id: 32, name: "JR RIDER VEST", price: 50.00, image: "https://i.imgur.com/P1UtG8t.jpeg", category: "outerwear", gender: "bambini", details: "Gilet da bambino JR Rider." },
+                { id: 33, name: "ANKLE SOCKS 2-PACK", price: 10.00, image: "https://i.imgur.com/Q2hH3xX.jpeg", category: "accessories", gender: "unisex", details: "Calzini alla caviglia (confezione da 2)." },
+                { id: 34, name: "KIDS GRAPHIC TEE", price: 35.00, image: "https://i.imgur.com/R3iI4yY.jpeg", category: "t-shirts", gender: "bambini", details: "T-shirt grafica per bambini." },
+                { id: 35, name: "SPORT SANDALS V2", price: 80.00, image: "https://i.imgur.com/S4jJ5zZ.jpeg", category: "scarpe", gender: "unisex", details: "Sandali sportivi v2." },
+                { id: 36, name: "PUFFER VEST LIGHT", price: 100.00, image: "https://i.imgur.com/T5kK6aA.jpeg", category: "outerwear", gender: "uomo", details: "Gilet imbottito leggero." },
+                { id: 37, name: "DENIM SHORTS WOMAN", price: 65.00, image: "https://i.imgur.com/U6lL7bB.jpeg", category: "bottoms", gender: "donna", details: "Shorts in denim da donna." },
+                { id: 38, name: "SUNGLASSES SPORT", price: 55.00, image: "https://i.imgur.com/V7mM8cC.jpeg", category: "accessories", gender: "unisex", details: "Occhiali da sole sportivi." },
+                { id: 39, name: "RUNNING SHOES PRO", price: 130.00, image: "https://i.imgur.com/W8nN9dD.jpeg", category: "scarpe", gender: "donna", details: "Scarpe da running professionali." },
+                { id: 40, name: "BASIC T-SHIRT UNISEX", price: 20.00, image: "https://i.imgur.com/X9oO0eE.jpeg", category: "t-shirts", gender: "unisex", details: "T-shirt basica unisex." }
+            ];
 
-            function renderCartItems() {
-                cartItemsContainer.innerHTML = '';
-                if (cart.length === 0) {
-                    cartItemsContainer.innerHTML = '<p class="text-center text-gray-600 py-8">Il tuo carrello è vuoto.</p>';
-                    checkoutButton.disabled = true;
-                    checkoutButton.classList.add('opacity-50', 'cursor-not-allowed');
-                } else {
-                    cart.forEach(item => {
-                        const productHtml = `
-                            <div class="flex items-center border-b border-gray-200 py-4 product-item" data-id="${item.id}">
-                                <img src="${item.image}" alt="${item.name}" class="w-24 h-24 object-contain mr-6 rounded-md">
-                                <div class="flex-grow">
-                                    <h2 class="text-base font-semibold">${item.name}</h2>
-                                    <p class="text-gray-600 text-xs">${item.details || ''}</p>
-                                    <p class="text-base font-medium product-price">€${(item.price || 0).toFixed(2)}</p>
-                                </div>
-                                <div class="flex items-center space-x-2">
-                                    <button class="quantity-btn decrease-btn px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-100" data-id="${item.id}">-</button>
-                                    <input type="number" value="${item.quantity}" min="0" class="w-12 text-center border border-gray-300 py-1 text-sm rounded quantity-input" data-id="${item.id}">
-                                    <button class="quantity-btn increase-btn px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-100" data-id="${item.id}">+</button>
-                                </div>
-                                <button class="remove-item-btn ml-4 text-gray-500" data-id="${item.id}">
-                                    <i class="fas fa-times"></i>
+            let filteredProducts = [...products]; // Copia per i filtri
+            const productsPerPage = 8;
+            let currentPage = 1;
+
+            const productGrid = document.getElementById('product-grid');
+            const productCountDisplay = document.getElementById('product-count');
+            const categoryFilter = document.getElementById('category-filter');
+            const sortBy = document.getElementById('sort-by');
+            const paginationContainer = document.getElementById('pagination');
+
+            // Funzione per recuperare il parametro dalla URL
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                let results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            }
+
+            // Funzione per applicare filtri e ordinamento
+            function applyFiltersAndSort() {
+                let tempProducts = [...products]; // Inizia sempre con tutti i prodotti
+
+                // Filtra per categoria (e genere se applicabile)
+                const selectedCategory = categoryFilter.value;
+                const urlCategory = getUrlParameter('category'); // Categoria dalla URL
+
+                if (selectedCategory || urlCategory) {
+                    const filterValue = selectedCategory || urlCategory;
+                    tempProducts = tempProducts.filter(product =>
+                        product.category === filterValue || product.gender === filterValue
+                    );
+                }
+
+                // Ordina i prodotti
+                const sortValue = sortBy.value;
+                switch (sortValue) {
+                    case 'price-asc':
+                        tempProducts.sort((a, b) => a.price - b.price);
+                        break;
+                    case 'price-desc':
+                        tempProducts.sort((a, b) => b.price - a.price);
+                        break;
+                    case 'name-asc':
+                        tempProducts.sort((a, b) => a.name.localeCompare(b.name));
+                        break;
+                    case 'name-desc':
+                        tempProducts.sort((a, b) => b.name.localeCompare(a.name));
+                        break;
+                    case 'relevance':
+                    default:
+                        // Nessun ordinamento specifico, mantiene l'ordine originale o quello predefinito
+                        break;
+                }
+
+                filteredProducts = tempProducts;
+                currentPage = 1; // Resetta la pagina quando i filtri cambiano
+                renderProducts();
+            }
+
+
+            // Funzione per renderizzare i prodotti
+            function renderProducts() {
+                productGrid.innerHTML = ''; // Pulisce la griglia
+
+                const startIndex = (currentPage - 1) * productsPerPage;
+                const endIndex = startIndex + productsPerPage;
+                const productsToDisplay = filteredProducts.slice(startIndex, endIndex);
+
+                productsToDisplay.forEach(product => {
+                    const productCard = `
+                        <div class="product-card relative bg-white group rounded-lg overflow-hidden shadow-sm">
+                            <div class="relative overflow-hidden">
+                                <a href="product-detail.html?id=${product.id}">
+                                    <img src="${product.image}" alt="${product.name}" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
+                                    <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                                        <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="mt-3 p-3 text-center">
+                                <h3 class="text-sm font-semibold mb-1">${product.name}</h3>
+                                <p class="text-sm text-gray-600">€${(product.price || 0).toFixed(2)}</p>
+                                <button class="add-to-cart-btn mt-3 w-full bg-black text-white py-2 text-sm uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out"
+                                    data-product-id="${product.id}"
+                                    data-product-name="${product.name}"
+                                    data-product-price="${(product.price || 0).toFixed(2)}"
+                                    data-product-image="${product.image}"
+                                    data-product-details="${product.details}">
+                                    Aggiungi al Carrello
                                 </button>
                             </div>
-                        `;
-                        cartItemsContainer.insertAdjacentHTML('beforeend', productHtml);
-                    });
-                    checkoutButton.disabled = false;
-                    checkoutButton.classList.remove('opacity-50', 'cursor-not-allowed');
-                }
-                updateCartTotals();
+                        </div>
+                    `;
+                    productGrid.insertAdjacentHTML('beforeend', productCard);
+                });
+
+                updateProductCountDisplay();
+                renderPagination();
             }
 
-            function updateCartTotals() {
-                let subtotal = cart.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0);
-                let total = subtotal + currentShippingCost - discountAppliedAmount;
-
-                subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
-                shippingElement.textContent = `€${currentShippingCost.toFixed(2)}`;
-                discountElement.textContent = `-€${discountAppliedAmount.toFixed(2)}`;
-                totalElement.textContent = `€${Math.max(0, total).toFixed(2)}`; // Assicurati che il totale non sia negativo
-            }
-
-            // Delegazione eventi per i bottoni di quantità e rimozione
-            cartItemsContainer.addEventListener('click', function(event) {
-                const target = event.target;
-                
-                // Get the product ID from the dataset of the clicked element or its closest parent with data-id
-                const productId = String(target.dataset.id || target.closest('[data-id]')?.dataset.id);
-
-                // If productId is undefined or null after conversion, return
-                if (!productId || productId === 'undefined' || productId === 'null') return;
-
-                if (target.classList.contains('increase-btn')) {
-                    const currentItem = cart.find(item => String(item.id) === productId);
-                    const currentQuantity = currentItem ? currentItem.quantity : 0;
-                    window.setProductQuantityInCart(productId, currentQuantity + 1);
-                } else if (target.classList.contains('decrease-btn')) {
-                    const currentItem = cart.find(item => String(item.id) === productId);
-                    const currentQuantity = currentItem ? currentItem.quantity : 0;
-                    if (currentQuantity > 0) {
-                        window.setProductQuantityInCart(productId, currentQuantity - 1);
-                    } else {
-                        // If quantity is 0 or less, effectively remove the item
-                        window.setProductQuantityInCart(productId, 0); 
-                    }
-                } else if (target.classList.contains('remove-item-btn') || target.closest('.remove-item-btn')) {
-                    const productItem = target.closest('.product-item');
-                    if (productItem) {
-                        productItem.classList.add('removing');
-                        productItem.addEventListener('transitionend', function handler() {
-                            window.removeProductFromCart(productId);
-                            productItem.removeEventListener('transitionend', handler);
-                        }, { once: true });
-                    }
+            // Delegazione degli eventi per i pulsanti "Aggiungi al Carrello"
+            productGrid.addEventListener('click', function(event) {
+                const addToCartBtn = event.target.closest('.add-to-cart-btn');
+                if (addToCartBtn) {
+                    const product = {
+                        id: parseInt(addToCartBtn.dataset.productId),
+                        name: addToCartBtn.dataset.productName,
+                        price: parseFloat(addToCartBtn.dataset.productPrice),
+                        image: addToCartBtn.dataset.productImage,
+                        details: addToCartBtn.dataset.productDetails
+                    };
+                    window.addProductToCart(product, addToCartBtn);
                 }
             });
 
-            // Gestione dell'input manuale della quantità
-            cartItemsContainer.addEventListener('change', function(event) {
-                const target = event.target;
-                if (target.classList.contains('quantity-input')) {
-                    const productId = String(target.dataset.id); // Treat as string
-                    let newQuantity = parseInt(target.value);
-                    if (isNaN(newQuantity) || newQuantity < 0) {
-                        newQuantity = 0;
-                        target.value = 0;
-                    }
-                    window.setProductQuantityInCart(productId, newQuantity);
-                }
-            });
-
-            clearCartBtn.addEventListener('click', function() {
-                if (confirm('Sei sicuro di voler svuotare il carrello?')) {
-                    cart = [];
-                    currentShippingCost = 10.00;
-                    discountAppliedAmount = 0;
-                    discountCodeInput.value = '';
-                    saveCartToLocalStorage();
-                    renderCartItems();
-                    updateCartCounter();
-                }
-            });
-
-            applyDiscountBtn.addEventListener('click', function() {
-                const code = discountCodeInput.value.trim().toUpperCase();
-                discountAppliedAmount = 0;
-                currentShippingCost = 10.00;
-
-                if (code === 'WELCOME10') {
-                    discountAppliedAmount = 10.00;
-                    alert('Sconto applicato: WELCOME10! Hai risparmiato €10.');
-                } else if (code === 'FREESHIP') {
-                    currentShippingCost = 0.00;
-                    alert('Spedizione gratuita applicata!');
+            // Funzione per aggiornare il conteggio dei prodotti visualizzati
+            function updateProductCountDisplay() {
+                const totalProducts = filteredProducts.length;
+                const start = (currentPage - 1) * productsPerPage + 1;
+                const end = Math.min(start + productsPerPage - 1, totalProducts);
+                if (totalProducts === 0) {
+                    productCountDisplay.textContent = 'Nessun prodotto trovato.';
                 } else {
-                    alert('Codice sconto non valido.');
+                    productCountDisplay.textContent = `Mostrando ${start}-${end} di ${totalProducts} prodotti`;
                 }
-                updateCartTotals();
+            }
+
+            // Funzione per renderizzare la paginazione
+            function renderPagination() {
+                paginationContainer.innerHTML = '';
+                const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+                const maxPagesToShow = 4; // Numero massimo di pagine da mostrare (escluse "Precedente" e "Successivo")
+
+                if (totalPages > 1) {
+                    // Pulsante "Precedente"
+                    const prevButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>Precedente</a>`;
+                    paginationContainer.insertAdjacentHTML('beforeend', prevButton);
+
+                    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+                    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+                    // Regola startPage se si è verso la fine
+                    if (endPage - startPage + 1 < maxPagesToShow) {
+                        startPage = Math.max(1, endPage - maxPagesToShow + 1);
+                    }
+
+                    for (let i = startPage; i <= endPage; i++) {
+                        const pageButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${i === currentPage ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-200'}" data-page="${i}">${i}</a>`;
+                        paginationContainer.insertAdjacentHTML('beforeend', pageButton);
+                    }
+
+                    // Pulsante "Successivo"
+                    const nextButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>Successivo</a>`;
+                    paginationContainer.insertAdjacentHTML('beforeend', nextButton);
+                }
+            }
+
+            // Event Listener per la paginazione
+            paginationContainer.addEventListener('click', function(event) {
+                event.preventDefault();
+                const targetPage = parseInt(event.target.dataset.page);
+                if (!isNaN(targetPage) && targetPage > 0 && targetPage <= Math.ceil(filteredProducts.length / productsPerPage)) {
+                    currentPage = targetPage;
+                    renderProducts();
+                    window.scrollTo(0, 0); // Scorri all'inizio della pagina dopo il cambio pagina
+                }
             });
 
-            renderCartItems(); // Initial render on page load
+            // Event Listeners per i filtri e l'ordinamento
+            categoryFilter.addEventListener('change', applyFiltersAndSort);
+            sortBy.addEventListener('change', applyFiltersAndSort);
+
+            // Inizializzazione basata sui parametri URL e poi renderizzazione
+            const initialCategory = getUrlParameter('category');
+            if (initialCategory) {
+                categoryFilter.value = initialCategory;
+            }
+
+            applyFiltersAndSort(); // Applica i filtri iniziali e ordina i prodotti
         });
     </script>
 </body>
