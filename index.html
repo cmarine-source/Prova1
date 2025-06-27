@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop | Cmarine</title>
-    <meta name="description" content="Esplora la vasta collezione di menswear, streetwear e accessori di Cmarine. Trova abbigliamento di alta qualità per uomo, donna e bambini.">
+    <title>Premium Menswear and Streetwear | Cmarine</title>
+    <meta name="description" content="Scopri la collezione premium di menswear e streetwear di Cmarine. Abbigliamento di alta qualità, calzature e accessori per l'uomo moderno. Spedizione gratuita sul primo ordine.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-         /* Stili personalizzati di base */
+        /* Stili personalizzati di base */
         .hero-image {
             background-image: url('https://i.imgur.com/nszViUU.jpeg');
             background-size: cover;
@@ -40,14 +40,6 @@
         .newsletter-input:focus {
             outline: none;
             border-bottom-color: #555;
-        } /* Stili personalizzati di base */
-        .product-card:hover .product-overlay {
-            opacity: 1;
-        }
-
-        .product-overlay {
-            transition: opacity 0.3s ease;
-            opacity: 0;
         }
 
         /* Stili specifici per il menu mobile */
@@ -110,81 +102,83 @@
             }
         }
 
-        /* Stile per le immagini dei prodotti - Rimosso il rapporto d'aspetto fisso */
-        .product-card img {
-            width: 100%;
-            height: auto; /* L'altezza si adatta alla larghezza, mantenendo le proporzioni originali */
-            object-fit: cover; /* Mantenuto per evitare distorsioni se l'immagine è più grande del contenitore */
-        }
-
-        /* Stile per il badge del carrello */
+        /* Stili per il badge del carrello */
         .cart-badge {
+            font-family: sans-serif; /* Assicurati che il font sia leggibile */
             position: absolute;
-            top: -8px; /* Regola la posizione verticale */
-            right: -8px; /* Regola la posizione orizzontale */
-            background-color: #ef4444; /* Rosso */
+            top: -5px; /* Sposta più in alto */
+            right: -10px; /* Sposta più a destra */
+            background-color: #ef4444; /* Rosso vibrante */
             color: white;
-            border-radius: 9999px; /* Completamente rotondo */
-            padding: 2px 6px;
-            font-size: 0.75rem; /* Testo piccolo */
+            font-size: 0.75rem; /* Testo più piccolo */
             font-weight: bold;
-            line-height: 1;
-            min-width: 20px; /* Larghezza minima per numeri a singola cifra */
-            text-align: center;
+            border-radius: 9999px; /* Completamente rotondo */
+            height: 18px; /* Altezza fissa */
+            width: 18px; /* Larghezza fissa per renderlo un cerchio */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0; /* Rimuovi padding per controllo dimensione */
+            line-height: 1; /* Assicurati che il testo sia centrato verticalmente */
+            box-shadow: 0 0 0 2px white; /* Bordo bianco per far risaltare */
+            transform: scale(0.9); /* Leggermente più piccolo */
+            transform-origin: center;
+            transition: transform 0.2s ease-out;
         }
 
-        /* Animazione "added to cart" */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+        .cart-badge.hidden {
+            display: none;
+        }
+
+        .cart-badge:not(.hidden) {
+            animation: bounceIn 0.3s forwards;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
             100% { transform: scale(1); }
-        }
-
-        .added-to-cart-pulse {
-            animation: pulse 0.3s ease-in-out;
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <header class="sticky top-0 z-50 bg-white shadow-sm">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center">
-                <a href="index.html" class="flex items-center no-underline hover:no-underline">
-                    <img src="https://i.imgur.com/PigMJrD.jpeg" alt="Il mio logo" class="h-10">
-                </a>
-            </div>
+<header class="sticky top-0 z-50 bg-white shadow-sm">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <a href="index.html" class="flex items-center no-underline hover:no-underline">
+                <img src="https://i.imgur.com/PigMJrD.jpeg" alt="Il mio logo" class="h-10"> 
+            </a>
+        </div>
 
-            <div class="hidden md:flex space-x-8">
-                <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
-                <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
-                <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
-            </div>
+        <div class="hidden md:flex space-x-8">
+            <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
+            <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
+            <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
+        </div>
 
-            <div class="flex items-center space-x-4 md:space-x-6">
-                <a href="search.html" class="text-xl"><i class="fas fa-search"></i></a>
-                
-                <a href="cart.html" class="text-xl relative">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span id="cart-item-count" class="cart-badge hidden">0</span>
-                </a>
+        <div class="flex items-center space-x-4 md:space-x-6">
+            <a href="search.html" class="text-xl"><i class="fas fa-search"></i></a> 
+            <a href="cart.html" class="text-xl relative">
+                <i class="fas fa-shopping-bag"></i>
+                <span id="cart-item-count" class="cart-badge absolute -top-1 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center hidden">0</span>
+            </a>
 
-                <div class="md:hidden">
-                    <button id="mobile-menu-button" class="focus:outline-none">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
             </div>
         </div>
-        <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="shop.html?category=uomo" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
-                <a href="shop.html?category=donna" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
-                <a href="shop.html?category=bambini" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
-                <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
-                <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
-            </div>
+    </div>
+    <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+            <a href="shop.html?category=uomo" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
+            <a href="shop.html?category=donna" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
+            <a href="shop.html?category=bambini" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
+            <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
+            <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
         </div>
-    </header>
+    </div>
+</header>
     <div class="relative h-screen flex items-center hero-image">
         <div class="absolute inset-0 bg-black bg-opacity-30"></div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-white">
@@ -600,90 +594,87 @@
         </div>
     </div>
 </footer>
+<script>
+    // Funzioni per la gestione del carrello (basilari, utilizzando localStorage)
+    function getCart() {
+        const cart = localStorage.getItem('cart');
+        return cart ? JSON.parse(cart) : [];
+    }
 
-    <script>
-        // Funzioni per la gestione del carrello (basilari, utilizzando localStorage)
-        function getCart() {
-            const cart = localStorage.getItem('cart');
-            return cart ? JSON.parse(cart) : [];
+    function saveCart(cart) {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function addProductToCart(product) {
+        const cart = getCart();
+        const existingProductIndex = cart.findIndex(item => item.id === product.id);
+
+        if (existingProductIndex > -1) {
+            cart[existingProductIndex].quantity += 1;
+        } else {
+            cart.push({ ...product, quantity: 1 });
         }
+        saveCart(cart);
+        updateCartCounter();
+    }
 
-        function saveCart(cart) {
-            localStorage.setItem('cart', JSON.stringify(cart));
-        }
+    function removeProductFromCart(productId) {
+        let cart = getCart();
+        cart = cart.filter(item => item.id !== productId);
+        saveCart(cart);
+        updateCartCounter();
+    }
 
-        function addProductToCart(product) {
-            const cart = getCart();
-            const existingProductIndex = cart.findIndex(item => item.id === product.id);
+    function updateCartCounter() {
+        const cart = getCart();
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const cartItemCountSpan = document.getElementById('cart-item-count');
 
-            if (existingProductIndex > -1) {
-                cart[existingProductIndex].quantity += 1;
+        if (cartItemCountSpan) {
+            cartItemCountSpan.textContent = totalItems;
+            if (totalItems > 0) {
+                cartItemCountSpan.classList.remove('hidden');
             } else {
-                cart.push({ ...product, quantity: 1 });
-            }
-            saveCart(cart);
-            updateCartCounter();
-        }
-
-        function removeProductFromCart(productId) {
-            let cart = getCart();
-            cart = cart.filter(item => item.id !== productId);
-            saveCart(cart);
-            updateCartCounter();
-        }
-
-        function updateCartCounter() {
-            const cart = getCart();
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const cartItemCountSpan = document.getElementById('cart-item-count');
-
-            if (cartItemCountSpan) {
-                cartItemCountSpan.textContent = totalItems;
-                if (totalItems > 0) {
-                    cartItemCountSpan.classList.remove('hidden');
-                } else {
-                    cartItemCountSpan.classList.add('hidden');
-                }
+                cartItemCountSpan.classList.add('hidden');
             }
         }
+    }
 
-        function initializeCartFeatures() {
-            updateCartCounter(); // Aggiorna il contatore all'avvio della pagina
-        }
+    function initializeCartFeatures() {
+        updateCartCounter(); // Aggiorna il contatore all'avvio della pagina
+    }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Script per il menu mobile
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Script per il menu mobile
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
 
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', function() {
-                    mobileMenu.classList.toggle('open');
-                });
-            }
-
-            // Script per il footer a fisarmonica (solo su mobile)
-            const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
-
-            accordionHeaders.forEach(header => {
-                header.addEventListener('click', function() {
-                    // Solo su schermi mobili (larghezze inferiori a 768px, come definito nel CSS)
-                    if (window.innerWidth < 768) {
-                        const content = this.nextElementSibling;
-                        this.classList.toggle('open');
-                        content.classList.toggle('open');
-                    }
-                });
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('open');
             });
+        }
 
-            // Chiama la funzione di inizializzazione del carrello
-            initializeCartFeatures();
+        // Script per il footer a fisarmonica (solo su mobile)
+        const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
 
-            // Esempio: aggiungi un prodotto per testare il contatore
-            // Questo è solo a scopo di test, puoi rimuoverlo in produzione
-            // const testProduct = { id: 'prod123', name: 'Prodotto di Test' };
-            // addProductToCart(testProduct);
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                // Solo su schermi mobili (larghezze inferiori a 768px, come definito nel CSS)
+                if (window.innerWidth < 768) {
+                    const content = this.nextElementSibling;
+                    this.classList.toggle('open');
+                    content.classList.toggle('open');
+                }
+            });
         });
-    </script>
-</body>
-</html>
+
+        // Chiama la funzione di inizializzazione del carrello
+        initializeCartFeatures();
+
+        // Esempio: aggiungi un prodotto per testare il contatore
+        // Questo è solo a scopo di test, puoi rimuoverlo in produzione
+        // const testProduct = { id: 'prod123', name: 'Prodotto di Test', price: 100 };
+        // addProductToCart(testProduct);
+    });
+</script>
