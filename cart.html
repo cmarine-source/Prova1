@@ -158,7 +158,7 @@
     </div>
 </header>
 
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 class="text-4xl font-bold mb-8 text-center">Il Tuo Carrello</h1>
 
         <div class="flex flex-col lg:flex-row gap-8">
@@ -167,7 +167,7 @@
                     </div>
 
                 <div class="mt-6 flex justify-between items-center">
-                    <span id="empty-cart-message" class="text-gray-600 italic">Il tuo carrello è vuoto.</span>
+                    <span id="empty-cart-message" class="text-gray-600 italic hidden">Il tuo carrello è vuoto.</span>
                     <a href="shop.html" class="text-sm text-gray-600 hover:underline">Continua lo Shopping</a>
                 </div>
             </div>
@@ -191,7 +191,7 @@
                 <button class="w-full bg-black text-white px-6 py-3 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 rounded-sm">Procedi al Checkout</button>
             </div>
         </div>
-    </div>
+    </main>
 
     <div class="bg-black text-white py-16 md:py-20">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -199,7 +199,7 @@
             <h2 class="text-3xl md:text-4xl font-bold mb-6">Iscriviti alla Nostra Newsletter</h2>
             <p class="mb-8 text-gray-300 leading-relaxed">Iscriviti per accesso anticipato a lanci, promozioni ed eventi.</p>
             <form class="flex flex-col sm:flex-row gap-4 justify-center">
-                <input type="email" placeholder="Il tuo indirizzo email" class="newsletter-input bg-transparent py-3 px-4 text-white placeholder-gray-400 focus:placeholder-gray-600 w-full sm:w-80 rounded-none border-b border-gray-500 focus:border-white transition duration-300 ease-in-out">
+                <input type="email" placeholder="Il tuo indirizzo email" required class="newsletter-input bg-transparent py-3 px-4 text-white placeholder-gray-400 focus:placeholder-gray-600 w-full sm:w-80 rounded-none border-b border-gray-500 focus:border-white transition duration-300 ease-in-out">
                 <button type="submit" class="bg-white text-black px-8 py-3 text-sm uppercase tracking-wider hover:bg-gray-200 transition duration-300 ease-in-out rounded-sm">Iscriviti</button>
             </form>
         </div>
@@ -270,68 +270,56 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Dati dei prodotti nel carrello (inizialmente vuoto)
-            // In un'applicazione reale, questi dati verrebbero caricati da un backend o da localStorage.
             let cartItems = [];
 
             const cartItemsContainer = document.getElementById('cart-items-container');
             const cartSubtotalElement = document.getElementById('cart-subtotal');
             const cartTotalElement = document.getElementById('cart-total');
             const emptyCartMessage = document.getElementById('empty-cart-message');
-            const cartCountElement = document.getElementById('cart-count'); // Il badge del carrello
+            const cartCountElement = document.getElementById('cart-count');
 
-            // Funzione per generare un ID univoco (per test, in un ambiente reale useresti ID dal database)
             function generateUniqueId() {
                 return 'prod-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
             }
 
-            // *** FUNZIONE CHIAVE: addProductToCart ***
-            // Questa funzione è quella che useresti per aggiungere un prodotto al carrello
-            // da qualsiasi pagina del tuo sito (es. pagina prodotto, pagina negozio).
-            // Prende un oggetto 'product' con tutte le sue proprietà.
             window.addProductToCart = function(product) {
-                // Assicurati che il prodotto abbia un ID. Se non specificato, generane uno.
                 if (!product.id) {
                     product.id = generateUniqueId();
                 }
-                // Assicurati che la quantità sia un numero e sia almeno 1.
                 if (!product.quantity || product.quantity < 1) {
                     product.quantity = 1;
                 }
 
-                // Controlla se il prodotto (con la stessa taglia/variante) esiste già nel carrello
+                // Trova l'indice del prodotto se esiste già (stesso ID o nome/taglia)
                 const existingItemIndex = cartItems.findIndex(item =>
-                    item.id === product.id || // Se hai ID univoci per varianti (es. SKU)
-                    (item.name === product.name && item.size === product.size) // Altrimenti, usa nome e taglia
+                    item.id === product.id ||
+                    (item.name === product.name && item.size === product.size)
                 );
 
                 if (existingItemIndex > -1) {
-                    // Se esiste, aumenta la quantità
                     cartItems[existingItemIndex].quantity += product.quantity;
                 } else {
-                    // Altrimenti, aggiungi il nuovo prodotto
                     cartItems.push(product);
                 }
-                renderCart(); // Ridisegna il carrello con i prodotti aggiornati
-                // Salva cartItems in localStorage qui
+                renderCart();
                 localStorage.setItem('cartItems', JSON.stringify(cartItems));
             };
 
 
             function renderCart() {
-                cartItemsContainer.innerHTML = ''; // Pulisce il contenitore
+                cartItemsContainer.innerHTML = '';
 
                 if (cartItems.length === 0) {
-                    emptyCartMessage.classList.remove('hidden'); // Mostra il messaggio
+                    emptyCartMessage.classList.remove('hidden');
                     cartSubtotalElement.textContent = '$0.00';
                     cartTotalElement.textContent = '$0.00';
                 } else {
-                    emptyCartMessage.classList.add('hidden'); // Nasconde il messaggio
+                    emptyCartMessage.classList.add('hidden');
                     cartItems.forEach(item => {
                         const itemHtml = `
                             <div class="flex items-center justify-between border-b border-gray-200 py-4" data-product-id="${item.id}">
                                 <div class="flex items-center space-x-4">
-                                    <img src="${item.image}" alt="Product Image" class="w-20 h-20 object-cover rounded-md">
+                                    <img src="${item.image}" alt="Immagine di ${item.name}" class="w-20 h-20 object-cover rounded-md">
                                     <div>
                                         <h3 class="font-semibold">${item.name}</h3>
                                         <p class="text-sm text-gray-600">Taglia: ${item.size}</p>
@@ -339,7 +327,7 @@
                                     </div>
                                 </div>
                                 <div class="flex items-center space-x-4">
-                                    <input type="number" value="${item.quantity}" min="1" class="w-16 px-2 py-1 border border-gray-300 rounded-md text-center product-quantity" data-product-id="${item.id}">
+                                    <input type="number" value="${item.quantity}" min="1" aria-label="Quantità per ${item.name}" class="w-16 px-2 py-1 border border-gray-300 rounded-md text-center product-quantity" data-product-id="${item.id}">
                                     <button class="text-gray-500 hover:text-red-600 transition remove-item-button" data-product-id="${item.id}">
                                         <i class="fas fa-times text-lg"></i>
                                     </button>
@@ -350,8 +338,8 @@
                     });
                 }
                 updateCartTotals();
-                updateCartCount(); // Aggiorna il conteggio ogni volta che il carrello viene renderizzato
-                attachEventListeners();
+                updateCartCount();
+                attachEventListeners(); // Re-attacca gli event listener ogni volta che il carrello viene renderizzato
             }
 
             function updateCartTotals() {
@@ -360,7 +348,7 @@
                     subtotal += item.price * item.quantity;
                 });
                 cartSubtotalElement.textContent = `$${subtotal.toFixed(2)}`;
-                cartTotalElement.textContent = `$${subtotal.toFixed(2)}`; // Per ora il totale è uguale al subtotale senza spedizione
+                cartTotalElement.textContent = `$${subtotal.toFixed(2)}`;
             }
 
             function updateCartCount() {
@@ -378,63 +366,72 @@
             }
 
             function attachEventListeners() {
-                // Event Listener per la rimozione del prodotto
                 document.querySelectorAll('.remove-item-button').forEach(button => {
-                    button.onclick = (event) => {
-                        const productId = event.currentTarget.dataset.productId;
-                        cartItems = cartItems.filter(item => item.id !== productId);
-                        renderCart(); // Ridisegna il carrello
-                        localStorage.setItem('cartItems', JSON.stringify(cartItems)); // Salva in localStorage
-                    };
+                    // Rimuovi i listener precedenti per evitare duplicati
+                    button.removeEventListener('click', handleRemoveItem);
+                    button.addEventListener('click', handleRemoveItem);
                 });
 
-                // Event Listener per la modifica della quantità
                 document.querySelectorAll('.product-quantity').forEach(input => {
-                    input.onchange = (event) => {
-                        const productId = event.currentTarget.dataset.productId;
-                        let newQuantity = parseInt(event.currentTarget.value);
-                        if (newQuantity < 1 || isNaN(newQuantity)) {
-                            newQuantity = 1;
-                            event.currentTarget.value = 1;
-                        }
-                        const itemIndex = cartItems.findIndex(item => item.id === productId);
-                        if (itemIndex > -1) {
-                            cartItems[itemIndex].quantity = newQuantity;
-                            updateCartTotals();
-                            updateCartCount();
-                            localStorage.setItem('cartItems', JSON.stringify(cartItems)); // Salva in localStorage
-                        }
-                    };
+                    // Rimuovi i listener precedenti per evitare duplicati
+                    input.removeEventListener('change', handleQuantityChange);
+                    input.removeEventListener('input', handleQuantityChange);
+
+                    // Aggiungi i nuovi listener
+                    input.addEventListener('change', handleQuantityChange);
+                    input.addEventListener('input', handleQuantityChange);
                 });
             }
 
-            // Inizializza il carrello al caricamento della pagina
-            // Cerca di caricare i prodotti dal localStorage se esistono
+            function handleRemoveItem(event) {
+                const productId = event.currentTarget.dataset.productId;
+                cartItems = cartItems.filter(item => item.id !== productId);
+                renderCart();
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            }
+
+            function handleQuantityChange(event) {
+                const productId = event.currentTarget.dataset.productId;
+                let newQuantity = parseInt(event.currentTarget.value);
+
+                if (newQuantity < 1 || isNaN(newQuantity)) {
+                    newQuantity = 1;
+                    event.currentTarget.value = 1;
+                }
+
+                const itemIndex = cartItems.findIndex(item => item.id === productId);
+                if (itemIndex > -1) {
+                    cartItems[itemIndex].quantity = newQuantity;
+                    updateCartTotals();
+                    updateCartCount();
+                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                }
+            }
+
+            // Inizializzazione del carrello al caricamento della pagina
             const storedCartItems = localStorage.getItem('cartItems');
             if (storedCartItems) {
                 cartItems = JSON.parse(storedCartItems);
             }
-            renderCart();
+            renderCart(); // Renderizza il carrello iniziale
 
-
-            // Script per il menu mobile
+            // Script per il menu mobile (resta invariato)
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-
             if (mobileMenuButton) {
                 mobileMenuButton.addEventListener('click', function() {
                     mobileMenu.classList.toggle('open');
                 });
             }
 
-            // Script per il footer a fisarmonica
+            // Script per il footer a fisarmonica (resta invariato ma con piccole modifiche per robustness)
             const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
-
             accordionHeaders.forEach(header => {
-                // Applica il comportamento a fisarmonica solo su schermi piccoli
+                const accordionContent = header.nextElementSibling;
+                // Gestisce lo stato iniziale per schermi mobile
                 if (window.innerWidth < 768) {
+                    accordionContent.classList.remove('open'); // Assicurati che siano chiusi all'inizio su mobile
                     header.addEventListener('click', () => {
-                        const accordionContent = header.nextElementSibling;
                         header.classList.toggle('open');
                         accordionContent.classList.toggle('open');
                     });
@@ -446,12 +443,14 @@
                 accordionHeaders.forEach(header => {
                     const accordionContent = header.nextElementSibling;
                     if (window.innerWidth >= 768) {
-                        // Su desktop, rimuovi le classi 'open' e mostra sempre il contenuto
                         header.classList.remove('open');
-                        accordionContent.classList.remove('open'); // Assicurati che sia sempre visibile su desktop
+                        accordionContent.classList.remove('open'); // Assicurati che sia sempre visibile su desktop tramite CSS
                     } else {
-                        // Su mobile, se era aperto e si ridimensiona a desktop, chiudilo (opzionale)
-                        // Oppure puoi rimuovere questa logica se vuoi che lo stato persista al ridimensionamento
+                        // Se si ridimensiona a mobile, e non è già aperto, lascialo chiuso
+                        // Se si vuole che lo stato mobile sia predefinito come chiuso
+                        if (!header.classList.contains('open')) {
+                            accordionContent.classList.remove('open');
+                        }
                     }
                 });
             });
@@ -460,29 +459,34 @@
             window.clearAllItemsFromCart = function() {
                 cartItems = [];
                 renderCart();
-                localStorage.removeItem('cartItems'); // Rimuove anche da localStorage
+                localStorage.removeItem('cartItems');
             };
 
-            // Questo blocco di codice è stato rimosso per avere il carrello inizialmente vuoto.
-            // Se in futuro volessi aggiungere prodotti di test automaticamente, puoi riabilitarlo.
+            // *** Blocco per aggiungere prodotti di test (DECOMMENTA PER PROVARE!) ***
+            // Se il carrello è vuoto all'inizio, aggiunge alcuni prodotti per testare subito.
+            // Puoi decommentare questo blocco, ricaricare la pagina e vedere i prodotti aggiunti.
+            // Ricorda di commentarlo di nuovo quando non ti serve più, per avere un carrello inizialmente vuoto.
             /*
             if (cartItems.length === 0) {
+                console.log("Carrello vuoto, aggiungo prodotti di test.");
                 addProductToCart({
-                    id: 'prod-1',
-                    name: 'T-Shirt Cmarine Original',
-                    image: 'https://via.placeholder.com/150/0000FF/FFFFFF?text=T-Shirt',
-                    price: 29.99,
-                    size: 'M',
+                    id: 'nb-1906l',
+                    name: 'New Balance 1906L Raincloud/Slate Grey',
+                    image: 'https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-1.jpg?v=1748535639&width=100&crop=center',
+                    price: 220.00,
+                    size: 'US 9',
                     quantity: 1
                 });
                 addProductToCart({
-                    id: 'prod-2',
-                    name: 'Jeans Slim Fit',
-                    image: 'https://via.placeholder.com/150/000000/FFFFFF?text=Jeans',
-                    price: 79.99,
-                    size: '32',
-                    quantity: 2
+                    id: 'wtaps-netminder',
+                    name: 'WTAPS Netminder / LS / Poly Black',
+                    image: 'https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-1.jpg?v=1748527318&width=100&crop=center',
+                    price: 180.00,
+                    size: 'M',
+                    quantity: 1
                 });
+                // Ricarica il carrello dopo aver aggiunto i prodotti di test per assicurarne la visualizzazione immediata
+                // renderCart() è già chiamato all'interno di addProductToCart, quindi non è strettamente necessario qui.
             }
             */
         });
