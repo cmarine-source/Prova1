@@ -589,7 +589,7 @@
 
                 if (totalPages > 1) {
                     // Pulsante "Precedente"
-                    const prevButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:bg-gray-200'}" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>Precedente</a>`;
+                    const prevButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>Precedente</a>`;
                     paginationContainer.insertAdjacentHTML('beforeend', prevButton);
 
                     let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
@@ -601,12 +601,12 @@
                     }
 
                     for (let i = startPage; i <= endPage; i++) {
-                        const pageButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${i === currentPage ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-200'}" data-page="${i}">${i}</a>`;
+                        const pageButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${i === currentPage ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-200'}" data-page="${i}">${i}</a>`;
                         paginationContainer.insertAdjacentHTML('beforeend', pageButton);
                     }
 
                     // Pulsante "Successivo"
-                    const nextButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:bg-gray-200'}" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>Successivo</a>`;
+                    const nextButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>Successivo</a>`;
                     paginationContainer.insertAdjacentHTML('beforeend', nextButton);
                 }
             }
