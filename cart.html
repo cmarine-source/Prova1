@@ -410,12 +410,11 @@
                     saveCartToLocalStorage();
                     updateCartCounter();
                     if (document.getElementById('cart-items-container')) {
-                        // Only update quantity in the displayed input if not a full re-render
                         const inputElement = document.querySelector(`.quantity-input[data-id="${productId}"]`);
                         if (inputElement) {
                             inputElement.value = newQuantity;
                         }
-                        updateCartTotals(); // Update totals immediately
+                        updateCartTotals();
                     }
                 }
             }
@@ -424,23 +423,29 @@
         // Funzione di inizializzazione che carica il carrello e aggiorna il contatore all'avvio
         function initializeCartFeatures() {
             updateCartCounter();
-            // Add a temporary product to the cart if it's empty for testing purposes
+            // --- INIZIO: CODICE DI TEST RIMOSSO ---
+            // Se in futuro ti serviranno prodotti di esempio per lo sviluppo,
+            // potrai riabilitare questa sezione, ma ricorda di rimuoverla
+            // prima di andare in produzione.
+            /*
             if (cart.length === 0) {
                 window.addProductToCart({
-                    id: 101, // Example ID (can be numeric or string)
+                    id: 101,
                     name: 'Camicia Marina Classica',
                     details: 'Taglia M, Colore Blu',
                     price: 49.99,
                     image: 'https://via.placeholder.com/150/0000FF/FFFFFF?text=Camicia'
                 }, null);
                 window.addProductToCart({
-                    id: 'SKU-002', // Example string ID
+                    id: 'SKU-002',
                     name: 'Pantaloncini Estivi',
                     details: 'Taglia L, Colore Beige',
                     price: 34.50,
                     image: 'https://via.placeholder.com/150/FF0000/FFFFFF?text=Pantaloncini'
                 }, null);
             }
+            */
+            // --- FINE: CODICE DI TEST RIMOSSO ---
         }
 
         // Chiamata all'inizializzazione quando il DOM è completamente caricato
@@ -528,8 +533,6 @@
             }
 
             // Delegazione eventi per i bottoni di quantità e rimozione
-            // This event listener needs to be outside or called AFTER renderCartItems
-            // because the buttons are added dynamically.
             cartItemsContainer.addEventListener('click', function(event) {
                 const target = event.target;
                 
