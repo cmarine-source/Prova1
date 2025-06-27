@@ -84,6 +84,33 @@
             height: auto; /* L'altezza si adatta alla larghezza, mantenendo le proporzioni originali */
             object-fit: cover; /* Mantenuto per evitare distorsioni se l'immagine è più grande del contenitore */
         }
+
+        /* Stile per il badge del carrello */
+        .cart-badge {
+            position: absolute;
+            top: -8px; /* Regola la posizione verticale */
+            right: -8px; /* Regola la posizione orizzontale */
+            background-color: #ef4444; /* Rosso */
+            color: white;
+            border-radius: 9999px; /* Completamente rotondo */
+            padding: 2px 6px;
+            font-size: 0.75rem; /* Testo piccolo */
+            font-weight: bold;
+            line-height: 1;
+            min-width: 20px; /* Larghezza minima per numeri a singola cifra */
+            text-align: center;
+        }
+
+        /* Animazione "added to cart" */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .added-to-cart-pulse {
+            animation: pulse 0.3s ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -91,21 +118,22 @@
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center">
                 <a href="index.html" class="flex items-center no-underline hover:no-underline">
-                    <span class="text-3xl font-bold text-red-600">C</span>
-                    <span class="text-3xl font-bold text-blue-800">marine</span>
+                    <img src="https://i.imgur.com/PigMJrD.jpeg" alt="Il mio logo" class="h-10">
                 </a>
             </div>
 
             <div class="hidden md:flex space-x-8">
                 <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
                 <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
-                <a href="features.html" class="text-sm uppercase hover:text-gray-600">Specifiche</a>
+                <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
             </div>
 
             <div class="flex items-center space-x-4 md:space-x-6">
-                <a href="#" class="text-xl"><i class="fas fa-search"></i></a>
+                <a href="search.html" class="text-xl"><i class="fas fa-search"></i></a>
                 <a href="login.html" class="text-xl"><i class="far fa-user"></i></a>
-                <a href="cart.html" class="text-xl"><i class="fas fa-shopping-bag"></i></a>
+                <a href="cart.html" class="text-xl relative">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-count" class="cart-badge hidden">0</span> </a>
 
                 <div class="md:hidden">
                     <button id="mobile-menu-button" class="focus:outline-none">
@@ -119,8 +147,8 @@
                 <a href="shop.html?category=uomo" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
                 <a href="shop.html?category=donna" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
                 <a href="shop.html?category=bambini" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
-                <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collections</a>
-                <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Features</a>
+                <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
+                <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
             </div>
         </div>
     </header>
@@ -133,12 +161,14 @@
                 <div class="flex flex-wrap gap-4">
                     <select id="category-filter" class="border border-gray-300 p-2 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500">
                         <option value="">Tutte le Categorie</option>
-                       
                         <option value="scarpe">Scarpe</option>
                         <option value="outerwear">Outerwear</option>
                         <option value="bottoms">Bottoms</option>
                         <option value="t-shirts">T-Shirts</option>
                         <option value="accessories">Accessori</option>
+                        <option value="uomo">Uomo</option>
+                        <option value="donna">Donna</option>
+                        <option value="bambini">Bambini</option>
                     </select>
                     <select id="sort-by" class="border border-gray-300 p-2 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500">
                         <option value="relevance">Ordina per: Rilevanza</option>
@@ -158,77 +188,76 @@
 
             <div id="pagination" class="flex justify-center mt-12 space-x-2">
                 </div>
-
         </div>
     </main>
 
     <div class="bg-black text-white py-16 md:py-20">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="mb-2 text-sm uppercase tracking-widest">FREE SHIPPING ON YOUR FIRST ORDER</div>
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">Join Our Newsletter</h2>
-            <p class="mb-8 text-gray-300 leading-relaxed">Subscribe for early access to launches, promos, and events.</p>
+            <div class="mb-2 text-sm uppercase tracking-widest">SPEDIZIONE GRATUITA SUL TUO PRIMO ORDINE</div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Iscriviti alla Nostra Newsletter</h2>
+            <p class="mb-8 text-gray-300 leading-relaxed">Iscriviti per accesso anticipato a lanci, promozioni ed eventi.</p>
             <form class="flex flex-col sm:flex-row gap-4 justify-center">
-                <input type="email" placeholder="Your email address" class="newsletter-input bg-transparent py-3 px-4 text-white placeholder-gray-400 focus:placeholder-gray-600 w-full sm:w-80 rounded-none border-b border-gray-500 focus:border-white transition duration-300 ease-in-out">
-                <button type="submit" class="bg-white text-black px-8 py-3 text-sm uppercase tracking-wider hover:bg-gray-200 transition duration-300 ease-in-out rounded-sm">Subscribe</button>
+                <input type="email" placeholder="Il tuo indirizzo email" class="newsletter-input bg-transparent py-3 px-4 text-white placeholder-gray-400 focus:placeholder-gray-600 w-full sm:w-80 rounded-none border-b border-gray-500 focus:border-white transition duration-300 ease-in-out">
+                <button type="submit" class="bg-white text-black px-8 py-3 text-sm uppercase tracking-wider hover:bg-gray-200 transition duration-300 ease-in-out rounded-sm">Iscriviti</button>
             </form>
         </div>
     </div>
 
-     <footer class="bg-gray-100 py-12">
+    <footer class="bg-gray-100 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
 
                 <div class="footer-accordion">
                     <div class="footer-accordion-header md:mb-4">
-                        <h3 class="text-sm font-semibold uppercase tracking-wider">Shop</h3>
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Acquista</h3>
                         <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
                     </div>
                     <ul class="space-y-2 footer-accordion-content">
-                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">New Arrivals</a></li>
-                        <li><a href="collections.html" class="text-sm hover:underline text-gray-700">Collections</a></li>
-                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Sale</a></li>
-                        <li><a href="#" class="text-sm hover:underline text-gray-700">Gift Cards</a></li>
+                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Nuovi Arrivi</a></li>
+                        <li><a href="collections.html" class="text-sm hover:underline text-gray-700">Collezioni</a></li>
+                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Saldi</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Carte Regalo</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-accordion">
                     <div class="footer-accordion-header md:mb-4">
-                        <h3 class="text-sm font-semibold uppercase tracking-wider">About</h3>
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Chi Siamo</h3>
                         <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
                     </div>
                     <ul class="space-y-2 footer-accordion-content">
-                        <li><a href="#" class="text-sm hover:underline text-gray-700">Our Story</a></li>
-                        <li><a href="features.html" class="text-sm hover:underline text-gray-700">Features</a></li>
-                        <li><a href="#" class="text-sm hover:underline text-gray-700">Stockists</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">La Nostra Storia</a></li>
+                        <li><a href="features.html" class="text-sm hover:underline text-gray-700">Partnership</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Dove Trovarci</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-accordion">
                     <div class="footer-accordion-header md:mb-4">
-                        <h3 class="text-sm font-semibold uppercase tracking-wider">Help</h3>
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Aiuto</h3>
                         <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
                     </div>
                     <ul class="space-y-2 footer-accordion-content">
-                        <li><a href="contact.html" class="text-sm hover:underline text-gray-700">Contact Us</a></li>
-                        <li><a href="#" class="text-sm hover:underline text-gray-700">Shipping</a></li>
-                        <li><a href="#" class="text-sm hover:underline text-gray-700">Returns</a></li>
+                        <li><a href="contact.html" class="text-sm hover:underline text-gray-700">Contattaci</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Spedizione</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Resi</a></li>
                         <li><a href="#" class="text-sm hover:underline text-gray-700">FAQ</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Connect</h3>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Connettiti</h3>
                     <div class="flex justify-center md:justify-start space-x-4 mb-4">
                         <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-instagram text-xl"></i></a>
-                        <a href="#" class="text-700 hover:text-gray-900"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-twitter text-xl"></i></a>
                         <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-facebook-f text-xl"></i></a>
                     </div>
-                    <p class="text-sm text-gray-600 leading-relaxed">Sign up for our newsletter to receive updates on new arrivals, special offers and other discount information.</p>
+                    <p class="text-sm text-gray-600 leading-relaxed">Iscriviti alla nostra newsletter per ricevere aggiornamenti sui nuovi arrivi, offerte speciali e altre informazioni sugli sconti.</p>
                 </div>
 
             </div>
             <div class="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600">
-                <p class="text-sm text-center md:text-left mb-4 md:mb-0">© 2025 Cmarine. All rights reserved.</p>
+                <p class="text-sm text-center md:text-left mb-4 md:mb-0">© 2025 Cmarine. Tutti i diritti riservati.</p>
                 <div class="flex flex-wrap justify-center md:justify-end space-x-4 sm:space-x-6">
                     <a href="#" class="text-sm hover:underline">Privacy Policy</a>
                     <a href="#" class="text-sm hover:underline">Terms of Service</a>
@@ -239,49 +268,109 @@
     </footer>
 
     <script>
+        // Inizializza cartItems da localStorage o come array vuoto
+        let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        const cartCountElement = document.getElementById('cart-count');
+
+        // Funzione per aggiornare il conteggio del carrello nella navbar
+        function updateCartCount() {
+            let totalItems = 0;
+            cartItems.forEach(item => {
+                totalItems += item.quantity;
+            });
+
+            if (totalItems > 0) {
+                cartCountElement.textContent = totalItems;
+                cartCountElement.classList.remove('hidden');
+            } else {
+                cartCountElement.classList.add('hidden');
+            }
+        }
+
+        // Funzione per generare un ID univoco (per test, in un ambiente reale useresti ID dal database)
+        function generateUniqueId() {
+            return 'prod-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+        }
+
+        // Funzione per aggiungere un prodotto al carrello (accessibile globalmente)
+        window.addProductToCart = function(product, animateButton = null) {
+            // Assicurati che il prodotto abbia un ID. Se non specificato, generane uno.
+            if (!product.id) {
+                product.id = generateUniqueId();
+            }
+            // Assicurati che la quantità sia un numero e sia almeno 1.
+            if (!product.quantity || product.quantity < 1) {
+                product.quantity = 1;
+            }
+
+            // Controlla se il prodotto (con la stessa taglia/variante) esiste già nel carrello
+            // Per semplicità qui usiamo solo l'ID, ma in un vero e-commerce useresti anche taglia/colore
+            const existingItemIndex = cartItems.findIndex(item => item.id === product.id);
+
+            if (existingItemIndex > -1) {
+                // Se esiste, aumenta la quantità
+                cartItems[existingItemIndex].quantity += product.quantity;
+            } else {
+                // Altrimenti, aggiungi il nuovo prodotto
+                cartItems.push(product);
+            }
+
+            localStorage.setItem('cartItems', JSON.stringify(cartItems)); // Salva in localStorage
+            updateCartCount(); // Aggiorna il badge del carrello
+
+            // Esegui l'animazione sul pulsante se fornito
+            if (animateButton) {
+                animateButton.classList.add('added-to-cart-pulse');
+                setTimeout(() => {
+                    animateButton.classList.remove('added-to-cart-pulse');
+                }, 300); // Durata dell'animazione
+            }
+        };
+
+
         document.addEventListener('DOMContentLoaded', function() {
-            // Dati dei prodotti (simulazione di un database)
+            // Dati dei prodotti
             const products = [
-                { id: 1, name: "HP AHIGA EVO 5", price: 120.00, imageUrl: "https://i.imgur.com/zfXG5hM.jpeg", category: "scarpe", gender: "uomo" },
-                { id: 2, name: "W HP MARINE LS", price: 145.00, imageUrl: "https://i.imgur.com/fqxM50N.jpeg", category: "t-shirts", gender: "donna" },
-                { id: 3, name: "W ANAKIN LEATHER 2", price: 133.00, imageUrl: "https://i.imgur.com/zrKojyK.jpeg", category: "scarpe", gender: "donna" },
-                { id: 4, name: "CREW LOW", price: 135.00, imageUrl: "https://i.imgur.com/CTg03HI.jpeg", category: "t-shirts", gender: "uomo" },
-                { id: 5, name: "HH QD CARGO SHORTS 11\"", price: 84.00, imageUrl: "https://i.imgur.com/llv2qYS.jpeg", category: "bottoms", gender: "uomo" },
-                { id: 6, name: "HH QD CARGO SHORTS 11\" NEW", price: 84.00, imageUrl: "https://i.imgur.com/ktYclsZ.jpeg", category: "bottoms", gender: "uomo" },
-                { id: 7, name: "HH QD CARGO SHORTS 11\" V2", price: 84.00, imageUrl: "https://i.imgur.com/YHrDIn5.jpeg", category: "bottoms", gender: "uomo" },
-                { id: 8, name: "DRIFTLINE POLO", price: 73.00, imageUrl: "https://i.imgur.com/kllLabf.jpeg", category: "t-shirts", gender: "uomo" },
-                { id: 9, name: "DRIFTLINE POLO V2", price: 73.00, imageUrl: "https://i.imgur.com/5Zv7i7u.jpeg", category: "outerwear", gender: "uomo" },
-                { id: 10, name: "CREWLINE LS POLO", price: 78.00, imageUrl: "https://i.imgur.com/o3GMITe.jpeg", category: "t-shirts", gender: "unisex" },
-                { id: 11, name: "HH LOGO T-SHIRT 2.0", price: 55.00, imageUrl: "https://i.imgur.com/deIc4Pn.jpeg", category: "t-shirts", gender: "donna" },
-                { id: 12, name: "HH LOGO T-SHIRT 2.0 V2", price: 33.00, imageUrl: "https://i.imgur.com/8C8nM1b.jpeg", category: "t-shirts", gender: "uomo" },
-                { id: 13, name: "HH TECH T-SHIRT 2.0", price: 33.00, imageUrl: "https://i.imgur.com/oUYUaxs.jpeg", category: "t-shirts", gender: "bambini" },
-                { id: 14, name: "HH TECH T-SHIRT 2.0 V2", price: 33.00, imageUrl: "https://i.imgur.com/OZcqOw7.jpeg", category: "t-shirts", gender: "donna" },
-                { id: 15, name: "HH TECH T-SHIRT 2.0 V3", price: 33.00, imageUrl: "https://i.imgur.com/x35MDY6.jpeg", category: "t-shirts", gender: "uomo" },
-                { id: 16, name: "CREW JACKET 2.0", price: 170.00, imageUrl: "https://i.imgur.com/wg1uaVi.jpeg", category: "outerwear", gender: "uomo" },
-                { id: 17, name: "CREW VEST 2.0", price: 152.00, imageUrl: "https://i.imgur.com/bUaRjSI.jpeg", category: "outerwear", gender: "uomo" },
-                { id: 18, name: "CREW VEST 2.0 V2", price: 152.00, imageUrl: "https://i.imgur.com/4bP0Hco.jpeg", category: "outerwear", gender: "donna" },
-                { id: 19, name: "PIER 3.0 JACKET", price: 280.00, imageUrl: "https://i.imgur.com/EHhpqhh.jpeg", category: "outerwear", gender: "uomo" },
-                { id: 20, name: "PIER 3.0 BIB", price: 220.00, imageUrl: "https://i.imgur.com/ml5EvNy.jpeg", category: "bottoms", gender: "uomo" },
-                { id: 21, name: "NEWPORT BOARD SHORTS 8\"", price: 73.00, imageUrl: "https://i.imgur.com/VZ2WEmB.jpeg", category: "bottoms", gender: "uomo" },
-                { id: 22, name: "HP CURVE BOARD SHORTS 7\"", price: 73.00, imageUrl: "https://i.imgur.com/zifvZOk.jpeg", category: "bottoms", gender: "uomo" },
-                { id: 23, name: "HH SOUWESTER", price: 35.00, imageUrl: "https://i.imgur.com/RRHdXJj.jpeg", category: "accessories", gender: "unisex" },
-                { id: 24, name: "CREW CAP 2.0", price: 33.00, imageUrl: "https://i.imgur.com/9Q7xIDe.jpeg", category: "accessories", gender: "unisex" },
-                { id: 25, name: "CREW CAP 2.0 V2", price: 33.00, imageUrl: "https://i.imgur.com/AhT9Amu.jpeg", category: "accessories", gender: "unisex" },
-                { id: 26, name: "CREW CAP 2.0 V3", price: 33.00, imageUrl: "https://i.imgur.com/KCCYcZD.jpeg", category: "accessories", gender: "unisex" },
-                { id: 27, name: "WANDERER SHOULDER BAG", price: 40.00, imageUrl: "https://i.imgur.com/waodFJQ.jpeg", category: "accessories", gender: "unisex" },
-                { id: 28, name: "WANDERER SHOULDER BAG V2", price: 40.00, imageUrl: "https://i.imgur.com/EEnpZx2.jpeg", category: "accessories", gender: "unisex" },
-                { id: 29, name: "CEDAR 25L BACKPACK", price: 150.00, imageUrl: "https://i.imgur.com/7rGHshF.jpeg", category: "accessories", gender: "unisex" },
-                { id: 30, name: "H/H SCOUT DUFFEL S", price: 60.00, imageUrl: "https://i.imgur.com/xtb6UCb.jpeg", category: "accessories", gender: "unisex" },
-                { id: 31, name: "SPORT II SANDALS", price: 54.00, imageUrl: "https://i.imgur.com/3kIe7Dg.jpeg", category: "scarpe", gender: "unisex" },
-                { id: 32, name: "JR RIDER VEST", price: 50.00, imageUrl: "https://i.imgur.com/P1UtG8t.jpeg", category: "outerwear", gender: "bambini" },
-                { id: 33, name: "ANKLE SOCKS 2-PACK", price: 10.00, imageUrl: "https://i.imgur.com/Q2hH3xX.jpeg", category: "accessories", gender: "unisex" },
-                { id: 34, name: "KIDS GRAPHIC TEE", price: 35.00, imageUrl: "https://i.imgur.com/R3iI4yY.jpeg", category: "t-shirts", gender: "bambini" },
-                { id: 35, name: "SPORT SANDALS V2", price: 80.00, imageUrl: "https://i.imgur.com/S4jJ5zZ.jpeg", category: "scarpe", gender: "unisex" },
-                { id: 36, name: "PUFFER VEST LIGHT", price: 100.00, imageUrl: "https://i.imgur.com/T5kK6aA.jpeg", category: "outerwear", gender: "uomo" },
-                { id: 37, name: "DENIM SHORTS WOMAN", price: 65.00, imageUrl: "https://i.imgur.com/U6lL7bB.jpeg", category: "bottoms", gender: "donna" },
-                { id: 38, name: "SUNGLASSES SPORT", price: 55.00, imageUrl: "https://i.imgur.com/V7mM8cC.jpeg", category: "accessories", gender: "unisex" },
-                { id: 39, name: "RUNNING SHOES PRO", price: 130.00, imageUrl: "https://i.imgur.com/W8nN9dD.jpeg", category: "scarpe", gender: "donna" },
-                { id: 40, name: "BASIC T-SHIRT UNISEX", price: 20.00, imageUrl: "https://i.imgur.com/X9oO0eE.jpeg", category: "t-shirts", gender: "unisex" }
+                { id: 1, name: "HP AHIGA EVO 5", price: 120.00, imageUrl: "https://i.imgur.com/zfXG5hM.jpeg", category: "scarpe", gender: "uomo", size: "Standard" },
+                { id: 2, name: "W HP MARINE LS", price: 145.00, imageUrl: "https://i.imgur.com/fqxM50N.jpeg", category: "t-shirts", gender: "donna", size: "Standard" },
+                { id: 3, name: "W ANAKIN LEATHER 2", price: 133.00, imageUrl: "https://i.imgur.com/zrKojyK.jpeg", category: "scarpe", gender: "donna", size: "Standard" },
+                { id: 4, name: "CREW LOW", price: 135.00, imageUrl: "https://i.imgur.com/CTg03HI.jpeg", category: "t-shirts", gender: "uomo", size: "Standard" },
+                { id: 5, name: "HH QD CARGO SHORTS 11\"", price: 84.00, imageUrl: "https://i.imgur.com/llv2qYS.jpeg", category: "bottoms", gender: "uomo", size: "Standard" },
+                { id: 6, name: "HH QD CARGO SHORTS 11\" NEW", price: 84.00, imageUrl: "https://i.imgur.com/ktYclsZ.jpeg", category: "bottoms", gender: "uomo", size: "Standard" },
+                { id: 7, name: "HH QD CARGO SHORTS 11\" V2", price: 84.00, imageUrl: "https://i.imgur.com/YHrDIn5.jpeg", category: "bottoms", gender: "uomo", size: "Standard" },
+                { id: 8, name: "DRIFTLINE POLO", price: 73.00, imageUrl: "https://i.imgur.com/kllLabf.jpeg", category: "t-shirts", gender: "uomo", size: "Standard" },
+                { id: 9, name: "DRIFTLINE POLO V2", price: 73.00, imageUrl: "https://i.imgur.com/5Zv7i7u.jpeg", category: "outerwear", gender: "uomo", size: "Standard" },
+                { id: 10, name: "CREWLINE LS POLO", price: 78.00, imageUrl: "https://i.imgur.com/o3GMITe.jpeg", category: "t-shirts", gender: "unisex", size: "Standard" },
+                { id: 11, name: "HH LOGO T-SHIRT 2.0", price: 55.00, imageUrl: "https://i.imgur.com/deIc4Pn.jpeg", category: "t-shirts", gender: "donna", size: "Standard" },
+                { id: 12, name: "HH LOGO T-SHIRT 2.0 V2", price: 33.00, imageUrl: "https://i.imgur.com/8C8nM1b.jpeg", category: "t-shirts", gender: "uomo", size: "Standard" },
+                { id: 13, name: "HH TECH T-SHIRT 2.0", price: 33.00, imageUrl: "https://i.imgur.com/oUYUaxs.jpeg", category: "t-shirts", gender: "bambini", size: "Standard" },
+                { id: 14, name: "HH TECH T-SHIRT 2.0 V2", price: 33.00, imageUrl: "https://i.imgur.com/OZcqOw7.jpeg", category: "t-shirts", gender: "donna", size: "Standard" },
+                { id: 15, name: "HH TECH T-SHIRT 2.0 V3", price: 33.00, imageUrl: "https://i.imgur.com/x35MDY6.jpeg", category: "t-shirts", gender: "uomo", size: "Standard" },
+                { id: 16, name: "CREW JACKET 2.0", price: 170.00, imageUrl: "https://i.imgur.com/wg1uaVi.jpeg", category: "outerwear", gender: "uomo", size: "Standard" },
+                { id: 17, name: "CREW VEST 2.0", price: 152.00, imageUrl: "https://i.imgur.com/bUaRjSI.jpeg", category: "outerwear", gender: "uomo", size: "Standard" },
+                { id: 18, name: "CREW VEST 2.0 V2", price: 152.00, imageUrl: "https://i.imgur.com/4bP0Hco.jpeg", category: "outerwear", gender: "donna", size: "Standard" },
+                { id: 19, name: "PIER 3.0 JACKET", price: 280.00, imageUrl: "https://i.imgur.com/EHhpqhh.jpeg", category: "outerwear", gender: "uomo", size: "Standard" },
+                { id: 20, name: "PIER 3.0 BIB", price: 220.00, imageUrl: "https://i.imgur.com/ml5EvNy.jpeg", category: "bottoms", gender: "uomo", size: "Standard" },
+                { id: 21, name: "NEWPORT BOARD SHORTS 8\"", price: 73.00, imageUrl: "https://i.imgur.com/VZ2WEmB.jpeg", category: "bottoms", gender: "uomo", size: "Standard" },
+                { id: 22, name: "HP CURVE BOARD SHORTS 7\"", price: 73.00, imageUrl: "https://i.imgur.com/zifvZOk.jpeg", category: "bottoms", gender: "uomo", size: "Standard" },
+                { id: 23, name: "HH SOUWESTER", price: 35.00, imageUrl: "https://i.imgur.com/RRHdXJj.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
+                { id: 24, name: "CREW CAP 2.0", price: 33.00, imageUrl: "https://i.imgur.com/9Q7xIDe.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
+                { id: 25, name: "CREW CAP 2.0 V2", price: 33.00, imageUrl: "https://i.imgur.com/AhT9Amu.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
+                { id: 26, name: "CREW CAP 2.0 V3", price: 33.00, imageUrl: "https://i.imgur.com/KCCYcZD.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
+                { id: 27, name: "WANDERER SHOULDER BAG", price: 40.00, imageUrl: "https://i.imgur.com/waodFJQ.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
+                { id: 28, name: "WANDERER SHOULDER BAG V2", price: 40.00, imageUrl: "https://i.imgur.com/EEnpZx2.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
+                { id: 29, name: "CEDAR 25L BACKPACK", price: 150.00, imageUrl: "https://i.imgur.com/7rGHshF.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
+                { id: 30, name: "H/H SCOUT DUFFEL S", price: 60.00, imageUrl: "https://i.imgur.com/xtb6UCb.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
+                { id: 31, name: "SPORT II SANDALS", price: 54.00, imageUrl: "https://i.imgur.com/3kIe7Dg.jpeg", category: "scarpe", gender: "unisex", size: "Standard" },
+                { id: 32, name: "JR RIDER VEST", price: 50.00, imageUrl: "https://i.imgur.com/P1UtG8t.jpeg", category: "outerwear", gender: "bambini", size: "Standard" },
+                { id: 33, name: "ANKLE SOCKS 2-PACK", price: 10.00, imageUrl: "https://i.imgur.com/Q2hH3xX.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
+                { id: 34, name: "KIDS GRAPHIC TEE", price: 35.00, imageUrl: "https://i.imgur.com/R3iI4yY.jpeg", category: "t-shirts", gender: "bambini", size: "Standard" },
+                { id: 35, name: "SPORT SANDALS V2", price: 80.00, imageUrl: "https://i.imgur.com/S4jJ5zZ.jpeg", category: "scarpe", gender: "unisex", size: "Standard" },
+                { id: 36, name: "PUFFER VEST LIGHT", price: 100.00, imageUrl: "https://i.imgur.com/T5kK6aA.jpeg", category: "outerwear", gender: "uomo", size: "Standard" },
+                { id: 37, name: "DENIM SHORTS WOMAN", price: 65.00, imageUrl: "https://i.imgur.com/U6lL7bB.jpeg", category: "bottoms", gender: "donna", size: "Standard" },
+                { id: 38, name: "SUNGLASSES SPORT", price: 55.00, imageUrl: "https://i.imgur.com/V7mM8cC.jpeg", category: "accessories", gender: "unisex", size: "Standard" },
+                { id: 39, name: "RUNNING SHOES PRO", price: 130.00, imageUrl: "https://i.imgur.com/W8nN9dD.jpeg", category: "scarpe", gender: "donna", size: "Standard" },
+                { id: 40, name: "BASIC T-SHIRT UNISEX", price: 20.00, imageUrl: "https://i.imgur.com/X9oO0eE.jpeg", category: "t-shirts", gender: "unisex", size: "Standard" }
             ];
 
             let filteredProducts = [...products]; // Copia per i filtri
@@ -313,7 +402,8 @@
                 productsToDisplay.forEach(product => {
                     const productCard = `
                         <div class="product-card relative bg-white group rounded-lg overflow-hidden shadow-sm">
-                            <div class="relative overflow-hidden"> <a href="product-detail.html?id=${product.id}">
+                            <div class="relative overflow-hidden">
+                                <a href="product-detail.html?id=${product.id}">
                                     <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105">
                                     <div class="product-overlay absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                                         <button class="bg-white text-black px-4 py-2 text-xs uppercase tracking-wider hover:bg-gray-200 transition">Quick View</button>
@@ -323,7 +413,12 @@
                             <div class="mt-3 p-3 text-center">
                                 <h3 class="text-sm font-semibold mb-1">${product.name}</h3>
                                 <p class="text-sm text-gray-600">€${product.price.toFixed(2)}</p>
-                                <button class="mt-3 w-full bg-black text-white py-2 text-sm uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out">
+                                <button class="add-to-cart-btn mt-3 w-full bg-black text-white py-2 text-sm uppercase tracking-wider hover:bg-gray-800 transition duration-300 ease-in-out"
+                                    data-product-id="${product.id}"
+                                    data-product-name="${product.name}"
+                                    data-product-price="${product.price}"
+                                    data-product-image="${product.imageUrl}"
+                                    data-product-size="${product.size}">
                                     Aggiungi al Carrello
                                 </button>
                             </div>
@@ -332,14 +427,14 @@
                     productGrid.insertAdjacentHTML('beforeend', productCard);
                 });
 
-                updateProductCount();
+                updateProductCountDisplay();
                 renderPagination();
-                // Scorri la pagina in cima
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                attachAddToCartListeners(); // Allega i listener dopo aver renderizzato i prodotti
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scorri la pagina in cima
             }
 
-            // Funzione per aggiornare il conteggio dei prodotti
-            function updateProductCount() {
+            // Funzione per aggiornare il conteggio dei prodotti visualizzati
+            function updateProductCountDisplay() {
                 const totalProducts = filteredProducts.length;
                 const start = (currentPage - 1) * productsPerPage + 1;
                 const end = Math.min(start + productsPerPage - 1, totalProducts);
@@ -354,31 +449,25 @@
             function renderPagination() {
                 paginationContainer.innerHTML = '';
                 const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-                const maxPagesToShow = 4; // Impostiamo a 4 il numero massimo di pagine da mostrare
+                const maxPagesToShow = 4;
 
                 if (totalPages > 1) {
-                    // Previous button
                     const prevButton = `<a href="#" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-200 text-sm ${currentPage === 1 ? 'pointer-events-none opacity-50' : ''}" data-page="${currentPage - 1}">Precedente</a>`;
                     paginationContainer.insertAdjacentHTML('beforeend', prevButton);
 
-                    // Page numbers
                     let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
                     let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
-                    // Adjust startPage if we are at the end of the pages
                     if (endPage - startPage + 1 < maxPagesToShow) {
                         startPage = Math.max(1, totalPages - maxPagesToShow + 1);
                     }
-                    // Ensure endPage does not exceed totalPages
                     endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
-
 
                     for (let i = startPage; i <= endPage; i++) {
                         const pageButton = `<a href="#" class="px-4 py-2 border border-gray-300 rounded-md ${currentPage === i ? 'bg-black text-white' : 'hover:bg-gray-200'} text-sm" data-page="${i}">${i}</a>`;
                         paginationContainer.insertAdjacentHTML('beforeend', pageButton);
                     }
 
-                    // Next button
                     const nextButton = `<a href="#" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-200 text-sm ${currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}" data-page="${currentPage + 1}">Successiva</a>`;
                     paginationContainer.insertAdjacentHTML('beforeend', nextButton);
                 }
@@ -386,23 +475,19 @@
 
             // Funzione per applicare filtri e ordinamento
             function applyFiltersAndSort() {
-                let tempProducts = [...products]; // Inizia sempre dalla lista completa
+                let tempProducts = [...products];
 
                 const selectedCategory = categoryFilter.value;
                 const urlCategory = getUrlParameter('category');
 
-                // Applica il filtro della URL se presente e non sovrascritto dal select
                 if (urlCategory && !selectedCategory) {
                     tempProducts = tempProducts.filter(product => product.gender === urlCategory || product.category === urlCategory);
-                    // Imposta il select sulla categoria URL se corrisponde
                     if (categoryFilter.querySelector(`option[value="${urlCategory}"]`)) {
                         categoryFilter.value = urlCategory;
                     } else {
-                        // Se la categoria dalla URL non è tra le opzioni del select, deseleziona il select
                         categoryFilter.value = "";
                     }
                 } else if (selectedCategory) {
-                    // Applica il filtro dal select
                     tempProducts = tempProducts.filter(product => product.category === selectedCategory || product.gender === selectedCategory);
                 }
 
@@ -423,12 +508,11 @@
                         break;
                     case 'relevance':
                     default:
-                        // Nessun ordinamento specifico, mantiene l'ordine originale o predefinito
                         break;
                 }
 
                 filteredProducts = tempProducts;
-                currentPage = 1; // Resetta alla prima pagina dopo aver applicato filtri/ordinamento
+                currentPage = 1;
                 renderProducts();
             }
 
@@ -439,7 +523,7 @@
             // Event Listener per la paginazione
             paginationContainer.addEventListener('click', function(e) {
                 if (e.target.tagName === 'A' && e.target.dataset.page) {
-                    e.preventDefault(); // Impedisce il ricaricamento della pagina
+                    e.preventDefault();
                     const page = parseInt(e.target.dataset.page);
                     if (page >= 1 && page <= Math.ceil(filteredProducts.length / productsPerPage)) {
                         currentPage = page;
@@ -448,10 +532,32 @@
                 }
             });
 
-            // Inizializzazione: carica i prodotti all'avvio della pagina
-            applyFiltersAndSort(); // Applica i filtri iniziali (es. dalla URL) e ordina
+            // Funzione per attaccare gli event listener ai pulsanti "Aggiungi al Carrello"
+            function attachAddToCartListeners() {
+                document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const productId = parseInt(this.dataset.productId);
+                        const product = products.find(p => p.id === productId);
 
-            // Script per il menu mobile (copiato dalla homepage)
+                        if (product) {
+                            window.addProductToCart({
+                                id: product.id,
+                                name: product.name,
+                                image: product.imageUrl,
+                                price: product.price,
+                                size: product.size || 'Standard', // Aggiungi una taglia predefinita se non specificata
+                                quantity: 1
+                            }, this); // Passa il pulsante per l'animazione
+                        }
+                    });
+                });
+            }
+
+            // Inizializzazione:
+            updateCartCount(); // Aggiorna il badge del carrello all'avvio
+            applyFiltersAndSort(); // Carica e renderizza i prodotti
+
+            // Script per il menu mobile
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
@@ -461,7 +567,7 @@
                 });
             }
 
-            // Script per il footer a fisarmonica (copiato dalla homepage)
+            // Script per il footer a fisarmonica
             const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
 
             accordionHeaders.forEach(header => {
