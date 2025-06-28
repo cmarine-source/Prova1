@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saldi | Cmarine</title>
-    <meta name="description" content="Scopri le incredibili offerte nella sezione saldi di Cmarine. Abbigliamento uomo, donna e bambini a prezzi scontati.">
+    <title>Negozio | Cmarine</title>
+    <meta name="description" content="Esplora tutti i prodotti di Cmarine. Abbigliamento uomo, donna e bambini con prezzi normali e collezioni complete.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -176,7 +176,7 @@
     </header>
     <main class="py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-4xl font-bold text-center mb-12">Saldi Imperdibili</h1>
+            <h1 class="text-4xl font-bold text-center mb-12">I Nostri Prodotti</h1>
 
             <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
                 <div class="flex flex-wrap gap-4">
@@ -482,7 +482,7 @@
             });
         });
 
-        // Dati dei prodotti - TUTTI I PRODOTTI SONO ORA IN SALDO con sconti inventati
+        // Dati dei prodotti - Prezzi normali
         const products = [
             { id: 1, name: "HP AHIGA EVO 5", price: 120.00, image: "https://i.imgur.com/zfXG5hM.jpeg", category: "scarpe", gender: "uomo", details: "Scarpe da uomo per sport acquatici." },
             { id: 2, name: "W HP MARINE LS", price: 145.00, image: "https://i.imgur.com/fqxM50N.jpeg", category: "t-shirts", gender: "donna", details: "T-shirt a maniche lunghe da donna." },
@@ -524,15 +524,7 @@
             { id: 38, name: "SUNGLASSES SPORT", price: 55.00, image: "https://i.imgur.com/V7mM8cC.jpeg", category: "accessories", gender: "unisex", details: "Occhiali da sole sportivi." },
             { id: 39, name: "RUNNING SHOES PRO", price: 130.00, image: "https://i.imgur.com/W8nN9dD.jpeg", category: "scarpe", gender: "donna", details: "Scarpe da running professionali." },
             { id: 40, name: "BASIC T-SHIRT UNISEX", price: 20.00, image: "https://i.imgur.com/X9oO0eE.jpeg", category: "t-shirts", gender: "unisex", details: "T-shirt basica unisex." }
-        ].map(product => {
-            const discountPercentage = (Math.random() * 0.3) + 0.1; // Random between 10% and 40%
-            const originalPrice = product.price / (1 - discountPercentage);
-            return {
-                ...product,
-                originalPrice: parseFloat(originalPrice.toFixed(2)), // Ensure 2 decimal places
-                onSale: true
-            };
-        });
+        ];
 
         const productGrid = document.getElementById('product-grid');
         const categoryFilter = document.getElementById('category-filter');
@@ -550,19 +542,14 @@
             const paginatedProducts = productsToRender.slice(startIndex, endIndex);
 
             if (paginatedProducts.length === 0) {
-                productGrid.innerHTML = '<p class="col-span-full text-center text-gray-500">Nessun prodotto in saldo trovato per i criteri selezionati.</p>';
-                productCountElement.textContent = 'Nessun prodotto in saldo trovato.';
+                productGrid.innerHTML = '<p class="col-span-full text-center text-gray-500">Nessun prodotto trovato per i criteri selezionati.</p>';
+                productCountElement.textContent = 'Nessun prodotto trovato.';
                 renderPagination(productsToRender.length); 
                 return;
             }
 
             paginatedProducts.forEach(product => {
-                const priceDisplay = product.onSale ?
-                    `<div class="flex items-center justify-between mb-4">
-                        <p class="text-sm text-gray-500 line-through">&euro;${product.originalPrice.toFixed(2)}</p>
-                        <p class="text-xl font-bold text-red-600">&euro;${product.price.toFixed(2)}</p>
-                    </div>` :
-                    `<p class="text-xl font-bold text-gray-900 mb-4">&euro;${product.price.toFixed(2)}</p>`;
+                const priceDisplay = `<p class="text-xl font-bold text-gray-900 mb-4">&euro;${product.price.toFixed(2)}</p>`;
 
                 const productCard = `
                     <div class="bg-white rounded-lg shadow-md overflow-hidden product-card group">
@@ -572,7 +559,6 @@
                                 <div class="product-overlay absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
                                     <span class="text-white text-lg font-semibold">Vedi Dettagli</span>
                                 </div>
-                                ${product.onSale ? '<span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">SALDI</span>' : ''}
                             </div>
                         </a>
                         <div class="p-4">
@@ -719,7 +705,7 @@
             if (initialCategory) {
                 categoryFilter.value = initialCategory;
             }
-            filterAndSortProducts(); // Carica i prodotti in saldo iniziali
+            filterAndSortProducts(); // Carica i prodotti iniziali
         }
 
         initializeSalesPage();
