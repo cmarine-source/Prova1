@@ -129,6 +129,13 @@
             50% { transform: scale(1.2); opacity: 1; }
             100% { transform: scale(1); }
         }
+
+        /* Stile per le immagini dei prodotti - Rimosso il rapporto d'aspetto fisso */
+        .product-card img {
+            width: 100%;
+            height: auto; /* L'altezza si adatta alla larghezza, mantenendo le proporzioni originali */
+            object-fit: cover; /* Mantenuto per... */
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -144,7 +151,7 @@
             <div class="hidden md:flex space-x-8">
                 <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
                 <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
-                
+                <a href="sales.html" class="text-sm uppercase hover:text-gray-600">Saldi</a>
                 <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
             </div>
 
@@ -169,45 +176,44 @@
                 <a href="shop.html?category=donna" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
                 <a href="shop.html?category=bambini" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
                 <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
-                
+                <a href="sales.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Saldi</a>
                 <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
             </div>
         </div>
     </header>
+
     <main class="py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-4xl font-bold text-center mb-12">Saldi Imperdibili</h1>
+            <h1 class="text-4xl font-bold text-center mb-12 text-gray-900">Prodotti in Saldo</h1>
 
-            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-                <div class="flex flex-wrap gap-4">
-                    <select id="category-filter" class="border border-gray-300 p-2 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">Tutte le Categorie</option>
-                        <option value="scarpe">Scarpe</option>
-                        <option value="outerwear">Outerwear</option>
-                        <option value="bottoms">Bottoms</option>
-                        <option value="t-shirts">T-Shirts</option>
-                        <option value="accessories">Accessori</option>
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 space-y-4 md:space-y-0">
+                <div class="w-full md:w-auto">
+                    <label for="category-filter" class="sr-only">Filtra per Categoria</label>
+                    <select id="category-filter" class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900">
+                        <option value="all">Tutte le Categorie</option>
                         <option value="uomo">Uomo</option>
                         <option value="donna">Donna</option>
                         <option value="bambini">Bambini</option>
+                        <option value="accessori">Accessori</option>
                     </select>
-                    <select id="sort-by" class="border border-gray-300 p-2 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500">
-                        <option value="relevance">Ordina per: Rilevanza</option>
-                        <option value="price-asc">Prezzo: Dal più basso</option>
-                        <option value="price-desc">Prezzo: Dal più alto</option>
+                </div>
+
+                <div class="w-full md:w-auto">
+                    <label for="sort-by" class="sr-only">Ordina per</label>
+                    <select id="sort-by" class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900">
+                        <option value="relevance">Rilevanza</option>
+                        <option value="price-asc">Prezzo: Crescente</option>
+                        <option value="price-desc">Prezzo: Decrescente</option>
                         <option value="name-asc">Nome: A-Z</option>
                         <option value="name-desc">Nome: Z-A</option>
                     </select>
-                </div>
-                <div id="product-count" class="text-gray-700 text-sm">
-                    Mostrando 1-8 di 8 prodotti
                 </div>
             </div>
 
             <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 </div>
 
-            <div id="pagination" class="flex justify-center mt-12 space-x-2">
+            <div id="pagination" class="flex justify-center items-center space-x-2 mt-12">
                 </div>
         </div>
     </main>
@@ -279,7 +285,7 @@
             </div>
             <div></div>
             <div id="sib-container" class="sib-container--large sib-container--vertical" style="text-align:center; background-color:rgba(3,2,2,1); max-width:540px; border-radius:3px; border-width:1px; border-color:#020203; border-style:solid; direction:ltr">
-                <form id="sib-form" method="POST" action="https://16d50c30.sibforms.com/serve/MUIFAD9TXScE1MH3F0qel6S3jfP0w6bSn-l8fl3UDWHoZdV_D34up2OGFcPLyoDr6KP2XiW6OPR5ZamGqhzqD3Q9VeI-R1D2Rnp1vvssGUax9eyhSsbShaZZjj7c29vMbCCb0g9Kg3U09F9z0dq81XcnlAA6iOvkEzfEKdHoAqVzkqVOTbxnRK3DXqLFAZj-5KlwexuK5i6MAdty" data-type="subscription">
+                <form id="sib-form" method="POST" action="https://16d50c30.sibforms.com/serve/MUIFAD9TXScE1MH3F0qel6S3jfP0w6bSn-l8fl3UDWHoZdV_D34up2OGFcPLyoDr6KP2XiW6OPR5ZamGqhzqD3Q9VeI-R1D2Rnp1vvssGUax9eyhSsbShaZZjj7c29vMbCCb0g9Kg3U09F9z0dq81XcnlAA6iOvkEzfEKdHoAqVzkqVOTbxnRK3DXqLFAZj-5KlwexuLAdty" data-type="subscription">
                     <div style="padding: 8px 0;">
                         <div class="sib-form-block" style="font-size:11px; text-align:center; font-family:Helvetica, sans-serif; color:#fdfeff; background-color:transparent; text-align:center">
                             <div class="sib-text-form-block">
@@ -352,7 +358,7 @@
                     <ul class="space-y-2 footer-accordion-content">
                         <li><a href="#" class="text-sm hover:underline text-gray-700">La Nostra Storia</a></li>
                         <li><a href="features.html" class="text-sm hover:underline text-gray-700">Partnership</a></li>
-                        <li><a href="#" class="text-sm hover:underline text-gray-700">Dove Trovarci</a></li>
+                        <li><a href="dove-trovarci.html" class="text-sm hover:underline text-gray-700">Dove Trovarci</a></li>
                     </ul>
                 </div>
 
@@ -392,9 +398,12 @@
     </footer>
 
     <script>
+        // Chiave per il localStorage (DEVE ESSERE LA STESSA SU TUTTE LE PAGINE)
+        const CART_STORAGE_KEY = 'cmarineCart'; // Corretto: era 'cart'
+
         // Funzioni globali per il carrello
         window.updateCartDisplay = function() {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
             const cartItemCountElement = document.getElementById('cart-item-count');
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -409,7 +418,7 @@
         };
 
         window.addProductToCart = function(product, buttonElement = null) {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
             const existingProductIndex = cart.findIndex(item => item.id === product.id);
 
             if (existingProductIndex > -1) {
@@ -419,8 +428,8 @@
                 cart.push(product);
             }
 
-            localStorage.setItem('cart', JSON.stringify(cart));
-            window.updateCartDisplay(); // Questa riga aggiorna il badge
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+            window.updateCartDisplay();
 
             if (buttonElement) {
                 const originalText = buttonElement.textContent;
@@ -436,14 +445,14 @@
         };
 
         window.removeProductFromCart = function(productId) {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
             cart = cart.filter(item => item.id !== productId);
-            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
             window.updateCartDisplay();
         };
 
         window.changeProductQuantity = function(productId, newQuantity) {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
             const productIndex = cart.findIndex(item => item.id === productId);
 
             if (productIndex > -1) {
@@ -453,276 +462,208 @@
                     cart.splice(productIndex, 1);
                 }
             }
-            localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
             window.updateCartDisplay();
         };
 
-        // Inizializza il display del carrello al caricamento della pagina
-        document.addEventListener('DOMContentLoaded', window.updateCartDisplay);
+        // Inizializza il display del carrello al caricamento della pagina e quando si torna ad essa
+        window.addEventListener('pageshow', window.updateCartDisplay);
     </script>
     <script>
-        // Funzionalità per il menu mobile
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+        document.addEventListener('DOMContentLoaded', () => {
+            const productGrid = document.getElementById('product-grid');
+            const categoryFilter = document.getElementById('category-filter');
+            const sortBy = document.getElementById('sort-by');
+            const paginationElement = document.getElementById('pagination');
 
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('open');
-            });
-        }
+            const productsPerPage = 8;
+            let currentPage = 1;
+            let filteredProducts = [];
 
-        // Funzionalità per il footer a fisarmonica (solo per mobile)
-        document.querySelectorAll('.footer-accordion-header').forEach(header => {
-            header.addEventListener('click', () => {
-                if (window.innerWidth < 768) {
-                    const content = header.nextElementSibling;
-                    header.classList.toggle('open');
-                    content.classList.toggle('open');
-                }
-            });
-        });
+            const products = [
+                { id: 1, name: 'T-Shirt Logo Saldi', price: 24.99, originalPrice: 35.00, image: 'https://i.imgur.com/kS5Yv30.jpeg', category: 't-shirt', gender: 'uomo', details: '100% cotone, vestibilità regolare.', onSale: true },
+                { id: 2, name: 'Jeans Slim Fit Saldi', price: 59.99, originalPrice: 80.00, image: 'https://i.imgur.com/gK2g2f3.jpeg', category: 'pantaloni', gender: 'uomo', details: 'Denim stretch, vestibilità slim.', onSale: true },
+                { id: 3, name: 'Felpa con Cappuccio Saldi', price: 45.00, originalPrice: 60.00, image: 'https://i.imgur.com/vH1M4rQ.jpeg', category: 'felpe', gender: 'donna', details: 'Misto cotone, morbida e calda.', onSale: true },
+                { id: 4, name: 'Leggings Sportivi Saldi', price: 29.99, originalPrice: 40.00, image: 'https://i.imgur.com/Z4w2bBq.jpeg', category: 'pantaloni', gender: 'donna', details: 'Tessuto traspirante, alta elasticità.', onSale: true },
+                { id: 5, name: 'Scarpe da Ginnastica Saldi', price: 75.00, originalPrice: 100.00, image: 'https://i.imgur.com/0iH1S9v.jpeg', category: 'calzature', gender: 'unisex', details: 'Suola ammortizzata, comfort elevato.', onSale: true },
+                { id: 6, name: 'Bermuda in Lino Saldi', price: 34.99, originalPrice: 50.00, image: 'https://i.imgur.com/v1GqgYc.jpeg', category: 'pantaloni', gender: 'uomo', details: 'Lino leggero, perfetto per l\'estate.', onSale: true },
+                { id: 7, name: 'Abito Floreale Saldi', price: 69.99, originalPrice: 95.00, image: 'https://i.imgur.com/uG9XJ5d.jpeg', category: 'vestiti', gender: 'donna', details: 'Viscosa leggera, stampa vivace.', onSale: true },
+                { id: 8, name: 'Cappellino con Visiera Saldi', price: 14.99, originalPrice: 20.00, image: 'https://i.imgur.com/S22pZ9x.jpeg', category: 'accessori', gender: 'unisex', details: 'Cotone, taglia unica.', onSale: true },
+                { id: 9, name: 'Polo Classica Saldi', price: 30.00, originalPrice: 45.00, image: 'https://i.imgur.com/aA91223.jpeg', category: 't-shirt', gender: 'uomo', details: 'Piqué di cotone, vestibilità custom fit.', onSale: true },
+                { id: 10, name: 'Giacca a Vento Saldi', price: 89.99, originalPrice: 120.00, image: 'https://i.imgur.com/w9vJ9Yl.jpeg', category: 'giacche', gender: 'donna', details: 'Impermeabile, leggera e traspirante.', onSale: true },
+                { id: 11, name: 'Costume da Bagno Saldi', price: 20.00, originalPrice: 30.00, image: 'https://i.imgur.com/P002i1g.jpeg', category: 'costumi', gender: 'uomo', details: 'Poliestere ad asciugatura rapida.', onSale: true },
+                { id: 12, name: 'Top Crop Saldi', price: 18.00, originalPrice: 25.00, image: 'https://i.imgur.com/E8S9p9H.jpeg', category: 'top', gender: 'donna', details: 'Morbido cotone stretch.', onSale: true },
+                // ... altri prodotti
+                { id: 13, name: 'T-Shirt Bambino Saldi', price: 15.00, originalPrice: 20.00, image: 'https://i.imgur.com/i9vY6tW.jpeg', category: 't-shirt', gender: 'bambini', details: 'Cotone organico, stampa giocosa.', onSale: true },
+                { id: 14, name: 'Pantaloni Ginnastica Bambina Saldi', price: 22.00, originalPrice: 30.00, image: 'https://i.imgur.com/L3k7D0T.jpeg', category: 'pantaloni', gender: 'bambini', details: 'Felpa leggera, comodi e resistenti.', onSale: true }
+            ];
 
-        // Dati dei prodotti - TUTTI I PRODOTTI SONO ORA IN SALDO con sconti inventati
-        const products = [
-            { id: 1, name: "HP AHIGA EVO 5", price: 120.00, image: "https://i.imgur.com/zfXG5hM.jpeg", category: "scarpe", gender: "uomo", details: "Scarpe da uomo per sport acquatici." },
-            { id: 2, name: "W HP MARINE LS", price: 145.00, image: "https://i.imgur.com/fqxM50N.jpeg", category: "t-shirts", gender: "donna", details: "T-shirt a maniche lunghe da donna." },
-            { id: 3, name: "W ANAKIN LEATHER 2", price: 133.00, image: "https://i.imgur.com/zrKojyK.jpeg", category: "scarpe", gender: "donna", details: "Sneakers in pelle da donna." },
-            { id: 4, name: "CREW LOW", price: 135.00, image: "https://i.imgur.com/CTg03HI.jpeg", category: "t-shirts", gender: "uomo", details: "T-shirt casual da uomo." },
-            { id: 5, name: "HH QD CARGO SHORTS 11\"", price: 84.00, image: "https://i.imgur.com/llv2qYS.jpeg", category: "bottoms", gender: "uomo", details: "Shorts cargo quick dry da uomo." },
-            { id: 6, name: "HH QD CARGO SHORTS 11\" NEW", price: 84.00, image: "https://i.imgur.com/ktYclsZ.jpeg", category: "bottoms", gender: "uomo", details: "Nuovi shorts cargo quick dry da uomo." },
-            { id: 7, name: "HH QD CARGO SHORTS 11\" V2", price: 84.00, image: "https://i.imgur.com/YHrDIn5.jpeg", category: "bottoms", gender: "uomo", details: "Versione 2 degli shorts cargo quick dry da uomo." },
-            { id: 8, name: "DRIFTLINE POLO", price: 73.00, image: "https://i.imgur.com/kllLabf.jpeg", category: "t-shirts", gender: "uomo", details: "Polo Driftline per uomo." },
-            { id: 9, name: "DRIFTLINE POLO V2", price: 73.00, image: "https://i.imgur.com/5Zv7i7u.jpeg", category: "outerwear", gender: "uomo", details: "Polo Driftline per uomo, versione 2." },
-            { id: 10, name: "CREWLINE LS POLO", price: 78.00, image: "https://i.imgur.com/o3GMITe.jpeg", category: "t-shirts", gender: "unisex", details: "Polo a maniche lunghe unisex." },
-            { id: 11, name: "HH LOGO T-SHIRT 2.0", price: 55.00, image: "https://i.imgur.com/deIc4Pn.jpeg", category: "t-shirts", gender: "donna", details: "T-shirt con logo HH 2.0 da donna." },
-            { id: 12, name: "HH LOGO T-SHIRT 2.0 V2", price: 33.00, image: "https://i.imgur.com/8C8nM1b.jpeg", category: "t-shirts", gender: "uomo", details: "T-shirt con logo HH 2.0 v2 da uomo." },
-            { id: 13, name: "HH TECH T-SHIRT 2.0", price: 33.00, image: "https://i.imgur.com/oUYUaxs.jpeg", category: "t-shirts", gender: "bambini", details: "T-shirt tecnica HH 2.0 per bambini." },
-            { id: 14, name: "HH TECH T-SHIRT 2.0 V2", price: 33.00, image: "https://i.imgur.com/OZcqOw7.jpeg", category: "t-shirts", gender: "donna", details: "T-shirt tecnica HH 2.0 v2 da donna." },
-            { id: 15, name: "HH TECH T-SHIRT 2.0 V3", price: 33.00, image: "https://i.imgur.com/x35MDY6.jpeg", category: "t-shirts", gender: "uomo", details: "T-shirt tecnica HH 2.0 v3 da uomo." },
-            { id: 16, name: "CREW JACKET 2.0", price: 170.00, image: "https://i.imgur.com/wg1uaVi.jpeg", category: "outerwear", gender: "uomo", details: "Giacca Crew 2.0 per uomo." },
-            { id: 17, name: "CREW VEST 2.0", price: 152.00, image: "https://i.imgur.com/bUaRjSI.jpeg", category: "outerwear", gender: "uomo", details: "Gilet Crew 2.0 per uomo." },
-            { id: 18, name: "CREW VEST 2.0 V2", price: 152.00, image: "https://i.imgur.com/4bP0Hco.jpeg", category: "outerwear", gender: "donna", details: "Gilet Crew 2.0 v2 per donna." },
-            { id: 19, name: "PIER 3.0 JACKET", price: 280.00, image: "https://i.imgur.com/EHhpqhh.jpeg", category: "outerwear", gender: "uomo", details: "Giacca Pier 3.0 ad alte prestazioni." },
-            { id: 20, name: "PIER 3.0 BIB", price: 220.00, image: "https://i.imgur.com/ml5EvNy.jpeg", category: "bottoms", gender: "uomo", details: "Salopette Pier 3.0." },
-            { id: 21, name: "NEWPORT BOARD SHORTS 8\"", price: 73.00, image: "https://i.imgur.com/VZ2WEmB.jpeg", category: "bottoms", gender: "uomo", details: "Board shorts Newport 8 pollici." },
-            { id: 22, name: "HP CURVE BOARD SHORTS 7\"", price: 73.00, image: "https://i.imgur.com/zifvZOk.jpeg", category: "bottoms", gender: "uomo", details: "Board shorts HP Curve 7 pollici." },
-            { id: 23, name: "HH SOUWESTER", price: 35.00, image: "https://i.imgur.com/RRHdXJj.jpeg", category: "accessories", gender: "unisex", details: "Cappello impermeabile Souwester." },
-            { id: 24, name: "CREW CAP 2.0", price: 33.00, image: "https://i.imgur.com/9Q7xIDe.jpeg", category: "accessories", gender: "unisex", details: "Cappellino Crew 2.0." },
-            { id: 25, name: "CREW CAP 2.0 V2", price: 33.00, image: "https://i.imgur.com/AhT9Amu.jpeg", category: "accessories", gender: "unisex", details: "Cappellino Crew 2.0 v2." },
-            { id: 26, name: "CREW CAP 2.0 V3", price: 33.00, image: "https://i.imgur.com/KCCYcZD.jpeg", category: "accessories", gender: "unisex", details: "Cappellino Crew 2.0 v3." },
-            { id: 27, name: "WANDERER SHOULDER BAG", price: 40.00, image: "https://i.imgur.com/waodFJQ.jpeg", category: "accessories", gender: "unisex", details: "Borsa a tracolla Wanderer." },
-            { id: 28, name: "WANDERER SHOULDER BAG V2", price: 40.00, image: "https://i.imgur.com/EEnpZx2.jpeg", category: "accessories", gender: "unisex", details: "Borsa a tracolla Wanderer v2." },
-            { id: 29, name: "CEDAR 25L BACKPACK", price: 150.00, image: "https://i.imgur.com/7rGHshF.jpeg", category: "accessories", gender: "unisex", details: "Zaino Cedar da 25L." },
-            { id: 30, name: "H/H SCOUT DUFFEL S", price: 60.00, image: "https://i.imgur.com/xtb6UCb.jpeg", category: "accessories", gender: "unisex", details: "Borsone Scout S." },
-            { id: 31, name: "SPORT II SANDALS", price: 54.00, image: "https://i.imgur.com/3kIe7Dg.jpeg", category: "scarpe", gender: "unisex", details: "Sandali sportivi II." },
-            { id: 32, name: "JR RIDER VEST", price: 50.00, image: "https://i.imgur.com/P1UtG8t.jpeg", category: "outerwear", gender: "bambini", details: "Gilet da bambino JR Rider." },
-            { id: 33, name: "ANKLE SOCKS 2-PACK", price: 10.00, image: "https://i.imgur.com/Q2hH3xX.jpeg", category: "accessories", gender: "unisex", details: "Calzini alla caviglia (confezione da 2)." },
-            { id: 34, name: "KIDS GRAPHIC TEE", price: 35.00, image: "https://i.imgur.com/R3iI4yY.jpeg", category: "t-shirts", gender: "bambini", details: "T-shirt grafica per bambini." },
-            { id: 35, name: "SPORT SANDALS V2", price: 80.00, image: "https://i.imgur.com/S4jJ5zZ.jpeg", category: "scarpe", gender: "unisex", details: "Sandali sportivi v2." },
-            { id: 36, name: "PUFFER VEST LIGHT", price: 100.00, image: "https://i.imgur.com/T5kK6aA.jpeg", category: "outerwear", gender: "uomo", details: "Gilet imbottito leggero." },
-            { id: 37, name: "DENIM SHORTS WOMAN", price: 65.00, image: "https://i.imgur.com/U6lL7bB.jpeg", category: "bottoms", gender: "donna", details: "Shorts in denim da donna." },
-            { id: 38, name: "SUNGLASSES SPORT", price: 55.00, image: "https://i.imgur.com/V7mM8cC.jpeg", category: "accessories", gender: "unisex", details: "Occhiali da sole sportivi." },
-            { id: 39, name: "RUNNING SHOES PRO", price: 130.00, image: "https://i.imgur.com/W8nN9dD.jpeg", category: "scarpe", gender: "donna", details: "Scarpe da running professionali." },
-            { id: 40, name: "BASIC T-SHIRT UNISEX", price: 20.00, image: "https://i.imgur.com/X9oO0eE.jpeg", category: "t-shirts", gender: "unisex", details: "T-shirt basica unisex." }
-        ].map(product => {
-            const discountPercentage = (Math.random() * 0.3) + 0.1; // Random between 10% and 40%
-            const originalPrice = product.price / (1 - discountPercentage);
-            return {
-                ...product,
-                originalPrice: parseFloat(originalPrice.toFixed(2)), // Ensure 2 decimal places
-                onSale: true
-            };
-        });
+            function renderProducts() {
+                productGrid.innerHTML = '';
+                const startIndex = (currentPage - 1) * productsPerPage;
+                const endIndex = startIndex + productsPerPage;
+                const productsToRender = filteredProducts.slice(startIndex, endIndex);
 
-        const productGrid = document.getElementById('product-grid');
-        const categoryFilter = document.getElementById('category-filter');
-        const sortBy = document.getElementById('sort-by');
-        const productCountElement = document.getElementById('product-count');
-        const paginationElement = document.getElementById('pagination');
-
-        const productsPerPage = 8;
-        let currentPage = 1;
-
-        function renderProducts(productsToRender) {
-            productGrid.innerHTML = '';
-            const startIndex = (currentPage - 1) * productsPerPage;
-            const endIndex = startIndex + productsPerPage;
-            const paginatedProducts = productsToRender.slice(startIndex, endIndex);
-
-            if (paginatedProducts.length === 0) {
-                productGrid.innerHTML = '<p class="col-span-full text-center text-gray-500">Nessun prodotto in saldo trovato per i criteri selezionati.</p>';
-                productCountElement.textContent = 'Nessun prodotto in saldo trovato.';
-                renderPagination(productsToRender.length); 
-                return;
-            }
-
-            paginatedProducts.forEach(product => {
-                const priceDisplay = product.onSale ?
-                    `<div class="flex items-center justify-between mb-4">
-                        <p class="text-sm text-gray-500 line-through">&euro;${product.originalPrice.toFixed(2)}</p>
-                        <p class="text-xl font-bold text-red-600">&euro;${product.price.toFixed(2)}</p>
-                    </div>` :
-                    `<p class="text-xl font-bold text-gray-900 mb-4">&euro;${product.price.toFixed(2)}</p>`;
-
-                const productCard = `
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden product-card group">
-                        <a href="product.html?id=${product.id}" class="block">
-                            <div class="relative overflow-hidden">
-                                <img src="${product.image}" alt="${product.name}" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300 ease-in-out">
-                                <div class="product-overlay absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                                    <span class="text-white text-lg font-semibold">Vedi Dettagli</span>
+                productsToRender.forEach(product => {
+                    const productCard = `
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden relative product-card">
+                            <a href="product-detail.html?id=${product.id}">
+                                <img src="${product.image}" alt="${product.name}" class="w-full h-auto object-cover">
+                            </a>
+                            <div class="p-4">
+                                <h3 class="font-semibold text-lg mb-1">${product.name}</h3>
+                                <p class="text-gray-700 text-sm mb-2">${product.details}</p>
+                                <div class="flex items-baseline mb-2">
+                                    <span class="text-red-600 font-bold text-xl mr-2">€${product.price.toFixed(2)}</span>
+                                    <span class="text-gray-500 line-through">€${product.originalPrice.toFixed(2)}</span>
                                 </div>
-                                ${product.onSale ? '<span class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">SALDI</span>' : ''}
-                            </div>
-                        </a>
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold text-gray-800">${product.name}</h3>
-                            <p class="text-gray-600 text-sm mb-2">${product.gender ? product.gender.charAt(0).toUpperCase() + product.gender.slice(1) : ''} - ${product.category ? product.category.charAt(0).toUpperCase() + product.category.slice(1) : ''}</p>
-                            ${priceDisplay}
-                            <button class="add-to-cart-btn w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition duration-300"
+                                <button class="add-to-cart-btn bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition duration-300 w-full"
                                     data-product-id="${product.id}"
                                     data-product-name="${product.name}"
                                     data-product-price="${product.price}"
-                                    data-product-image="${product.image}"
-                            >Aggiungi al Carrello</button>
+                                    data-product-image="${product.image}">
+                                    Aggiungi al Carrello
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                `;
-                productGrid.insertAdjacentHTML('beforeend', productCard);
-            });
+                    `;
+                    productGrid.insertAdjacentHTML('beforeend', productCard);
+                });
 
-            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                   const productId = parseInt(this.dataset.productId); // Modifica solo questa riga
-                    const productName = this.dataset.productName;
-                    const productPrice = parseFloat(this.dataset.productPrice);
-                    const productImage = this.dataset.productImage;
+                // Re-attach event listeners after rendering new products
+                document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const productId = parseInt(this.dataset.productId); // Modificato: convertito in numero
+                        const productName = this.dataset.productName;
+                        const productPrice = parseFloat(this.dataset.productPrice);
+                        const productImage = this.dataset.productImage;
 
-                    const productToAdd = {
-                        id: productId,
-                        name: productName,
-                        price: productPrice,
-                        image: productImage,
-                        quantity: 1
-                    };
-                    window.addProductToCart(productToAdd, this);
+                        const productToAdd = {
+                            id: productId,
+                            name: productName,
+                            price: productPrice,
+                            image: productImage
+                        };
+                        window.addProductToCart(productToAdd, this);
+                    });
+                });
+
+                renderPagination();
+            }
+
+            function renderPagination() {
+                paginationElement.innerHTML = '';
+                const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+                if (totalPages > 1) {
+                    // Previous button
+                    const prevButton = `<a href="#" class="px-4 py-2 mx-1 rounded-md ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>Precedente</a>`;
+                    paginationElement.insertAdjacentHTML('beforeend', prevButton);
+
+                    // Page numbers
+                    for (let i = 1; i <= totalPages; i++) {
+                        const pageButton = `<a href="#" class="px-4 py-2 mx-1 rounded-md ${currentPage === i ? 'bg-black text-white' : 'text-black hover:bg-gray-200'}" data-page="${i}">${i}</a>`;
+                        paginationElement.insertAdjacentHTML('beforeend', pageButton);
+                    }
+
+                    // Next button
+                    const nextButton = `<a href="#" class="px-4 py-2 mx-1 rounded-md ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>Successivo</a>`;
+                    paginationElement.insertAdjacentHTML('beforeend', nextButton);
+                }
+            }
+
+            function applyFiltersAndSort() {
+                const selectedCategory = categoryFilter.value;
+                const selectedSortBy = sortBy.value;
+
+                filteredProducts = products.filter(product => {
+                    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory || product.gender === selectedCategory;
+                    return product.onSale && matchesCategory; // Mostra solo prodotti in saldo
+                });
+
+                switch (selectedSortBy) {
+                    case 'price-asc':
+                        filteredProducts.sort((a, b) => a.price - b.price);
+                        break;
+                    case 'price-desc':
+                        filteredProducts.sort((a, b) => b.price - a.price);
+                        break;
+                    case 'name-asc':
+                        filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+                        break;
+                    case 'name-desc':
+                        filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
+                        break;
+                    case 'relevance':
+                    default:
+                        // Nessun ordinamento specifico per rilevanza, mantiene l'ordine originale o predefinito
+                        break;
+                }
+
+                currentPage = 1; // Reset to first page after filtering/sorting
+                renderProducts();
+            }
+
+            // Funzionalità per il menu mobile
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('open');
+                });
+            }
+
+            // Funzionalità per il footer a fisarmonica (solo per mobile)
+            document.querySelectorAll('.footer-accordion-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    if (window.innerWidth < 768) {
+                        const content = header.nextElementSibling;
+                        header.classList.toggle('open');
+                        content.classList.toggle('open');
+                    }
                 });
             });
 
-            updateProductCount(productsToRender.length);
-            renderPagination(productsToRender.length); 
-        }
 
-        function updateProductCount(totalProducts) {
-            const currentStart = (currentPage - 1) * productsPerPage + 1;
-            const currentEnd = Math.min(currentPage * productsPerPage, totalProducts);
-            if (totalProducts === 0) {
-                productCountElement.textContent = `Nessun prodotto trovato`;
-            } else {
-                productCountElement.textContent = `Mostrando ${currentStart}-${currentEnd} di ${totalProducts} prodotti`;
-            }
-        }
+            // Event Listeners per i filtri e l'ordinamento
+            categoryFilter.addEventListener('change', () => {
+                currentPage = 1; // Resetta la pagina alla prima quando il filtro cambia
+                applyFiltersAndSort();
+            });
+            sortBy.addEventListener('change', () => {
+                currentPage = 1; // Resetta la pagina alla prima quando l'ordinamento cambia
+                applyFiltersAndSort();
+            });
+            
+            // Event Listener per la paginazione
+            paginationElement.addEventListener('click', function(event) {
+                event.preventDefault();
+                const target = event.target;
+                const targetPage = parseInt(target.dataset.page);
 
-        function renderPagination(totalProducts) {
-            paginationElement.innerHTML = '';
-            const totalPages = Math.ceil(totalProducts / productsPerPage);
-            const maxPagesToShow = 4; // Numero massimo di pagine da mostrare (escluse "Precedente" e "Successivo")
-
-            if (totalPages > 1) {
-                // Pulsante "Precedente"
-                const prevButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage - 1}">Precedente</a>`;
-                paginationElement.insertAdjacentHTML('beforeend', prevButton);
-
-                let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
-                let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
-
-                // Regola startPage se si è verso la fine per mantenere sempre maxPagesToShow visibili
-                if (endPage - startPage + 1 < maxPagesToShow) {
-                    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+                // Controlla se l'elemento cliccato è un pulsante di paginazione valido e non disabilitato
+                if (!isNaN(targetPage) && target.hasAttribute('data-page') && !target.classList.contains('cursor-not-allowed')) {
+                    currentPage = targetPage;
+                    // Chiama applyFiltersAndSort che ricalcolerà i prodotti filtrati/ordinati
+                    // e poi richiamerà renderProducts e renderPagination
+                    applyFiltersAndSort(); 
+                    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scorri all'inizio della pagina
                 }
+            });
 
-                for (let i = startPage; i <= endPage; i++) {
-                    const pageButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${i === currentPage ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-200'}" data-page="${i}">${i}</a>`;
-                    paginationElement.insertAdjacentHTML('beforeend', pageButton);
+
+            function initializeSalesPage() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const initialCategory = urlParams.get('category');
+                if (initialCategory) {
+                    categoryFilter.value = initialCategory;
                 }
-
-                // Pulsante "Successivo"
-                const nextButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage + 1}">Successivo</a>`;
-                paginationElement.insertAdjacentHTML('beforeend', nextButton);
-            }
-        }
-
-        function filterAndSortProducts() {
-            let filteredProducts = [...products];
-
-            const selectedCategory = categoryFilter.value;
-            if (selectedCategory) {
-                filteredProducts = filteredProducts.filter(product =>
-                    product.category === selectedCategory || product.gender === selectedCategory
-                );
+                applyFiltersAndSort(); // Carica i prodotti in saldo iniziali
             }
 
-            const sortOption = sortBy.value;
-            switch (sortOption) {
-                case 'price-asc':
-                    filteredProducts.sort((a, b) => a.price - b.price);
-                    break;
-                case 'price-desc':
-                    filteredProducts.sort((a, b) => b.price - a.price);
-                    break;
-                case 'name-asc':
-                    filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
-                    break;
-                case 'name-desc':
-                    filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
-                    break;
-                case 'relevance':
-                default:
-                    break;
-            }
-
-            // Non resetto currentPage a 1 qui, solo se la pagina cambia a causa di un filtro/ordinamento
-            // L'aggiornamento di currentPage avviene nell'event listener della paginazione
-            renderProducts(filteredProducts);
-        }
-
-        // Event listeners per filtri e ordinamento
-        categoryFilter.addEventListener('change', () => {
-            currentPage = 1; // Resetta la pagina alla prima quando i filtri cambiano
-            filterAndSortProducts();
+            initializeSalesPage();
         });
-        sortBy.addEventListener('change', () => {
-            currentPage = 1; // Resetta la pagina alla prima quando l'ordinamento cambia
-            filterAndSortProducts();
-        });
-        
-        // Event Listener per la paginazione
-        paginationElement.addEventListener('click', function(event) {
-            event.preventDefault();
-            const target = event.target;
-            const targetPage = parseInt(target.dataset.page);
-
-            // Controlla se l'elemento cliccato è un pulsante di paginazione valido e non disabilitato
-            if (!isNaN(targetPage) && target.hasAttribute('data-page') && !target.classList.contains('cursor-not-allowed')) {
-                currentPage = targetPage;
-                // Chiama filterAndSortProducts che ricalcolerà i prodotti filtrati/ordinati
-                // e poi richiamerà renderProducts e renderPagination
-                filterAndSortProducts(); 
-                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scorri all'inizio della pagina
-            }
-        });
-
-
-        function initializeSalesPage() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const initialCategory = urlParams.get('category');
-            if (initialCategory) {
-                categoryFilter.value = initialCategory;
-            }
-            filterAndSortProducts(); // Carica i prodotti in saldo iniziali
-        }
-
-        initializeSalesPage();
     </script>
 </body>
 </html>
