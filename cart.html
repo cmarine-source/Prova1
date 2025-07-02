@@ -1183,7 +1183,140 @@
             }
 
             applyFiltersAndSort(); // Applica i filtri iniziali e ordina i prodotti
+        });// Funzione per renderizzare gli elementi del carrello.
+// Assicurati che questa funzione sia responsabile della creazione dell'HTML per ogni prodotto,
+// inclusi i campi di input della quantità con l'attributo data-id.
+function renderCartItems() {
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    cartItemsContainer.innerHTML = ''; // Pulisce gli elementi precedenti
+
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p class="text-center text-gray-500">Il tuo carrello è vuoto.</p>';
+        updateCartTotals(); // Aggiorna i totali anche se il carrello è vuoto
+        return;
+    }
+
+    cart.forEach(item => {
+        const productItemDiv = document.createElement('div');
+        productItemDiv.classList.add('flex', 'items-center', 'justify-between', 'py-4', 'border-b', 'border-gray-200', 'product-item');
+        productItemDiv.dataset.id = item.id; // Imposta l'ID del prodotto come attributo data-id
+
+        // Assicurati che la struttura HTML corrisponda a quella del tuo carrello
+        // e che l'input della quantità abbia la classe 'quantity-input' e l'attributo 'data-id'
+        productItemDiv.innerHTML = `
+            <div class="flex items-center space-x-4">
+                <img src="${item.image}" alt="${item.name}" class="h-16 w-16 object-cover rounded-md">
+                <div>
+                    <h3 class="text-lg font-medium">${item.name}</h3>
+                    <p class="text-gray-600">€${item.price.toFixed(2)}</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <input type="number"
+                       value="${item.quantity}"
+                       min="1"
+                       data-id="${item.id}"
+                       class="quantity-input w-20 text-center border border-gray-300 rounded-md py-1"
+                >
+                <span class="font-bold product-total-price">€${(item.quantity * item.price).toFixed(2)}</span>
+                <button class="remove-item-btn text-gray-400 hover:text-red-500" data-id="${item.id}">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        `;
+        cartItemsContainer.appendChild(productItemDiv);
+    });
+
+    // Collega gli event listeners dopo aver renderizzato gli elementi
+    attachQuantityChangeListeners();
+    attachRemoveItemListeners(); // Assicurati che anche i pulsanti di rimozione funzionino
+    updateCartTotals(); // Aggiorna i totali iniziali
+}
+
+// Funzione per collegare gli event listeners ai campi di input della quantità
+function attachQuantityChangeListeners() {
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+    quantityInputs.forEach(input => {
+        input.addEventListener('change', (event) => {
+            const productId = event.target.dataset.id;
+            const newQuantity = parseInt(event.target.value);
+            if (!isNaN(newQuantity) && newQuantity >= 1) {
+                // Chiama la funzione globale per aggiornare la quantità nel carrello
+                window.setProductQuantityInCart(productId, newQuantity);
+                // Aggiorna immediatamente il prezzo totale del singolo prodotto visualizzato
+                updateProductTotalPrice(productId, newQuantity);
+                // La funzione setProductQuantityInCart dovrebbe già chiamare updateCartTotals()
+                // ma chiamarla esplicitamente qui garantisce l'aggiornamento completo se necessario.
+                updateCartTotals();
+            } else {
+                // Se la quantità inserita non è valida, ripristina la quantità precedente
+                const currentItem = cart.find(item => String(item.id) === String(productId));
+                if (currentItem) {
+                    event.target.value = currentItem.quantity;
+                }
+            }
         });
+    });
+}
+
+// Funzione aggiuntiva per aggiornare solo il prezzo totale del singolo prodotto
+function updateProductTotalPrice(productId, newQuantity) {
+    const item = cart.find(cartItem => String(cartItem.id) === String(productId));
+    if (item) {
+        const productItemDiv = document.querySelector(`.product-item[data-id="${productId}"]`);
+        if (productItemDiv) {
+            const productTotalPriceSpan = productItemDiv.querySelector('.product-total-price');
+            if (productTotalPriceSpan) {
+                productTotalPriceSpan.textContent = `€${(newQuantity * item.price).toFixed(2)}`;
+            }
+        }
+    }
+}
+
+// Funzione per collegare gli event listeners ai pulsanti di rimozione (se non già presente)
+function attachRemoveItemListeners() {
+    const removeButtons = document.querySelectorAll('.remove-item-btn');
+    removeButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const productId = event.currentTarget.dataset.id;
+            window.removeProductFromCart(productId);
+        });
+    });
+}
+
+
+// Chiamata iniziale per renderizzare il carrello al caricamento della pagina
+document.addEventListener('DOMContentLoaded', () => {
+    renderCartItems();
+});
+
+// Assicurati che la funzione updateCartTotals() sia definita e accessibile.
+// Dovrebbe essere simile a questa, e aggiornare gli span con id 'subtotal', 'shipping', 'discount', 'total'.
+function updateCartTotals() {
+    let subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    // Assicurati che currentShippingCost e discountAppliedAmount siano definiti globalmente o passati
+    const currentShippingCostElement = document.getElementById('shipping');
+    const discountElement = document.getElementById('discount');
+
+    let currentShippingCost = 10.00; // Valore di default o recuperato da logica esistente
+    let discountAppliedAmount = 0; // Valore di default o recuperato da logica esistente
+
+    // Puoi recuperare i valori attuali se sono visualizzati sull'HTML e vuoi mantenerli
+    if (currentShippingCostElement) {
+        currentShippingCost = parseFloat(currentShippingCostElement.textContent.replace('€', '')) || 0;
+    }
+    if (discountElement) {
+        discountAppliedAmount = parseFloat(discountElement.textContent.replace('-€', '')) || 0;
+    }
+
+    let total = subtotal + currentShippingCost - discountAppliedAmount;
+
+    document.getElementById('subtotal').textContent = `€${subtotal.toFixed(2)}`;
+    document.getElementById('shipping').textContent = `€${currentShippingCost.toFixed(2)}`;
+    document.getElementById('discount').textContent = `-€${discountAppliedAmount.toFixed(2)}`;
+    document.getElementById('total').textContent = `€${total.toFixed(2)}`;
+    updateCartCounter(); // Aggiorna anche il contatore del carrello 
+}
     </script>
 </body>
 </html>
