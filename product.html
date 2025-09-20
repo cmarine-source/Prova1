@@ -1,171 +1,151 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dettagli prodotto</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f7f7f7;
-      color: #333;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Page | Cmarine</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    /* Stili personalizzati */
+    .product-card:hover .product-overlay { opacity: 1; }
+    .product-overlay { transition: opacity 0.3s ease; opacity: 0; }
+    .newsletter-input { border-bottom: 1px solid #000; transition: border-color 0.3s ease; }
+    .newsletter-input:focus { outline: none; border-bottom-color: #555; }
+    .mobile-menu { display: none; }
+    .mobile-menu.open { display: block; }
+    .footer-accordion-header { cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid #e5e7eb; margin-bottom: 1rem; }
+    .footer-accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, opacity 0.3s ease-out; opacity: 0; }
+    .footer-accordion-content.open { max-height: 200px; opacity: 1; transition: max-height 0.5s ease-in, opacity 0.3s ease-in; }
+    .footer-accordion-header .arrow-icon { transition: transform 0.3s ease; }
+    .footer-accordion-header.open .arrow-icon { transform: rotate(180deg); }
+    @media (min-width: 768px) {
+        .footer-accordion-header { cursor: default; border-bottom: none; margin-bottom: 1rem; }
+        .footer-accordion-header .arrow-icon { display: none; }
+        .footer-accordion-content { max-height: none; opacity: 1; }
     }
-    .container {
-      display: flex;
-      gap: 40px;
-      padding: 40px;
-      max-width: 1200px;
-      margin: auto;
-    }
-    .gallery {
-      flex: 1;
-    }
-    .main-image {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-    .thumbnails {
-      display: flex;
-      gap: 10px;
-    }
-    .thumbnails img {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border: 2px solid #ddd;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .thumbnails img:hover {
-      border-color: #333;
-    }
-    .details {
-      flex: 1;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    .details h1 {
-      margin: 0 0 15px;
-    }
-    .price {
-      font-size: 1.5em;
-      color: #28a745;
-      margin: 15px 0;
-    }
-    .sizes {
-      margin: 20px 0;
-    }
-    .sizes span {
-      display: inline-block;
-      padding: 8px 14px;
-      border: 1px solid #ccc;
-      margin: 5px 8px 5px 0;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .sizes span:hover {
-      background: #eee;
-    }
-    /* Stile per taglie esaurite */
-    .sizes .unavailable {
-      background: #f5f5f5;
-      color: #aaa;
-      border-color: #ddd;
-      cursor: not-allowed;
-      text-decoration: line-through;
-    }
-    .btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 12px 25px;
-      font-size: 1em;
-      color: white;
-      background: #007bff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .btn:hover {
-      background: #0056b3;
-    }
-    .not-found {
-      text-align: center;
-      padding: 100px;
-      font-size: 1.5em;
-    }
-  </style>
+</style>
 </head>
-<body>
-  <div id="product-container"></div>
+<body class="bg-gray-50">
+<header class="sticky top-0 z-50 bg-white shadow-sm">
+<div class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <div class="flex items-center">
+        <a href="index.html" class="flex items-center no-underline hover:no-underline">
+            <span class="text-3xl font-bold text-red-600">C</span>
+            <span class="text-3xl font-bold text-blue-800">marine</span>
+        </a>
+    </div>
+    <div class="hidden md:flex space-x-8">
+        <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Shop</a>
+        <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collections</a>
+        <a href="features.html" class="text-sm uppercase hover:text-gray-600">Features</a>
+    </div>
+    <div class="flex items-center space-x-4 md:space-x-6">
+        <a href="#" class="text-xl"><i class="fas fa-search"></i></a>
+        <a href="login.html" class="text-xl"><i class="far fa-user"></i></a>
+        <a href="cart.html" class="text-xl"><i class="fas fa-shopping-bag"></i></a>
+        <div class="md:hidden">
+            <button id="mobile-menu-button" class="focus:outline-none"><i class="fas fa-bars text-xl"></i></button>
+        </div>
+    </div>
+</div>
+<div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
+    <div class="px-2 pt-2 pb-3 space-y-1">
+        <a href="shop.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Shop</a>
+        <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collections</a>
+        <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Features</a>
+    </div>
+</div>
+</header>
 
-  <script>
-    // Lista prodotti (solo uno come esempio)
-    const products = [
-      {
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div id="product-container" class="flex flex-col md:flex-row gap-8"></div>
+</div>
+
+<script>
+// Lista prodotti con ID e immagini multiple
+const products = [
+    {
         id: 1,
-        name: "HP AHIGA EVO 5",
-        category: "scarpe",
-        gender: "uomo",
-        details: "Scarpe da uomo per sport acquatici.",
-        price: 120.00,
+        name: "1906L Raincloud/Slate Grey",
+        brand: "New Balance",
+        price: 220.00,
         images: [
-          "https://i.imgur.com/H68Dwfb.jpeg",
-          "https://i.imgur.com/H68Dwfb.jpeg",
-          "https://i.imgur.com/H68Dwfb.jpeg"
+            "https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-1.jpg?v=1748535639&width=800&crop=center",
+            "https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-2.jpg?v=1748535639&width=200&crop=center",
+            "https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-3.jpg?v=1748535639&width=200&crop=center",
+            "https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-4.jpg?v=1748535639&width=200&crop=center",
+            "https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-5.jpg?v=1748535639&width=200&crop=center"
         ],
         sizes: [
-          { size: "40", available: true },
-          { size: "41", available: false },
-          { size: "42", available: true },
-          { size: "43", available: true },
-          { size: "44", available: false }
-        ]
-      }
-    ];
-
-    // Ottieni ID dalla URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = parseInt(urlParams.get("id"));
-    const product = products.find(p => p.id === productId);
-
-    const container = document.getElementById("product-container");
-
-    if (!product) {
-      container.innerHTML = <div class="not-found">Prodotto non trovato!</div>;
-    } else {
-      container.innerHTML = `
-        <div class="container">
-          <div class="gallery">
-            <img id="mainImage" src="${product.images[0]}" alt="${product.name}" class="main-image">
-            <div class="thumbnails">
-              ${product.images.map(img => <img src="${img}" alt="thumb" onclick="document.getElementById('mainImage').src='${img}'">).join("")}
-            </div>
-          </div>
-          <div class="details">
-            <h1>${product.name}</h1>
-            <div class="price">€${product.price.toFixed(2)}</div>
-            <p><strong>Categoria:</strong> ${product.category}</p>
-            <p><strong>Genere:</strong> ${product.gender}</p>
-            <p>${product.details}</p>
-            <div class="sizes">
-              <p><strong>Taglie disponibili:</strong></p>
-              ${product.sizes.map(s => `
-                <span class="${s.available ? '' : 'unavailable'}">${s.size}</span>
-              `).join("")}
-            </div>
-            <button class="btn">Aggiungi al carrello</button>
-          </div>
-        </div>
-      `;
+            { size: "US 7", available: true },
+            { size: "US 8", available: true },
+            { size: "US 9", available: false },
+            { size: "US 10", available: true },
+            { size: "US 11", available: true }
+        ],
+        description: "The 1906L Raincloud/Slate Grey from New Balance is a sophisticated take on a classic silhouette. Crafted with premium materials, it offers superior comfort and style. Featuring a durable upper and responsive cushioning, it's perfect for everyday wear.",
+        details: ["Premium suede and mesh upper", "ABZORB cushioning for superior comfort", "NDurance rubber outsole for durability", "Reflective detailing"]
     }
-  </script>
+];
+
+// Funzione per leggere ID dalla query string
+function getProductIdFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    return parseInt(params.get('id')) || 1;
+}
+
+// Genera il prodotto dinamicamente
+function renderProduct(product) {
+    const container = document.getElementById('product-container');
+    container.innerHTML = `
+    <div class="md:w-1/2">
+        <img id="main-image" src="${product.images[0]}" alt="${product.name}" class="w-full h-auto object-cover mb-4">
+        <div class="grid grid-cols-4 gap-2">
+            ${product.images.map(img => <img src="${img}" class="w-full h-auto object-cover cursor-pointer hover:opacity-80 thumb-image">).join('')}
+        </div>
+    </div>
+    <div class="md:w-1/2">
+        <span class="text-sm uppercase tracking-widest text-gray-600">${product.brand}</span>
+        <h1 class="text-3xl font-bold mt-2 mb-4">${product.name}</h1>
+        <p class="text-2xl font-semibold mb-6">$${product.price.toFixed(2)}</p>
+
+        <div class="mb-6">
+            <h3 class="text-sm font-semibold mb-2">SIZE</h3>
+            <div class="flex flex-wrap gap-2">
+                ${product.sizes.map(s => <button class="px-4 py-2 border ${s.available ? 'border-gray-300 hover:border-black' : 'border-gray-200 cursor-not-allowed text-gray-400'} transition" ${s.available ? '' : 'disabled'}>${s.size}</button>).join('')}
+            </div>
+        </div>
+
+        <div class="mb-8">
+            <h3 class="text-sm font-semibold mb-2">QUANTITY</h3>
+            <input type="number" value="1" min="1" class="w-20 px-3 py-2 border border-gray-300 rounded-md text-center">
+        </div>
+
+        <button class="w-full bg-black text-white px-8 py-4 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 rounded-sm">Add to Cart</button>
+
+        <div class="mt-8 border-t border-gray-200 pt-8">
+            <h3 class="text-lg font-bold mb-3">Description</h3>
+            <p class="text-gray-700 leading-relaxed">${product.description}</p>
+            <ul class="list-disc list-inside text-gray-700 mt-4">
+                ${product.details.map(d => <li>${d}</li>).join('')}
+            </ul>
+        </div>
+    </div>
+    `;
+
+    // Thumbnail click
+    document.querySelectorAll('.thumb-image').forEach(img => {
+        img.addEventListener('click', () => {
+            document.getElementById('main-image').src = img.src;
+        });
+    });
+}
+
+// Inizializzazione
+const productId = getProductIdFromURL();
+const product = products.find(p => p.id === productId);
+renderProduct(product);
+</script>
 </body>
 </html>
