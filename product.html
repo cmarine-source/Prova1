@@ -62,6 +62,83 @@
     <div id="product-container" class="flex flex-col md:flex-row gap-8"></div>
 </div>
 
+<footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-lg font-bold text-white mb-4">Cmarine</h3>
+                <p class="text-sm">Abbigliamento e accessori di alta qualità per lo stile di vita marino. Consegna rapida e pagamenti sicuri.</p>
+                <div class="flex space-x-4 mt-4 text-white text-xl">
+                    <a href="#" class="hover:text-gray-400"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="hover:text-gray-400"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-gray-400"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-gray-400"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            
+            <div class="md:hidden footer-accordion">
+                <div class="footer-accordion-header">
+                    <h4 class="text-white text-lg font-semibold">SHOP</h4>
+                    <i class="fas fa-chevron-down arrow-icon text-white"></i>
+                </div>
+                <div class="footer-accordion-content">
+                    <ul class="space-y-2 text-sm mt-2">
+                        <li><a href="#" class="hover:text-white">New Arrivals</a></li>
+                        <li><a href="#" class="hover:text-white">Men</a></li>
+                        <li><a href="#" class="hover:text-white">Women</a></li>
+                        <li><a href="#" class="hover:text-white">Sale</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="hidden md:block">
+                <h4 class="text-white text-lg font-semibold mb-4">SHOP</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-white">New Arrivals</a></li>
+                    <li><a href="#" class="hover:text-white">Men</a></li>
+                    <li><a href="#" class="hover:text-white">Women</a></li>
+                    <li><a href="#" class="hover:text-white">Sale</a></li>
+                </ul>
+            </div>
+
+            <div class="md:hidden footer-accordion">
+                <div class="footer-accordion-header">
+                    <h4 class="text-white text-lg font-semibold">INFORMATION</h4>
+                    <i class="fas fa-chevron-down arrow-icon text-white"></i>
+                </div>
+                <div class="footer-accordion-content">
+                    <ul class="space-y-2 text-sm mt-2">
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white">FAQs</a></li>
+                        <li><a href="#" class="hover:text-white">Shipping & Returns</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="hidden md:block">
+                <h4 class="text-white text-lg font-semibold mb-4">INFORMATION</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-white">About Us</a></li>
+                    <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                    <li><a href="#" class="hover:text-white">FAQs</a></li>
+                    <li><a href="#" class="hover:text-white">Shipping & Returns</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="text-white text-lg font-semibold mb-4">NEWSLETTER</h4>
+                <p class="text-sm">Iscriviti per ricevere aggiornamenti e sconti esclusivi.</p>
+                <form class="mt-4">
+                    <input type="email" placeholder="Inserisci la tua email" class="w-full bg-transparent newsletter-input py-2 text-sm placeholder-gray-500 focus:placeholder-gray-300">
+                    <button type="submit" class="mt-4 bg-gray-800 text-white px-6 py-2 text-sm hover:bg-gray-700 transition">ISCRIVITI</button>
+                </form>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-500">
+            &copy; 2025 Cmarine. Tutti i diritti riservati.
+        </div>
+    </div>
+</footer>
+
 <script>
 // Lista prodotti con ID e immagini multiple
 const products = [
@@ -107,7 +184,8 @@ function renderProduct(product) {
     </div>
     <div class="md:w-1/2">
         <span class="text-sm uppercase tracking-widest text-gray-600">${product.brand}</span>
-        <h1 class="text-3xl font-bold mt-2 mb-4">${product.name}</h1>
+        <h1 class="text-3xl font-bold mt-2 mb-2">${product.name}</h1>
+        <p class="text-lg text-gray-500 mb-4">Men's Sneakers</p>
         <p class="text-2xl font-semibold mb-6">$${product.price.toFixed(2)}</p>
 
         <div class="mb-6">
@@ -117,12 +195,18 @@ function renderProduct(product) {
             </div>
         </div>
 
-        <div class="mb-8">
-            <h3 class="text-sm font-semibold mb-2">QUANTITY</h3>
-            <input type="number" value="1" min="1" class="w-20 px-3 py-2 border border-gray-300 rounded-md text-center">
+        <div class="mb-8 flex items-center">
+            <h3 class="text-sm font-semibold mr-4">QUANTITY</h3>
+            <div class="flex items-center border border-gray-300 rounded-md">
+                <button id="decrease-qty" class="px-3 py-1 text-lg">-</button>
+                <input type="number" id="quantity-input" value="1" min="1" class="w-12 text-center text-sm border-x border-gray-300 focus:outline-none">
+                <button id="increase-qty" class="px-3 py-1 text-lg">+</button>
+            </div>
         </div>
 
-        <button class="w-full bg-black text-white px-8 py-4 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 rounded-sm">Add to Cart</button>
+        <button class="w-full bg-black text-white px-8 py-4 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 rounded-sm flex items-center justify-center">
+            <i class="fas fa-shopping-bag mr-2"></i> Add to Cart
+        </button>
 
         <div class="mt-8 border-t border-gray-200 pt-8">
             <h3 class="text-lg font-bold mb-3">Description</h3>
@@ -140,12 +224,48 @@ function renderProduct(product) {
             document.getElementById('main-image').src = img.src;
         });
     });
+
+    // Quantity buttons
+    const quantityInput = document.getElementById('quantity-input');
+    const decreaseBtn = document.getElementById('decrease-qty');
+    const increaseBtn = document.getElementById('increase-qty');
+
+    decreaseBtn.addEventListener('click', () => {
+        let value = parseInt(quantityInput.value);
+        if (value > 1) {
+            quantityInput.value = value - 1;
+        }
+    });
+
+    increaseBtn.addEventListener('click', () => {
+        let value = parseInt(quantityInput.value);
+        quantityInput.value = value + 1;
+    });
 }
 
 // Inizializzazione
 const productId = getProductIdFromURL();
 const product = products.find(p => p.id === productId);
 renderProduct(product);
+
+// Mobile menu toggle
+const mobileMenuButton = document.getElementById('mobile-menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+
+mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+});
+
+// Footer accordion
+document.querySelectorAll('.footer-accordion').forEach(accordion => {
+    const header = accordion.querySelector('.footer-accordion-header');
+    const content = accordion.querySelector('.footer-accordion-content');
+
+    header.addEventListener('click', () => {
+        header.classList.toggle('open');
+        content.classList.toggle('open');
+    });
+});
 </script>
 </body>
 </html>
