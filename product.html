@@ -57,14 +57,10 @@
             justify-content: space-between;
             align-items: center;
             padding-bottom: 1rem;
-            /* Spazio sotto il titolo */
             border-bottom: 1px solid #e5e7eb;
-            /* Linea separatrice */
             margin-bottom: 1rem;
-            /* Spazio sotto la linea */
         }
 
-        /* Nasconde le liste di link per impostazione predefinita */
         .footer-accordion-content {
             max-height: 0;
             overflow: hidden;
@@ -72,15 +68,12 @@
             opacity: 0;
         }
 
-        /* Mostra le liste di link quando la classe 'open' è presente */
         .footer-accordion-content.open {
             max-height: 200px;
-            /* Un valore sufficientemente grande per contenere il contenuto */
             opacity: 1;
             transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
         }
 
-        /* Ruota l'icona freccia quando la sezione è aperta */
         .footer-accordion-header .arrow-icon {
             transition: transform 0.3s ease;
         }
@@ -89,26 +82,30 @@
             transform: rotate(180deg);
         }
 
-        /* Rimuovi la border-bottom e i margini per desktop, mantenendo il layout originale */
         @media (min-width: 768px) {
             .footer-accordion-header {
                 cursor: default;
-                /* Non cliccabile su desktop */
                 border-bottom: none;
                 margin-bottom: 1rem;
-                /* Mantieni il margine se desiderato */
             }
 
             .footer-accordion-header .arrow-icon {
                 display: none;
-                /* Nascondi la freccia su desktop */
             }
 
             .footer-accordion-content {
                 max-height: none;
-                /* Sempre visibile su desktop */
                 opacity: 1;
             }
+        }
+
+        /* Nuovo stile per le taglie non disponibili */
+        .unavailable {
+            color: #9ca3af; /* grigio scuro */
+            cursor: not-allowed;
+            background-color: #f3f4f6; /* grigio chiaro */
+            border-color: #d1d5db; /* bordo grigio */
+            text-decoration: line-through;
         }
     </style>
 </head>
@@ -122,18 +119,15 @@
                     <span class="text-3xl font-bold text-blue-800">marine</span>
                 </a>
             </div>
-
             <div class="hidden md:flex space-x-8">
                 <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Shop</a>
                 <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collections</a>
                 <a href="features.html" class="text-sm uppercase hover:text-gray-600">Features</a>
             </div>
-
             <div class="flex items-center space-x-4 md:space-x-6">
                 <a href="#" class="text-xl"><i class="fas fa-search"></i></a>
                 <a href="login.html" class="text-xl"><i class="far fa-user"></i></a>
                 <a href="cart.html" class="text-xl"><i class="fas fa-shopping-bag"></i></a>
-
                 <div class="md:hidden">
                     <button id="mobile-menu-button" class="focus:outline-none">
                         <i class="fas fa-bars text-xl"></i>
@@ -266,7 +260,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Script per il menu mobile
+            // Script per il menu mobile e il footer
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             if (mobileMenuButton && mobileMenu) {
@@ -274,8 +268,6 @@
                     mobileMenu.classList.toggle('open');
                 });
             }
-
-            // Script per il footer a fisarmonica
             const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
             accordionHeaders.forEach(header => {
                 const accordionContent = header.nextElementSibling;
@@ -286,7 +278,6 @@
                     });
                 }
             });
-
             window.addEventListener('resize', () => {
                 accordionHeaders.forEach(header => {
                     const accordionContent = header.nextElementSibling;
@@ -299,7 +290,7 @@
 
             // --- Logica della Pagina Prodotto Dinamica ---
 
-            // Dati dei prodotti in un oggetto JavaScript
+            // Dati dei prodotti aggiornati con le disponibilità delle taglie
             const products = {
                 "1": {
                     id: "1",
@@ -320,7 +311,13 @@
                         "https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-4.jpg?v=1748535639&width=200&crop=center",
                         "https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-5.jpg?v=1748535639&width=200&crop=center"
                     ],
-                    sizes: ["US 7", "US 8", "US 9", "US 10", "US 11"]
+                    sizes: {
+                        "US 7": true,
+                        "US 8": false, // Questo è un esempio di taglia non disponibile
+                        "US 9": true,
+                        "US 10": true,
+                        "US 11": false // Questo è un esempio di taglia non disponibile
+                    }
                 },
                 "2": {
                     id: "2",
@@ -339,7 +336,12 @@
                         "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-2.jpg?v=1748536100&width=200&crop=center",
                         "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-3.jpg?v=1748536100&width=200&crop=center"
                     ],
-                    sizes: ["S", "M", "L", "XL"]
+                    sizes: {
+                        "S": true,
+                        "M": true,
+                        "L": false,
+                        "XL": true
+                    }
                 },
                 "3": {
                     id: "3",
@@ -358,7 +360,12 @@
                         "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-2.jpg?v=1748536034&width=200&crop=center",
                         "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-3.jpg?v=1748536034&width=200&crop=center"
                     ],
-                    sizes: ["XS", "S", "M", "L"]
+                    sizes: {
+                        "XS": false,
+                        "S": true,
+                        "M": true,
+                        "L": true
+                    }
                 },
                 "4": {
                     id: "4",
@@ -377,7 +384,12 @@
                         "https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-2.jpg?v=1748527318&width=200&crop=center",
                         "https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-3.jpg?v=1748527318&width=200&crop=center"
                     ],
-                    sizes: ["S", "M", "L", "XL"]
+                    sizes: {
+                        "S": true,
+                        "M": true,
+                        "L": true,
+                        "XL": false
+                    }
                 }
             };
 
@@ -415,22 +427,29 @@
                     }
                 });
 
-                // Aggiunge un listener per cambiare l'immagine principale
                 thumbnailContainer.addEventListener('click', (e) => {
                     if (e.target.tagName === 'IMG') {
                         mainImage.src = e.target.src.replace('width=200', 'width=800');
                     }
                 });
 
-                // Aggiorna le taglie
+                // Aggiorna le taglie basate sulla disponibilità
                 const sizeOptionsContainer = document.getElementById('size-options');
                 sizeOptionsContainer.innerHTML = '';
-                product.sizes.forEach(size => {
+                for (const size in product.sizes) {
+                    const available = product.sizes[size];
                     const sizeButton = document.createElement('button');
-                    sizeButton.classList.add('px-4', 'py-2', 'border', 'border-gray-300', 'hover:border-black', 'transition');
                     sizeButton.textContent = size;
+                    sizeButton.classList.add('px-4', 'py-2', 'border', 'border-gray-300', 'transition');
+                    
+                    if (available) {
+                        sizeButton.classList.add('hover:border-black', 'cursor-pointer');
+                    } else {
+                        sizeButton.classList.add('unavailable');
+                        sizeButton.disabled = true; // Rende il bottone non cliccabile
+                    }
                     sizeOptionsContainer.appendChild(sizeButton);
-                });
+                }
 
                 // Aggiorna i dettagli (lista puntata)
                 const detailsList = document.getElementById('product-details');
@@ -445,7 +464,7 @@
                 generateRelatedProducts(productId);
             }
 
-            // Funzione per generare i prodotti correlati
+            // Funzione per generare i prodotti correlati (stessa di prima)
             function generateRelatedProducts(currentProductId) {
                 const relatedProductsContainer = document.getElementById('related-products-container');
                 relatedProductsContainer.innerHTML = '';
