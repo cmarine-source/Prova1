@@ -102,6 +102,115 @@
         }
     </style>
 </head>
+    <script>
+  // Array dei prodotti
+  const products = [
+    {
+      id: 1,
+      brand: "New Balance",
+      name: "1906L Raincloud/Slate Grey",
+      price: 220,
+      description: `The 1906L Raincloud/Slate Grey from New Balance is a sophisticated take on a classic silhouette.
+Crafted with premium materials, it offers superior comfort and style. Featuring a durable upper
+and responsive cushioning, it's perfect for everyday wear.`,
+      features: [
+        "Premium suede and mesh upper",
+        "ABZORB cushioning for superior comfort",
+        "NDurance rubber outsole for durability",
+        "Reflective detailing"
+      ],
+      images: [
+        "https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-1.jpg?v=1748535639&width=800&crop=center",
+        "https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-2.jpg?v=1748535639&width=200&crop=center",
+        "https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-3.jpg?v=1748535639&width=200&crop=center",
+        "https://cdn.shopify.com/s/files/1/0051/7042/files/New-Balance-U1906-LGR-4.jpg?v=1748535639&width=200&crop=center"
+      ],
+      sizes: [
+        { size: "US 7", available: true },
+        { size: "US 8", available: false },
+        { size: "US 9", available: true },
+        { size: "US 10", available: true },
+        { size: "US 11", available: false }
+      ]
+    },
+
+    // Puoi aggiungere altri prodotti qui con id diversi
+    {
+      id: 2,
+      brand: "HAVEN",
+      name: "Tapered Track Pant Re-Cotton Olive",
+      price: 260,
+      description: "Comfy tapered pants made with recycled cotton, perfect for everyday wear.",
+      features: ["Sustainable material", "Elastic waistband", "Tapered leg", "Side pockets"],
+      images: [
+        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-1.jpg?v=1748536100&width=800&crop=center",
+        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-2.jpg?v=1748536100&width=200&crop=center"
+      ],
+      sizes: [
+        { size: "S", available: true },
+        { size: "M", available: true },
+        { size: "L", available: false },
+        { size: "XL", available: true }
+      ]
+    }
+  ];
+
+  // Funzione per leggere l'ID dall'URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = parseInt(urlParams.get("id"));
+  const product = products.find(p => p.id === productId);
+
+  if (product) {
+    // Brand e nome
+    document.querySelector("span.text-sm").textContent = product.brand;
+    document.querySelector("h1.text-3xl").textContent = product.name;
+    document.querySelector("p.text-2xl").textContent = "$" + product.price;
+
+    // Descrizione
+    const descEl = document.querySelector(".mt-8 p.text-gray-700");
+    descEl.textContent = product.description;
+
+    // Features
+    const ul = document.querySelector(".mt-8 ul");
+    ul.innerHTML = "";
+    product.features.forEach(f => {
+      const li = document.createElement("li");
+      li.textContent = f;
+      ul.appendChild(li);
+    });
+
+    // Immagini principali e galleria
+    const imgMain = document.querySelector("div.md\\:w-1\\/2 img:first-child");
+    imgMain.src = product.images[0];
+
+    const thumbContainer = document.querySelector("div.grid.grid-cols-4");
+    thumbContainer.innerHTML = "";
+    product.images.forEach(src => {
+      const img = document.createElement("img");
+      img.src = src;
+      img.className = "w-full h-auto object-cover cursor-pointer hover:opacity-80";
+      img.addEventListener("click", () => { imgMain.src = src; }); // Click cambia immagine principale
+      thumbContainer.appendChild(img);
+    });
+
+    // Taglie disponibili/non disponibili
+    const sizeContainer = document.querySelector("div.flex.flex-wrap.gap-2");
+    sizeContainer.innerHTML = "";
+    product.sizes.forEach(s => {
+      const btn = document.createElement("button");
+      btn.textContent = s.size;
+      btn.className = "px-4 py-2 border border-gray-300 hover:border-black transition";
+      if (!s.available) {
+        btn.disabled = true;
+        btn.style.opacity = 0.5;
+        btn.title = "Non disponibile";
+      }
+      sizeContainer.appendChild(btn);
+    });
+  } else {
+    alert("Prodotto non trovato");
+  }
+</script>
 <body class="bg-gray-50">
     <header class="sticky top-0 z-50 bg-white shadow-sm">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
