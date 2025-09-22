@@ -250,9 +250,10 @@
             background-color: #000;
             color: white;
         }
-        
+
         /* Stili per le freccette del carosello */
-        #prev-btn, #next-btn {
+        #prev-btn,
+        #next-btn {
             display: block;
         }
 
@@ -312,19 +313,23 @@
     </header>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="flex flex-col md:flex-row gap-8">
+        <div id="product-page-content" class="flex flex-col md:flex-row gap-8">
             <div class="md:w-1/2">
                 <div class="relative group product-image-container">
                     <img id="main-image" src="" alt="" class="w-full h-auto object-cover mb-4">
-                    
-                    <button id="prev-btn" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+
+                    <button id="prev-btn"
+                        class="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button id="next-btn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <button id="next-btn"
+                        class="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                         <i class="fas fa-chevron-right"></i>
                     </button>
-                    
-                    <div id="image-counter" class="absolute bottom-4 right-4 text-xs bg-black bg-opacity-50 text-white px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+
+                    <div id="image-counter"
+                        class="absolute bottom-4 right-4 text-xs bg-black bg-opacity-50 text-white px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    </div>
                 </div>
             </div>
 
@@ -664,7 +669,7 @@
                 const urlParams = new URLSearchParams(window.location.search);
                 const productId = urlParams.get('id');
                 const product = products[productId];
-                
+
                 const selectedSizeButton = document.querySelector('.size-button.active');
                 if (!selectedSizeButton) {
                     alert('Seleziona una taglia prima di aggiungere al carrello.');
@@ -701,6 +706,7 @@
                 }
             });
 
+
             // Script per il menu mobile e il footer
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -734,10 +740,12 @@
             // Funzione per aggiornare la pagina con i dati del prodotto
             function updateProductPage(productId) {
                 const product = products[productId];
-                const mainContent = document.querySelector('.max-w-7xl.mx-auto');
+                const mainContent = document.getElementById('product-page-content');
                 if (!product) {
                     mainContent.innerHTML = '<div class="text-center py-20"><h1 class="text-3xl font-bold">Prodotto non trovato</h1><p class="mt-4">L\'ID del prodotto non è valido.</p></div>';
                     return;
+                } else {
+                    mainContent.style.display = 'flex';
                 }
 
                 // Variabili per il carosello
@@ -779,6 +787,7 @@
 
                 // Inizializza la visualizzazione
                 updateMainImage();
+
 
                 // Resto del codice della pagina prodotto
                 document.getElementById('page-title').textContent = product.name + " | Cmarine";
@@ -826,6 +835,8 @@
                 const productId = urlParams.get('id');
                 if (productId) {
                     updateProductPage(productId);
+                } else {
+                    document.getElementById('product-page-content').innerHTML = '<div class="text-center py-20"><h1 class="text-3xl font-bold">Prodotto non trovato</h1><p class="mt-4">L\'ID del prodotto non è stato specificato nell\'URL.</p></div>';
                 }
             }, 50);
 
@@ -838,4 +849,26 @@
                     const product = products[id];
                     const productCard = document.createElement('a');
                     productCard.href = `product.html?id=${product.id}`;
-                    productCard.classList.add('block', 'group
+                    productCard.classList.add('block', 'group');
+                    productCard.innerHTML = `
+                        <div class="relative overflow-hidden product-card">
+                            <img src="${product.images[0]}" alt="${product.name}" class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center product-overlay">
+                                <button class="bg-white text-black px-6 py-2 uppercase text-sm font-semibold tracking-wider transition-colors duration-300 hover:bg-gray-200">View Product</button>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <h3 class="text-sm uppercase font-semibold text-gray-800">${product.brand}</h3>
+                            <p class="text-sm text-gray-600">${product.name}</p>
+                            <p class="mt-2 font-bold">${product.price}</p>
+                        </div>
+                    `;
+                    relatedProductsContainer.appendChild(productCard);
+                });
+            }
+            generateRelatedProducts();
+        });
+    </script>
+</body>
+
+</html>
