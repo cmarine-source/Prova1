@@ -658,53 +658,66 @@
                     }
                 }
             }
+            
+            // Logica del carrello centralizzata
+            function getCartItems() {
+                try {
+                    return JSON.parse(sessionStorage.getItem('cart')) || [];
+                } catch (e) {
+                    console.error("Errore nel recupero del carrello da sessionStorage", e);
+                    return [];
+                }
+            }
 
-            // Inizializza il carrello (simulazione con sessionStorage)
-            let cartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
+            function saveCartItems(cart) {
+                try {
+                    sessionStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartCount(cart.length);
+                } catch (e) {
+                    console.error("Errore nel salvataggio del carrello in sessionStorage", e);
+                }
+            }
+
+            let cartItems = getCartItems();
             updateCartCount(cartItems.length);
 
             // Aggiungi un gestore di eventi al pulsante "Add to Cart"
             const addToCartButton = document.getElementById('add-to-cart-button');
-            addToCartButton.addEventListener('click', () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const productId = urlParams.get('id');
-                const product = products[productId];
+            if (addToCartButton) {
+                addToCartButton.addEventListener('click', () => {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const productId = urlParams.get('id');
+                    const product = products[productId];
 
-                const selectedSizeButton = document.querySelector('.size-button.active');
-                if (!selectedSizeButton) {
-                    alert('Seleziona una taglia prima di aggiungere al carrello.');
-                    return;
-                }
-                const selectedSize = selectedSizeButton.textContent;
-                const quantity = parseInt(document.getElementById('quantity-input').value, 10);
-
-                if (product && selectedSize && quantity > 0) {
-                    const existingItemIndex = cartItems.findIndex(item => item.id === productId && item.size === selectedSize);
-
-                    if (existingItemIndex > -1) {
-                        // Aggiorna la quantità se l'articolo esiste già
-                        cartItems[existingItemIndex].quantity += quantity;
-                    } else {
-                        // Aggiungi un nuovo articolo
-                        cartItems.push({
-                            id: productId,
-                            name: product.name,
-                            brand: product.brand,
-                            price: product.price,
-                            size: selectedSize,
-                            quantity: quantity,
-                            image: product.images[0]
-                        });
+                    const selectedSizeButton = document.querySelector('.size-button.active');
+                    if (!selectedSizeButton) {
+                        alert('Seleziona una taglia prima di aggiungere al carrello.');
+                        return;
                     }
+                    const selectedSize = selectedSizeButton.textContent;
+                    const quantity = parseInt(document.getElementById('quantity-input').value, 10);
 
-                    // Salva nel session storage
-                    sessionStorage.setItem('cart', JSON.stringify(cartItems));
+                    if (product && selectedSize && quantity > 0) {
+                        const existingItemIndex = cartItems.findIndex(item => item.id === productId && item.size === selectedSize);
 
-                    // Aggiorna l'interfaccia del carrello
-                    updateCartCount(cartItems.length);
-                    alert(`Hai aggiunto ${quantity} x ${product.name} (Taglia: ${selectedSize}) al carrello!`);
-                }
-            });
+                        if (existingItemIndex > -1) {
+                            cartItems[existingItemIndex].quantity += quantity;
+                        } else {
+                            cartItems.push({
+                                id: productId,
+                                name: product.name,
+                                brand: product.brand,
+                                price: product.price,
+                                size: selectedSize,
+                                quantity: quantity,
+                                image: product.images[0]
+                            });
+                        }
+                        saveCartItems(cartItems);
+                        alert(`Hai aggiunto ${quantity} x ${product.name} (Taglia: ${selectedSize}) al carrello!`);
+                    }
+                });
+            }
 
 
             // Script per il menu mobile e il footer
