@@ -250,57 +250,6 @@
             background-color: #000;
             color: white;
         }
-
-        /* Stili per il carosello di immagini */
-        .image-carousel {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .carousel-image {
-            width: 100%;
-            height: auto;
-            display: none;
-            transition: opacity 0.5s ease-in-out;
-            opacity: 0;
-        }
-
-        .carousel-image.active {
-            display: block;
-            opacity: 1;
-        }
-
-        .carousel-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.5);
-            border: none;
-            cursor: pointer;
-            padding: 10px;
-            font-size: 24px;
-            color: #000;
-            z-index: 10;
-        }
-
-        .carousel-button-left {
-            left: 10px;
-        }
-
-        .carousel-button-right {
-            right: 10px;
-        }
-
-        .thumbnail-image {
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: border-color 0.3s ease;
-        }
-
-        .thumbnail-image.active {
-            border-color: #000;
-        }
     </style>
 </head>
 
@@ -355,10 +304,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="flex flex-col md:flex-row gap-8">
             <div class="md:w-1/2">
-                <div id="image-carousel" class="image-carousel">
-                    </div>
-                <div id="thumbnail-container" class="grid grid-cols-4 gap-2 mt-4">
-                    </div>
+                <img id="main-image" src="" alt="" class="w-full h-auto object-cover mb-4">
+                <div id="thumbnail-container" class="grid grid-cols-4 gap-2">
+                </div>
             </div>
 
             <div class="md:w-1/2">
@@ -704,137 +652,176 @@
 
             // --- Logica della Pagina Prodotto Dinamica ---
 
-            let currentImageIndex = 0; // Tiene traccia dell'immagine corrente nel carosello
-
             // Funzione per aggiornare la pagina con i dati del prodotto
             function updateProductPage(productId) {
                 const product = products[productId];
                 const mainContent = document.querySelector('.max-w-7xl.mx-auto');
-
                 if (!product) {
                     mainContent.innerHTML = '<div class="text-center py-20"><h1 class="text-3xl font-bold">Prodotto non trovato</h1><p class="mt-4">L\'ID del prodotto non è valido.</p></div>';
                     return;
                 }
 
-                // Aggiorna le informazioni del prodotto
+                // Aggiorna titolo della pagina
+                document.getElementById('page-title').textContent = `${product.name} | ${product.brand} | Cmarine`;
+
+                // Aggiorna le informazioni di base
                 document.getElementById('product-brand').textContent = product.brand;
                 document.getElementById('product-name').textContent = product.name;
                 document.getElementById('product-price').textContent = product.price;
                 document.getElementById('product-description').textContent = product.description;
 
+                // Aggiorna i dettagli del prodotto
                 const detailsList = document.getElementById('product-details');
                 detailsList.innerHTML = '';
                 product.details.forEach(detail => {
-                    const li = document.createElement('li');
-                    li.textContent = detail;
-                    detailsList.appendChild(li);
+                    const listItem = document.createElement('li');
+                    listItem.textContent = detail;
+                    detailsList.appendChild(listItem);
                 });
 
-                // Gestione del carosello di immagini e delle miniature
-                const carouselContainer = document.getElementById('image-carousel');
+
+                // Aggiorna le immagini
+                const mainImage = document.getElementById('main-image');
                 const thumbnailContainer = document.getElementById('thumbnail-container');
-
-                carouselContainer.innerHTML = '';
+                mainImage.src = product.images[0];
+                mainImage.alt = product.name;
                 thumbnailContainer.innerHTML = '';
-                currentImageIndex = 0;
-
-                // Crea le immagini del carosello
-                product.images.forEach((src, index) => {
-                    const img = document.createElement('img');
-                    img.src = src;
-                    img.alt = `${product.name} - Immagine ${index + 1}`;
-                    img.classList.add('carousel-image');
-                    if (index === 0) {
-                        img.classList.add('active');
+                product.images.forEach((imgSrc, index) => {
+                    // Ignora la prima immagine, che è già la principale
+                    if (index > 0) {
+                        const thumbnail = document.createElement('img');
+                        thumbnail.src = imgSrc;
+                        thumbnail.alt = `${product.name} - Thumb ${index}`;
+                        thumbnail.classList.add('w-full', 'h-auto', 'object-cover', 'cursor-pointer', 'hover:opacity-80');
+                        thumbnailContainer.appendChild(thumbnail);
                     }
-                    carouselContainer.appendChild(img);
                 });
 
-                // Aggiungi i pulsanti di navigazione
-                if (product.images.length > 1) {
-                    const prevButton = document.createElement('button');
-                    prevButton.classList.add('carousel-button', 'carousel-button-left');
-                    prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
-                    prevButton.addEventListener('click', () => changeImage(-1));
-                    carouselContainer.appendChild(prevButton);
-
-                    const nextButton = document.createElement('button');
-                    nextButton.classList.add('carousel-button', 'carousel-button-right');
-                    nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
-                    nextButton.addEventListener('click', () => changeImage(1));
-                    carouselContainer.appendChild(nextButton);
-                }
-
-                // Crea le miniature
-                product.images.forEach((src, index) => {
-                    const img = document.createElement('img');
-                    img.src = src;
-                    img.alt = `Miniatura ${index + 1}`;
-                    img.classList.add('w-full', 'h-auto', 'object-cover', 'thumbnail-image', 'rounded-sm');
-                    if (index === 0) {
-                        img.classList.add('active');
+                // Gestisce il cambio immagine al click sulla thumbnail
+                thumbnailContainer.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'IMG') {
+                        // Sostituisce la larghezza dell'immagine per ottenere l'alta risoluzione
+                        mainImage.src = e.target.src.replace('width=200', 'width=800');
                     }
-                    img.addEventListener('click', () => showImage(index));
-                    thumbnailContainer.appendChild(img);
                 });
 
-                // Funzione per cambiare l'immagine visibile
-                function showImage(index) {
-                    const images = document.querySelectorAll('.carousel-image');
-                    const thumbnails = document.querySelectorAll('.thumbnail-image');
-
-                    images.forEach(img => img.classList.remove('active'));
-                    thumbnails.forEach(thumb => thumb.classList.remove('active'));
-
-                    if (images[index]) {
-                        images[index].classList.add('active');
-                    }
-                    if (thumbnails[index]) {
-                        thumbnails[index].classList.add('active');
-                    }
-                    currentImageIndex = index;
-                }
-
-                // Funzione per navigare con le frecce
-                function changeImage(direction) {
-                    let newIndex = currentImageIndex + direction;
-                    if (newIndex >= product.images.length) {
-                        newIndex = 0;
-                    } else if (newIndex < 0) {
-                        newIndex = product.images.length - 1;
-                    }
-                    showImage(newIndex);
-                }
-
-                // Gestione delle taglie
+                // Aggiorna le taglie basate sulla disponibilità
                 const sizeOptionsContainer = document.getElementById('size-options');
                 sizeOptionsContainer.innerHTML = '';
                 for (const size in product.sizes) {
-                    const button = document.createElement('button');
-                    button.textContent = size;
-                    button.classList.add('size-button', 'px-4', 'py-2', 'border', 'border-gray-300', 'rounded-md', 'text-sm', 'uppercase', 'hover:border-black', 'transition', 'duration-300');
-                    if (!product.sizes[size]) {
-                        button.classList.add('unavailable');
-                    }
-                    button.addEventListener('click', () => {
-                        if (!button.classList.contains('unavailable')) {
+                    const available = product.sizes[size];
+                    const sizeButton = document.createElement('button');
+                    sizeButton.textContent = size;
+                    sizeButton.dataset.size = size;
+                    sizeButton.classList.add(
+                        'size-button',
+                        'px-4',
+                        'py-2',
+                        'border',
+                        'border-gray-300',
+                        'text-sm',
+                        'font-medium',
+                        'rounded-sm',
+                        'transition',
+                        'duration-200'
+                    );
+
+                    if (!available) {
+                        sizeButton.classList.add('unavailable');
+                    } else {
+                        sizeButton.classList.add('hover:bg-gray-200');
+                        sizeButton.addEventListener('click', () => {
                             document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('active'));
-                            button.classList.add('active');
-                        }
-                    });
-                    sizeOptionsContainer.appendChild(button);
+                            sizeButton.classList.add('active');
+                        });
+                    }
+                    sizeOptionsContainer.appendChild(sizeButton);
                 }
             }
 
-            // Funzione per ottenere l'ID del prodotto dall'URL
-            function getProductIdFromUrl() {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get('id');
+
+            // --- Logica del Carrello ---
+
+            const CART_STORAGE_KEY = 'cmarineCart';
+
+            // Funzione per aggiornare il badge del carrello
+            window.updateCartDisplay = function () {
+                let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+                const cartItemCountElement = document.getElementById('cart-item-count');
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+                if (cartItemCountElement) {
+                    cartItemCountElement.textContent = totalItems;
+                    if (totalItems > 0) {
+                        cartItemCountElement.classList.remove('hidden');
+                    } else {
+                        cartItemCountElement.classList.add('hidden');
+                    }
+                }
+            };
+
+            // Funzione per aggiungere un prodotto al carrello
+            window.addProductToCart = function (product, buttonElement = null) {
+                let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+                const existingProductIndex = cart.findIndex(item => item.id === product.id);
+
+                if (existingProductIndex > -1) {
+                    cart[existingProductIndex].quantity += product.quantity;
+                } else {
+                    cart.push(product);
+                }
+                localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+                window.updateCartDisplay();
+
+                if (buttonElement) {
+                    const originalText = buttonElement.textContent;
+                    buttonElement.textContent = 'Aggiunto!';
+                    buttonElement.classList.remove('bg-black', 'hover:bg-gray-800');
+                    buttonElement.classList.add('bg-green-600', 'hover:bg-green-700');
+                    setTimeout(() => {
+                        buttonElement.textContent = originalText;
+                        buttonElement.classList.remove('bg-green-600', 'hover:bg-green-700');
+                        buttonElement.classList.add('bg-black', 'hover:bg-gray-800');
+                    }, 1500);
+                }
+            };
+
+            // Collega il pulsante "Add to Cart" alla funzione di aggiunta
+            const addToCartButton = document.getElementById('add-to-cart-button');
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            if (addToCartButton && productId) {
+                const productData = products[productId];
+                addToCartButton.addEventListener('click', () => {
+                    const selectedSizeButton = document.querySelector('.size-button.active');
+                    const quantityInput = document.querySelector('input[type="number"]');
+
+                    if (!selectedSizeButton) {
+                        alert('Per favore, seleziona una taglia.');
+                        return;
+                    }
+
+                    const selectedSize = selectedSizeButton.dataset.size;
+                    const quantity = parseInt(quantityInput.value, 10);
+
+                    const productToAdd = {
+                        id: productData.id + '-' + selectedSize.replace(/\s/g, ''),
+                        name: productData.name,
+                        price: parseFloat(productData.price.replace('$', '')),
+                        image: productData.images[0],
+                        size: selectedSize,
+                        quantity: quantity
+                    };
+
+                    window.addProductToCart(productToAdd, addToCartButton);
+                });
             }
 
-            // Carica la pagina con l'ID del prodotto specificato
-            const productId = getProductIdFromUrl() || "1"; // Default to product 1
+            // Inizializza la pagina prodotto e il carrello al caricamento
             updateProductPage(productId);
+            window.updateCartDisplay();
+
         });
     </script>
 </body>
