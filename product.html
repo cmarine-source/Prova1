@@ -250,11 +250,12 @@
             background-color: #000;
             color: white;
         }
-        
+
         /* Stili per le freccette del carosello */
         #prev-btn,
         #next-btn {
-            display: none; /* Inizialmente nascoste */
+            display: none;
+            /* Inizialmente nascoste */
         }
 
         .product-image-container:hover #prev-btn,
@@ -359,6 +360,11 @@
                     </ul>
                 </div>
             </div>
+        </div>
+
+        <div id="error-message-container" class="hidden text-center py-20">
+            <h1 class="text-3xl font-bold">Prodotto non trovato</h1>
+            <p class="mt-4">L'ID del prodotto non è valido o non è stato specificato nell'URL.</p>
         </div>
     </div>
 
@@ -564,12 +570,16 @@
             function updateProductPage(productId) {
                 const product = products[productId];
                 const mainContent = document.getElementById('product-page-content');
+                const errorMessage = document.getElementById('error-message-container');
+
                 if (!product) {
-                    mainContent.innerHTML = '<div class="text-center py-20"><h1 class="text-3xl font-bold">Prodotto non trovato</h1><p class="mt-4">L\'ID del prodotto non è valido.</p></div>';
+                    mainContent.style.display = 'none';
+                    errorMessage.style.display = 'block';
                     return;
-                } else {
-                    mainContent.style.display = 'flex';
                 }
+
+                mainContent.style.display = 'flex';
+                errorMessage.style.display = 'none';
 
                 // Variabili per il carosello
                 let currentImageIndex = 0;
@@ -653,27 +663,23 @@
             const urlParams = new URLSearchParams(window.location.search);
             const productId = urlParams.get('id');
 
-            if (productId) {
-                updateProductPage(productId);
+            updateProductPage(productId);
 
-                // Aggiungi un gestore di eventi al pulsante "Add to Cart"
-                const addToCartButton = document.getElementById('add-to-cart-button');
-                if (addToCartButton) {
-                    addToCartButton.addEventListener('click', () => {
-                        const selectedSizeButton = document.querySelector('.size-button.active');
-                        if (!selectedSizeButton) {
-                            alert('Seleziona una taglia prima di aggiungere al carrello.');
-                            return;
-                        }
-                        const selectedSize = selectedSizeButton.textContent;
-                        const quantity = parseInt(document.getElementById('quantity-input').value, 10);
+            // Aggiungi un gestore di eventi al pulsante "Add to Cart"
+            const addToCartButton = document.getElementById('add-to-cart-button');
+            if (addToCartButton) {
+                addToCartButton.addEventListener('click', () => {
+                    const selectedSizeButton = document.querySelector('.size-button.active');
+                    if (!selectedSizeButton) {
+                        alert('Seleziona una taglia prima di aggiungere al carrello.');
+                        return;
+                    }
+                    const selectedSize = selectedSizeButton.textContent;
+                    const quantity = parseInt(document.getElementById('quantity-input').value, 10);
 
-                        // Usa la funzione globale addToCart
-                        window.addToCart(productId, selectedSize, quantity);
-                    });
-                }
-            } else {
-                document.getElementById('product-page-content').innerHTML = '<div class="text-center py-20"><h1 class="text-3xl font-bold">Prodotto non trovato</h1><p class="mt-4">L\'ID del prodotto non è stato specificato nell\'URL.</p></div>';
+                    // Usa la funzione globale addToCart
+                    window.addToCart(productId, selectedSize, quantity);
+                });
             }
 
             // Funzione per generare prodotti correlati (esempio)
