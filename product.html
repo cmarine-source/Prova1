@@ -699,14 +699,10 @@
             // Add to cart event listener
             if (addToCartButton) {
                 addToCartButton.addEventListener('click', () => {
-                    if (selectedSize && quantityInput.value > 0) {
-                        const quantity = parseInt(quantityInput.value, 10);
-                        if (!isNaN(quantity) && quantity > 0) {
-                            addToCart(currentProduct, selectedSize, quantity);
-                            alert(`Aggiunto al carrello: ${quantity} x ${currentProduct.name} (Taglia: ${selectedSize})`);
-                        } else {
-                            alert("Seleziona una quantità valida.");
-                        }
+                    const quantity = parseInt(quantityInput.value, 10);
+                    if (selectedSize && !isNaN(quantity) && quantity > 0) {
+                        addToCart(currentProduct, selectedSize, quantity);
+                        alert(`Aggiunto al carrello: ${quantity} x ${currentProduct.name} (Taglia: ${selectedSize})`);
                     } else {
                         alert("Seleziona una taglia e una quantità valida.");
                     }
