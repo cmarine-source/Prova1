@@ -251,16 +251,43 @@
             color: white;
         }
 
-        /* Stili per le freccette del carosello */
-        #prev-btn,
-        #next-btn {
-            display: none;
-            /* Inizialmente nascoste */
+        /* Stili per il carosello */
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            border-radius: 9999px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        .product-image-container:hover #prev-btn,
-        .product-image-container:hover #next-btn {
-            display: block;
+        .carousel-button:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        #prev-button {
+            left: 1rem;
+        }
+
+        #next-button {
+            right: 1rem;
+        }
+
+        #thumbnail-container img {
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        #thumbnail-container img.active {
+            border-color: #000;
         }
     </style>
 </head>
@@ -277,6 +304,7 @@
             <div class="hidden md:flex space-x-8">
                 <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
                 <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
+
                 <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
             </div>
 
@@ -305,6 +333,7 @@
                     class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
                 <a href="collections.html"
                     class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
+
                 <a href="features.html"
                     class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
             </div>
@@ -312,23 +341,18 @@
     </header>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div id="product-page-content" class="flex flex-col md:flex-row gap-8">
+        <div class="flex flex-col md:flex-row gap-8">
             <div class="md:w-1/2">
-                <div class="relative group product-image-container">
+                <div class="relative">
                     <img id="main-image" src="" alt="" class="w-full h-auto object-cover mb-4">
-
-                    <button id="prev-btn"
-                        class="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <button id="prev-button" class="carousel-button">
                         <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button id="next-btn"
-                        class="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <button id="next-button" class="carousel-button">
                         <i class="fas fa-chevron-right"></i>
                     </button>
-
-                    <div id="image-counter"
-                        class="absolute bottom-4 right-4 text-xs bg-black bg-opacity-50 text-white px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    </div>
+                </div>
+                <div id="thumbnail-container" class="grid grid-cols-4 gap-2">
                 </div>
             </div>
 
@@ -345,7 +369,7 @@
 
                 <div class="mb-8">
                     <h3 class="text-sm font-semibold mb-2">QUANTITY</h3>
-                    <input type="number" value="1" min="1" id="quantity-input"
+                    <input type="number" value="1" min="1"
                         class="w-20 px-3 py-2 border border-gray-300 rounded-md text-center">
                 </div>
 
@@ -360,11 +384,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
-
-        <div id="error-message-container" class="hidden text-center py-20">
-            <h1 class="text-3xl font-bold">Prodotto non trovato</h1>
-            <p class="mt-4">L'ID del prodotto non è valido o non è stato specificato nell'URL.</p>
         </div>
     </div>
 
@@ -534,10 +553,122 @@
         </div>
     </footer>
 
-    <script src="product-data.js"></script>
-    <script src="cart-logic.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Dati dei prodotti aggiornati con le disponibilità delle taglie
+            const products = {
+                "1": {
+                    id: "1",
+                    brand: "Helly Hansen",
+                    name: "HP AHIGA EVO 5",
+                    price: "$120.00",
+                    description: "Le scarpe da uomo HP Ahiga Evo 5 Marine Lifestyle portano la linea Ahiga a un livello superiore, con un'intersuola generosa per il massimo comfort. Progettate per le giornate estive al mare o in città, sono realizzate con HH Hydro-Grip per la massima aderenza sulle superfici bagnate, HH Quick Dry per asciugarsi velocemente e HH Max-Vent per la traspirabilità.",
+                    details: [
+                        "HH® Quick Dry",
+                        "HH® Max-Vent",
+                        "HH® Lite-Frame",
+                        "HH® Comfort Insole",
+                        "HH® Hover-Stride",
+                        "HH Hydro-Grip",
+                        "HH Storm Siping",
+                        "Lacci realizzati al 100% con materiale riciclato.",
+                        "Fettuccia in poliestere realizzata al 100% con materiale riciclato.",
+                        "Intersuola in EVA (etilene vinil acetato) che contiene il 30% di materiale riciclato.",
+                        "Fodera interna della scarpa realizzata al 100% con materiale riciclato.",
+                        "Etichetta con il marchio tessuta al 100% in poliestere riciclato.",
+                        "Gomma per la suola o altre parti della scarpa che contiene il 30% di materiale riciclato.",
+                        "La strobel è realizzata al 100% in poliestere riciclato.",
+                        "Nastro di rinforzo e rinforzo del collare della scarpa realizzati al 100% in RPET (poliestere riciclato da bottiglie di plastica)."
+                    ],
+                    images: [
+                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/2ad4c7cb-40a1-47b7-8349-a68e2bc4bf7e.png?cacheVersion=1714112626",
+                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/4c22eede-6627-43d9-be5d-2617fce10193.png?cacheVersion=1678266183",
+                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/16116306-458d-4b5e-a8db-7ecee5d570c9.png?cacheVersion=1678266183",
+                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/0e0facc3-73c9-4dc8-95b6-df77dd42ec6f.png?cacheVersion=1678953900",
+                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/99f7921a-41c9-4999-807d-c9d71c8ca9e9.png?cacheVersion=1678953889"
+                    ],
+                    sizes: {
+                        "40": true,
+                        "41": false,
+                        "42": true,
+                        "43": true,
+                        "44": false
+                    }
+                },
+                "2": {
+                    id: "2",
+                    brand: "HAVEN",
+                    name: "Tapered Track Pant",
+                    price: "$260.00",
+                    description: "The HAVEN Tapered Track Pant is made from a high-quality Re-Cotton fabric, offering both comfort and a stylish tapered fit.",
+                    details: [
+                        "Re-Cotton fabric",
+                        "Tapered fit",
+                        "Elastic waistband with drawstring",
+                        "Zipped pockets"
+                    ],
+                    images: [
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-1.jpg?v=1748536100&width=800&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-2.jpg?v=1748536100&width=200&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-3.jpg?v=1748536100&width=200&crop=center"
+                    ],
+                    sizes: {
+                        "S": true,
+                        "M": true,
+                        "L": false,
+                        "XL": true
+                    }
+                },
+                "3": {
+                    id: "3",
+                    brand: "HAVEN",
+                    name: "Sleeveless Turtleneck",
+                    price: "$140.00",
+                    description: "A versatile sleeveless turtleneck from HAVEN, perfect for layering or wearing on its own during warmer days. Crafted from a soft jersey fabric.",
+                    details: [
+                        "Soft jersey fabric",
+                        "Sleeveless design",
+                        "Turtleneck collar",
+                        "Machine washable"
+                    ],
+                    images: [
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-1.jpg?v=1748536034&width=800&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-2.jpg?v=1748536034&width=200&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-3.jpg?v=1748536034&width=200&crop=center"
+                    ],
+                    sizes: {
+                        "XS": false,
+                        "S": true,
+                        "M": true,
+                        "L": true
+                    }
+                },
+                "4": {
+                    id: "4",
+                    brand: "WTAPS",
+                    name: "Netminder / LS / Poly Black",
+                    price: "$180.00",
+                    description: "The Netminder long-sleeve tee by WTAPS, featuring a poly-cotton blend for comfort and durability. Ideal for a relaxed, urban look.",
+                    details: [
+                        "Poly-cotton blend",
+                        "Ribbed cuffs and neckline",
+                        "WTAPS logo print",
+                        "Relaxed fit"
+                    ],
+                    images: [
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-1.jpg?v=1748527318&width=800&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-2.jpg?v=1748527318&width=200&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-3.jpg?v=1748527318&width=200&crop=center"
+                    ],
+                    sizes: {
+                        "S": true,
+                        "M": true,
+                        "L": true,
+                        "XL": false
+                    }
+                }
+            };
+
             // Script per il menu mobile e il footer
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -556,159 +687,132 @@
                     });
                 }
             });
-            window.addEventListener('resize', () => {
-                accordionHeaders.forEach(header => {
-                    const accordionContent = header.nextElementSibling;
-                    if (window.innerWidth >= 768) {
-                        header.classList.remove('open');
-                        accordionContent.classList.remove('open');
-                    }
-                });
-            });
 
-            // --- Logica della Pagina Prodotto Dinamica ---
-            function updateProductPage(productId) {
-                const product = products[productId];
-                const mainContent = document.getElementById('product-page-content');
-                const errorMessage = document.getElementById('error-message-container');
+            // Caricamento dinamico del prodotto
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id') || '1'; // Default al prodotto 1
+            const product = products[productId];
 
+            const mainImage = document.getElementById('main-image');
+            const thumbnailContainer = document.getElementById('thumbnail-container');
+            const productBrand = document.getElementById('product-brand');
+            const productName = document.getElementById('product-name');
+            const productPrice = document.getElementById('product-price');
+            const productDescription = document.getElementById('product-description');
+            const productDetails = document.getElementById('product-details');
+            const sizeOptionsContainer = document.getElementById('size-options');
+            const relatedProductsContainer = document.getElementById('related-products-container');
+
+            let currentImageIndex = 0;
+
+            const prevButton = document.getElementById('prev-button');
+            const nextButton = document.getElementById('next-button');
+
+            function showImage(index) {
+                // Rimuovi la classe 'active' da tutte le thumbnail
+                const thumbnails = document.querySelectorAll('#thumbnail-container img');
+                thumbnails.forEach(thumb => thumb.classList.remove('active'));
+
+                // Aggiorna l'immagine principale
+                mainImage.src = product.images[index];
+                
+                // Aggiungi la classe 'active' alla thumbnail corrente
+                thumbnails[index].classList.add('active');
+
+                // Aggiorna l'indice corrente
+                currentImageIndex = index;
+            }
+
+            function loadProduct(product) {
                 if (!product) {
-                    mainContent.style.display = 'none';
-                    errorMessage.style.display = 'block';
+                    console.error('Prodotto non trovato!');
                     return;
                 }
 
-                mainContent.style.display = 'flex';
-                errorMessage.style.display = 'none';
+                // Carica i dati del prodotto
+                productBrand.textContent = product.brand;
+                productName.textContent = product.name;
+                productPrice.textContent = product.price;
+                productDescription.textContent = product.description;
 
-                // Variabili per il carosello
-                let currentImageIndex = 0;
-                const mainImage = document.getElementById('main-image');
-                const prevButton = document.getElementById('prev-btn');
-                const nextButton = document.getElementById('next-btn');
-                const imageCounter = document.getElementById('image-counter');
-                const productImages = product.images;
-
-                // Funzione per aggiornare l'immagine principale
-                function updateMainImage() {
-                    mainImage.src = productImages[currentImageIndex];
-                    // Aggiorna il contatore
-                    imageCounter.textContent = `${currentImageIndex + 1} / ${productImages.length}`;
-                    // Mostra/nascondi le frecce se c'è più di un'immagine
-                    if (productImages.length > 1) {
-                        prevButton.style.display = 'block';
-                        nextButton.style.display = 'block';
-                        imageCounter.style.display = 'block';
-                    } else {
-                        prevButton.style.display = 'none';
-                        nextButton.style.display = 'none';
-                        imageCounter.style.display = 'none';
-                    }
-                }
-
-                // Event listener per la freccia "avanti"
-                nextButton.addEventListener('click', () => {
-                    currentImageIndex = (currentImageIndex + 1) % productImages.length;
-                    updateMainImage();
+                // Carica le immagini
+                thumbnailContainer.innerHTML = '';
+                product.images.forEach((image, index) => {
+                    const thumbImg = document.createElement('img');
+                    thumbImg.src = image;
+                    thumbImg.alt = `Thumbnail ${index + 1}`;
+                    thumbImg.classList.add('w-full', 'h-auto', 'object-cover', 'cursor-pointer');
+                    thumbImg.addEventListener('click', () => showImage(index));
+                    thumbnailContainer.appendChild(thumbImg);
                 });
+                // Mostra la prima immagine all'inizio
+                showImage(0);
 
-                // Event listener per la freccia "indietro"
+                // Aggiungi le funzionalità del carosello
                 prevButton.addEventListener('click', () => {
-                    currentImageIndex = (currentImageIndex - 1 + productImages.length) % productImages.length;
-                    updateMainImage();
+                    let newIndex = currentImageIndex - 1;
+                    if (newIndex < 0) {
+                        newIndex = product.images.length - 1;
+                    }
+                    showImage(newIndex);
                 });
 
-                // Inizializza la visualizzazione
-                updateMainImage();
+                nextButton.addEventListener('click', () => {
+                    let newIndex = currentImageIndex + 1;
+                    if (newIndex >= product.images.length) {
+                        newIndex = 0;
+                    }
+                    showImage(newIndex);
+                });
 
-                // Resto del codice della pagina prodotto
-                document.getElementById('page-title').textContent = product.name + " | Cmarine";
-                document.getElementById('product-brand').textContent = product.brand;
-                document.getElementById('product-name').textContent = product.name;
-                document.getElementById('product-price').textContent = product.price;
+                // Carica i dettagli del prodotto
+                productDetails.innerHTML = '';
+                product.details.forEach(detail => {
+                    const li = document.createElement('li');
+                    li.textContent = detail;
+                    productDetails.appendChild(li);
+                });
 
-                // Gestione delle taglie
-                const sizeOptionsContainer = document.getElementById('size-options');
+                // Carica le opzioni di taglia
                 sizeOptionsContainer.innerHTML = '';
                 for (const size in product.sizes) {
-                    const isAvailable = product.sizes[size];
-                    const sizeButton = document.createElement('button');
-                    sizeButton.textContent = size;
-                    sizeButton.classList.add('size-button', 'px-4', 'py-2', 'border', 'border-gray-300', 'rounded-md', 'hover:border-black', 'transition-colors');
-                    if (!isAvailable) {
-                        sizeButton.classList.add('unavailable');
-                        sizeButton.disabled = true;
+                    const button = document.createElement('button');
+                    button.textContent = size;
+                    button.classList.add('size-button', 'px-4', 'py-2', 'border', 'border-gray-300', 'rounded-md', 'text-sm', 'uppercase', 'font-semibold');
+                    if (!product.sizes[size]) {
+                        button.disabled = true;
+                        button.classList.add('unavailable');
                     } else {
-                        sizeButton.addEventListener('click', () => {
-                            // Rimuove la classe 'active' da tutti i bottoni
+                        button.addEventListener('click', function () {
                             document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('active'));
-                            // Aggiunge la classe 'active' al bottone cliccato
-                            sizeButton.classList.add('active');
+                            this.classList.add('active');
                         });
                     }
-                    sizeOptionsContainer.appendChild(sizeButton);
+                    sizeOptionsContainer.appendChild(button);
                 }
 
-                // Gestione descrizione e dettagli
-                document.getElementById('product-description').textContent = product.description;
-                const detailsList = document.getElementById('product-details');
-                detailsList.innerHTML = '';
-                product.details.forEach(detail => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = detail;
-                    detailsList.appendChild(listItem);
-                });
-            }
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const productId = urlParams.get('id');
-
-            updateProductPage(productId);
-
-            // Aggiungi un gestore di eventi al pulsante "Add to Cart"
-            const addToCartButton = document.getElementById('add-to-cart-button');
-            if (addToCartButton) {
-                addToCartButton.addEventListener('click', () => {
-                    const selectedSizeButton = document.querySelector('.size-button.active');
-                    if (!selectedSizeButton) {
-                        alert('Seleziona una taglia prima di aggiungere al carrello.');
-                        return;
-                    }
-                    const selectedSize = selectedSizeButton.textContent;
-                    const quantity = parseInt(document.getElementById('quantity-input').value, 10);
-
-                    // Usa la funzione globale addToCart
-                    window.addToCart(productId, selectedSize, quantity);
-                });
-            }
-
-            // Funzione per generare prodotti correlati (esempio)
-            function generateRelatedProducts() {
-                const relatedProductsContainer = document.getElementById('related-products-container');
+                // Carica prodotti correlati (esempio, escludendo il prodotto corrente)
                 relatedProductsContainer.innerHTML = '';
-                const productIds = Object.keys(products).sort(() => 0.5 - Math.random()).slice(0, 4);
-                productIds.forEach(id => {
-                    const product = products[id];
-                    const productCard = document.createElement('a');
-                    productCard.href = `product.html?id=${product.id}`;
-                    productCard.classList.add('block', 'group');
-                    productCard.innerHTML = `
-                        <div class="relative overflow-hidden product-card">
-                            <img src="${product.images[0]}" alt="${product.name}" class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center product-overlay">
-                                <button class="bg-white text-black px-6 py-2 uppercase text-sm font-semibold tracking-wider transition-colors duration-300 hover:bg-gray-200">View Product</button>
+                const relatedProductIds = Object.keys(products).filter(id => id !== productId);
+                relatedProductIds.forEach(relatedId => {
+                    const relatedProduct = products[relatedId];
+                    const card = document.createElement('div');
+                    card.classList.add('product-card', 'group', 'relative');
+                    card.innerHTML = `
+                        <a href="product.html?id=${relatedProduct.id}">
+                            <img src="${relatedProduct.images[0]}" alt="${relatedProduct.name}" class="w-full h-auto object-cover">
+                            <div class="mt-4 text-center">
+                                <h3 class="text-sm uppercase tracking-widest text-gray-600">${relatedProduct.brand}</h3>
+                                <p class="mt-1 font-semibold">${relatedProduct.name}</p>
+                                <p class="mt-1 text-gray-500">${relatedProduct.price}</p>
                             </div>
-                        </div>
-                        <div class="mt-4 text-center">
-                            <h3 class="text-sm uppercase font-semibold text-gray-800">${product.brand}</h3>
-                            <p class="text-sm text-gray-600">${product.name}</p>
-                            <p class="mt-2 font-bold">${product.price}</p>
-                        </div>
+                        </a>
                     `;
-                    relatedProductsContainer.appendChild(productCard);
+                    relatedProductsContainer.appendChild(card);
                 });
             }
-            generateRelatedProducts();
+
+            loadProduct(product);
         });
     </script>
 </body>
