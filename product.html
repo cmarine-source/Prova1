@@ -701,8 +701,12 @@
                 addToCartButton.addEventListener('click', () => {
                     if (selectedSize && quantityInput.value > 0) {
                         const quantity = parseInt(quantityInput.value, 10);
-                        addToCart(currentProduct, selectedSize, quantity);
-                        alert(`Aggiunto al carrello: ${quantity} x ${currentProduct.name} (Taglia: ${selectedSize})`);
+                        if (!isNaN(quantity) && quantity > 0) {
+                            addToCart(currentProduct, selectedSize, quantity);
+                            alert(`Aggiunto al carrello: ${quantity} x ${currentProduct.name} (Taglia: ${selectedSize})`);
+                        } else {
+                            alert("Seleziona una quantità valida.");
+                        }
                     } else {
                         alert("Seleziona una taglia e una quantità valida.");
                     }
