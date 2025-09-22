@@ -250,6 +250,16 @@
             background-color: #000;
             color: white;
         }
+
+        /* Stili per le freccette del carosello */
+        #prev-btn, #next-btn {
+            display: block;
+        }
+
+        .product-image-container:hover #prev-btn,
+        .product-image-container:hover #next-btn {
+            display: block;
+        }
     </style>
 </head>
 
@@ -304,8 +314,17 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="flex flex-col md:flex-row gap-8">
             <div class="md:w-1/2">
-                <img id="main-image" src="" alt="" class="w-full h-auto object-cover mb-4">
-                <div id="thumbnail-container" class="grid grid-cols-4 gap-2">
+                <div class="relative group product-image-container">
+                    <img id="main-image" src="" alt="" class="w-full h-auto object-cover mb-4">
+                    
+                    <button id="prev-btn" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="next-btn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <div id="image-counter" class="absolute bottom-4 right-4 text-xs bg-black bg-opacity-50 text-white px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                 </div>
             </div>
 
@@ -661,16 +680,76 @@
                     return;
                 }
 
-                // Aggiorna titolo della pagina
-                document.getElementById('page-title').textContent = `${product.name} | ${product.brand} | Cmarine`;
+                // Variabili per il carosello
+                let currentImageIndex = 0;
+                const mainImage = document.getElementById('main-image');
+                const prevButton = document.getElementById('prev-btn');
+                const nextButton = document.getElementById('next-btn');
+                const imageCounter = document.getElementById('image-counter');
+                const productImages = product.images;
 
-                // Aggiorna le informazioni di base
+                // Funzione per aggiornare l'immagine principale
+                function updateMainImage() {
+                    mainImage.src = productImages[currentImageIndex];
+                    // Aggiorna il contatore
+                    imageCounter.textContent = `${currentImageIndex + 1} / ${productImages.length}`;
+                    // Mostra/nascondi le frecce se c'è più di un'immagine
+                    if (productImages.length > 1) {
+                        prevButton.style.display = 'block';
+                        nextButton.style.display = 'block';
+                        imageCounter.style.display = 'block';
+                    } else {
+                        prevButton.style.display = 'none';
+                        nextButton.style.display = 'none';
+                        imageCounter.style.display = 'none';
+                    }
+                }
+
+                // Event listener per la freccia "avanti"
+                nextButton.addEventListener('click', () => {
+                    currentImageIndex = (currentImageIndex + 1) % productImages.length;
+                    updateMainImage();
+                });
+
+                // Event listener per la freccia "indietro"
+                prevButton.addEventListener('click', () => {
+                    currentImageIndex = (currentImageIndex - 1 + productImages.length) % productImages.length;
+                    updateMainImage();
+                });
+
+                // Inizializza la visualizzazione
+                updateMainImage();
+
+                // Resto del codice della pagina prodotto
+                document.getElementById('page-title').textContent = product.name + " | Cmarine";
                 document.getElementById('product-brand').textContent = product.brand;
                 document.getElementById('product-name').textContent = product.name;
                 document.getElementById('product-price').textContent = product.price;
-                document.getElementById('product-description').textContent = product.description;
 
-                // Aggiorna i dettagli del prodotto
+                // Gestione delle taglie
+                const sizeOptionsContainer = document.getElementById('size-options');
+                sizeOptionsContainer.innerHTML = '';
+                for (const size in product.sizes) {
+                    const isAvailable = product.sizes[size];
+                    const sizeButton = document.createElement('button');
+                    sizeButton.textContent = size;
+                    sizeButton.classList.add('size-button', 'px-4', 'py-2', 'border', 'border-gray-300', 'rounded-md', 'hover:border-black', 'transition-colors');
+                    if (!isAvailable) {
+                        sizeButton.classList.add('unavailable');
+                        sizeButton.disabled = true;
+                    } else {
+                        sizeButton.addEventListener('click', () => {
+                            // Rimuove la classe 'active' da tutti i bottoni
+                            document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('active'));
+                            // Aggiunge la classe 'active' al bottone cliccato
+                            sizeButton.classList.add('active');
+                        });
+                    }
+                    sizeOptionsContainer.appendChild(sizeButton);
+                }
+
+                // Gestione descrizione e dettagli
+                document.getElementById('product-description').textContent = product.description;
                 const detailsList = document.getElementById('product-details');
                 detailsList.innerHTML = '';
                 product.details.forEach(detail => {
@@ -678,152 +757,47 @@
                     listItem.textContent = detail;
                     detailsList.appendChild(listItem);
                 });
-
-
-                // Aggiorna le immagini
-                const mainImage = document.getElementById('main-image');
-                const thumbnailContainer = document.getElementById('thumbnail-container');
-                mainImage.src = product.images[0];
-                mainImage.alt = product.name;
-                thumbnailContainer.innerHTML = '';
-                product.images.forEach((imgSrc, index) => {
-                    // Ignora la prima immagine, che è già la principale
-                    if (index > 0) {
-                        const thumbnail = document.createElement('img');
-                        thumbnail.src = imgSrc;
-                        thumbnail.alt = `${product.name} - Thumb ${index}`;
-                        thumbnail.classList.add('w-full', 'h-auto', 'object-cover', 'cursor-pointer', 'hover:opacity-80');
-                        thumbnailContainer.appendChild(thumbnail);
-                    }
-                });
-
-                // Gestisce il cambio immagine al click sulla thumbnail
-                thumbnailContainer.addEventListener('click', (e) => {
-                    if (e.target.tagName === 'IMG') {
-                        // Sostituisce la larghezza dell'immagine per ottenere l'alta risoluzione
-                        mainImage.src = e.target.src.replace('width=200', 'width=800');
-                    }
-                });
-
-                // Aggiorna le taglie basate sulla disponibilità
-                const sizeOptionsContainer = document.getElementById('size-options');
-                sizeOptionsContainer.innerHTML = '';
-                for (const size in product.sizes) {
-                    const available = product.sizes[size];
-                    const sizeButton = document.createElement('button');
-                    sizeButton.textContent = size;
-                    sizeButton.dataset.size = size;
-                    sizeButton.classList.add(
-                        'size-button',
-                        'px-4',
-                        'py-2',
-                        'border',
-                        'border-gray-300',
-                        'text-sm',
-                        'font-medium',
-                        'rounded-sm',
-                        'transition',
-                        'duration-200'
-                    );
-
-                    if (!available) {
-                        sizeButton.classList.add('unavailable');
-                    } else {
-                        sizeButton.classList.add('hover:bg-gray-200');
-                        sizeButton.addEventListener('click', () => {
-                            document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('active'));
-                            sizeButton.classList.add('active');
-                        });
-                    }
-                    sizeOptionsContainer.appendChild(sizeButton);
-                }
             }
 
-
-            // --- Logica del Carrello ---
-
-            const CART_STORAGE_KEY = 'cmarineCart';
-
-            // Funzione per aggiornare il badge del carrello
-            window.updateCartDisplay = function () {
-                let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
-                const cartItemCountElement = document.getElementById('cart-item-count');
-                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-                if (cartItemCountElement) {
-                    cartItemCountElement.textContent = totalItems;
-                    if (totalItems > 0) {
-                        cartItemCountElement.classList.remove('hidden');
-                    } else {
-                        cartItemCountElement.classList.add('hidden');
-                    }
+            // Aggiungi un piccolo delay per assicurarti che la pagina si sia caricata completamente
+            // prima di cercare l'ID del prodotto nell'URL.
+            setTimeout(() => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const productId = urlParams.get('id');
+                if (productId) {
+                    updateProductPage(productId);
                 }
-            };
+            }, 50);
 
-            // Funzione per aggiungere un prodotto al carrello
-            window.addProductToCart = function (product, buttonElement = null) {
-                let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
-                const existingProductIndex = cart.findIndex(item => item.id === product.id);
-
-                if (existingProductIndex > -1) {
-                    cart[existingProductIndex].quantity += product.quantity;
-                } else {
-                    cart.push(product);
-                }
-                localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-                window.updateCartDisplay();
-
-                if (buttonElement) {
-                    const originalText = buttonElement.textContent;
-                    buttonElement.textContent = 'Aggiunto!';
-                    buttonElement.classList.remove('bg-black', 'hover:bg-gray-800');
-                    buttonElement.classList.add('bg-green-600', 'hover:bg-green-700');
-                    setTimeout(() => {
-                        buttonElement.textContent = originalText;
-                        buttonElement.classList.remove('bg-green-600', 'hover:bg-green-700');
-                        buttonElement.classList.add('bg-black', 'hover:bg-gray-800');
-                    }, 1500);
-                }
-            };
-
-            // Collega il pulsante "Add to Cart" alla funzione di aggiunta
-            const addToCartButton = document.getElementById('add-to-cart-button');
-            const urlParams = new URLSearchParams(window.location.search);
-            const productId = urlParams.get('id');
-
-            if (addToCartButton && productId) {
-                const productData = products[productId];
-                addToCartButton.addEventListener('click', () => {
-                    const selectedSizeButton = document.querySelector('.size-button.active');
-                    const quantityInput = document.querySelector('input[type="number"]');
-
-                    if (!selectedSizeButton) {
-                        alert('Per favore, seleziona una taglia.');
-                        return;
-                    }
-
-                    const selectedSize = selectedSizeButton.dataset.size;
-                    const quantity = parseInt(quantityInput.value, 10);
-
-                    const productToAdd = {
-                        id: productData.id + '-' + selectedSize.replace(/\s/g, ''),
-                        name: productData.name,
-                        price: parseFloat(productData.price.replace('$', '')),
-                        image: productData.images[0],
-                        size: selectedSize,
-                        quantity: quantity
-                    };
-
-                    window.addProductToCart(productToAdd, addToCartButton);
+            // Funzione per generare prodotti correlati (esempio)
+            function generateRelatedProducts() {
+                const relatedProductsContainer = document.getElementById('related-products-container');
+                relatedProductsContainer.innerHTML = '';
+                const productIds = Object.keys(products).sort(() => 0.5 - Math.random()).slice(0, 4);
+                productIds.forEach(id => {
+                    const product = products[id];
+                    const productCard = document.createElement('a');
+                    productCard.href = `product.html?id=${product.id}`;
+                    productCard.classList.add('block', 'group');
+                    productCard.innerHTML = `
+                        <div class="relative overflow-hidden product-card">
+                            <img src="${product.images[0]}" alt="${product.name}" class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center product-overlay">
+                                <button class="bg-white text-black px-6 py-2 uppercase text-sm font-semibold tracking-wider transition-colors duration-300 hover:bg-gray-200">View Product</button>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <h3 class="text-sm uppercase font-semibold text-gray-800">${product.brand}</h3>
+                            <p class="text-sm text-gray-600">${product.name}</p>
+                            <p class="mt-2 font-bold">${product.price}</p>
+                        </div>
+                    `;
+                    relatedProductsContainer.appendChild(productCard);
                 });
             }
-
-            // Inizializza la pagina prodotto e il carrello al caricamento
-            updateProductPage(productId);
-            window.updateCartDisplay();
-
+            generateRelatedProducts();
         });
+
     </script>
 </body>
-
 </html>
