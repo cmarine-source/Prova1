@@ -266,6 +266,7 @@
             justify-content: center;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            z-index: 10;
         }
 
         .carousel-button:hover {
@@ -709,17 +710,10 @@
             const nextButton = document.getElementById('next-button');
 
             function showImage(index) {
-                // Rimuovi la classe 'active' da tutte le thumbnail
                 const thumbnails = document.querySelectorAll('#thumbnail-container img');
                 thumbnails.forEach(thumb => thumb.classList.remove('active'));
-
-                // Aggiorna l'immagine principale
                 mainImage.src = product.images[index];
-                
-                // Aggiungi la classe 'active' alla thumbnail corrente
                 thumbnails[index].classList.add('active');
-
-                // Aggiorna l'indice corrente
                 currentImageIndex = index;
             }
 
@@ -729,13 +723,11 @@
                     return;
                 }
 
-                // Carica i dati del prodotto
                 productBrand.textContent = product.brand;
                 productName.textContent = product.name;
                 productPrice.textContent = product.price;
                 productDescription.textContent = product.description;
 
-                // Carica le immagini
                 thumbnailContainer.innerHTML = '';
                 product.images.forEach((image, index) => {
                     const thumbImg = document.createElement('img');
@@ -745,10 +737,8 @@
                     thumbImg.addEventListener('click', () => showImage(index));
                     thumbnailContainer.appendChild(thumbImg);
                 });
-                // Mostra la prima immagine all'inizio
                 showImage(0);
 
-                // Aggiungi le funzionalità del carosello
                 prevButton.addEventListener('click', () => {
                     let newIndex = currentImageIndex - 1;
                     if (newIndex < 0) {
@@ -765,7 +755,6 @@
                     showImage(newIndex);
                 });
 
-                // Carica i dettagli del prodotto
                 productDetails.innerHTML = '';
                 product.details.forEach(detail => {
                     const li = document.createElement('li');
@@ -773,7 +762,6 @@
                     productDetails.appendChild(li);
                 });
 
-                // Carica le opzioni di taglia
                 sizeOptionsContainer.innerHTML = '';
                 for (const size in product.sizes) {
                     const button = document.createElement('button');
@@ -791,7 +779,6 @@
                     sizeOptionsContainer.appendChild(button);
                 }
 
-                // Carica prodotti correlati (esempio, escludendo il prodotto corrente)
                 relatedProductsContainer.innerHTML = '';
                 const relatedProductIds = Object.keys(products).filter(id => id !== productId);
                 relatedProductIds.forEach(relatedId => {
