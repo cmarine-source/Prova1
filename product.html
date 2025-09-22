@@ -1,165 +1,380 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Prodotto | Cmarine</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title id="page-title">Premium Menswear and Streetwear | Cmarine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Stili personalizzati di base */
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-overlay {
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .category-card img {
+            transition: transform 0.3s ease;
+        }
+
+        .newsletter-input {
+            border-bottom: 1px solid #000;
+            transition: border-color 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-bottom-color: #555;
+        }
+
+        /* Stili specifici per il menu mobile */
         .mobile-menu {
             display: none;
-            flex-direction: column;
-            width: 100%;
-            text-align: center;
         }
 
         .mobile-menu.open {
+            display: block;
+        }
+
+        /* Stili per il footer a fisarmonica */
+        .footer-accordion-header {
+            cursor: pointer;
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
+        }
+
+        .footer-accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+        }
+
+        .footer-accordion-content.open {
+            max-height: 200px;
+            opacity: 1;
+            transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
+        }
+
+        .footer-accordion-header .arrow-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .footer-accordion-header.open .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        @media (min-width: 768px) {
+            .footer-accordion-header {
+                cursor: default;
+                border-bottom: none;
+                margin-bottom: 1rem;
+            }
+
+            .footer-accordion-header .arrow-icon {
+                display: none;
+            }
+
+            .footer-accordion-content {
+                max-height: none;
+                opacity: 1;
+            }
+        }
+
+        /* Stili per il badge del carrello */
+        .cart-badge {
+            font-family: sans-serif;
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: #ef4444;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 9999px;
+            height: 18px;
+            width: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            line-height: 1;
+            box-shadow: 0 0 0 2px white;
+            transform: scale(0.9);
+            transform-origin: center;
+            transition: transform 0.2s ease-out;
+        }
+
+        .cart-badge.hidden {
+            display: none;
+        }
+
+        .cart-badge:not(.hidden) {
+            animation: bounceIn 0.3s forwards;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .hero-image {
+            background-image: url('https://cdn.havenshop.com/24e09d69ae24a65dc6fc8ef7f29761f9a404cb6e-2048x2560.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-overlay {
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .category-card img {
+            transition: transform 0.3s ease;
+        }
+
+        .newsletter-input {
+            border-bottom: 1px solid #000;
+            transition: border-color 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-bottom-color: #555;
+        }
+
+        /* Stili specifici per il menu mobile */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu.open {
+            display: block;
+        }
+
+        /* Stili per il footer a fisarmonica */
+        .footer-accordion-header {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
+        }
+
+        .footer-accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+        }
+
+        .footer-accordion-content.open {
+            max-height: 200px;
+            opacity: 1;
+            transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
+        }
+
+        .footer-accordion-header .arrow-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .footer-accordion-header.open .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        @media (min-width: 768px) {
+            .footer-accordion-header {
+                cursor: default;
+                border-bottom: none;
+                margin-bottom: 1rem;
+            }
+
+            .footer-accordion-header .arrow-icon {
+                display: none;
+            }
+
+            .footer-accordion-content {
+                max-height: none;
+                opacity: 1;
+            }
+        }
+
+        /* Nuovo stile per le taglie non disponibili */
+        .unavailable {
+            color: #9ca3af;
+            /* grigio scuro */
+            cursor: not-allowed;
+            background-color: #f3f4f6;
+            /* grigio chiaro */
+            border-color: #d1d5db;
+            /* bordo grigio */
+            text-decoration: line-through;
         }
 
         .size-button.active {
             border-color: #000;
-            background-color: #f3f4f6;
+            background-color: #000;
+            color: white;
         }
 
-        .size-button.unavailable {
-            text-decoration: line-through;
-            color: #9ca3af;
-            cursor: not-allowed;
+        /* Stili per il carosello */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
         }
 
-        @media (max-width: 767px) {
-            .footer-accordion-content {
-                display: none;
-            }
+        .carousel-image {
+            width: 100%;
+            display: block;
+            transition: opacity 0.5s ease-in-out;
+        }
 
-            .footer-accordion-content.open {
-                display: block;
-            }
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0.7;
+        }
 
-            .footer-accordion-header {
-                cursor: pointer;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
+        .carousel-control:hover {
+            opacity: 1;
+        }
 
-            .footer-accordion-header .arrow-icon {
-                transition: transform 0.3s ease;
-            }
+        .carousel-control.prev {
+            left: 10px;
+        }
 
-            .footer-accordion-header.open .arrow-icon {
-                transform: rotate(180deg);
-            }
+        .carousel-control.next {
+            right: 10px;
         }
     </style>
 </head>
 
-<body class="bg-white">
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex">
-                    <div class="flex-shrink-0 flex items-center">
-                        <a href="index.html" class="text-2xl font-bold text-gray-900">Cmarine</a>
-                    </div>
-                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                        <a href="shop.html"
-                            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Shop</a>
-                        <a href="collections.html"
-                            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Collezioni</a>
-                        <a href="features.html"
-                            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Caratteristiche</a>
-                        <a href="contact.html"
-                            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Contatti</a>
-                    </div>
-                </div>
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <button type="button"
-                            class="relative inline-flex items-center p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <span class="sr-only">Visualizza carrello</span>
-                            <i class="fas fa-shopping-cart h-6 w-6"></i>
-                            <span id="cart-item-count"
-                                class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full hidden">0</span>
-                        </button>
-                    </div>
-                    <div class="-mr-2 flex items-center sm:hidden">
-                        <button type="button" id="mobile-menu-button"
-                            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-                            aria-controls="mobile-menu" aria-expanded="false">
-                            <span class="sr-only">Apri menu principale</span>
-                            <i class="fas fa-bars h-6 w-6"></i>
-                        </button>
-                    </div>
+<body class="bg-gray-50">
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center no-underline hover:no-underline">
+                    <img src="https://i.imgur.com/PigMJrD.jpeg" alt="Il mio logo" class="h-10">
+                </a>
+            </div>
+
+            <div class="hidden md:flex space-x-8">
+                <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
+                <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
+
+                <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
+            </div>
+
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <a href="search.html" class="text-xl"><i class="fas fa-search"></i></a>
+
+                <a href="cart.html" class="text-xl relative">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-item-count" class="cart-badge hidden">0</span>
+                </a>
+
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="mobile-menu sm:hidden" id="mobile-menu">
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="shop.html"
-                    class="bg-indigo-50 border-indigo-500 text-indigo-700 block px-3 py-2 rounded-md text-base font-medium">Shop</a>
+                <a href="shop.html?category=uomo"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
+                <a href="shop.html?category=donna"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
+                <a href="shop.html?category=bambini"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
                 <a href="collections.html"
-                    class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium">Collezioni</a>
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
+
                 <a href="features.html"
-                    class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium">Caratteristiche</a>
-                <a href="contact.html"
-                    class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium">Contatti</a>
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <div class="bg-white">
-        <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-            <div class="md:flex md:space-x-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="flex flex-col md:flex-row gap-8">
+            <div class="md:w-1/2">
+                <div class="carousel-container">
+                    <img id="main-image" src="" alt="" class="carousel-image">
+                    <button id="carousel-prev" class="carousel-control prev"><i class="fas fa-chevron-left"></i></button>
+                    <button id="carousel-next" class="carousel-control next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
 
-                <div class="md:w-1/2">
-                    <div class="relative mb-4">
-                        <img id="carousel-main-image" src="" alt="" class="w-full h-auto object-cover">
-                        <button id="prev-btn"
-                            class="absolute left-0 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 ml-2 rounded-full shadow-md hover:bg-opacity-75 focus:outline-none">
-                            <i class="fas fa-chevron-left text-gray-800"></i>
-                        </button>
-                        <button id="next-btn"
-                            class="absolute right-0 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 mr-2 rounded-full shadow-md hover:bg-opacity-75 focus:outline-none">
-                            <i class="fas fa-chevron-right text-gray-800"></i>
-                        </button>
-                    </div>
-                    <div id="thumbnail-container" class="grid grid-cols-4 gap-2">
+            <div class="md:w-1/2">
+                <span id="product-brand" class="text-sm uppercase tracking-widest text-gray-600"></span>
+                <h1 id="product-name" class="text-3xl font-bold mt-2 mb-4"></h1>
+                <p id="product-price" class="text-2xl font-semibold mb-6"></p>
+
+                <div class="mb-6">
+                    <h3 class="text-sm font-semibold mb-2">SIZE</h3>
+                    <div id="size-options" class="flex flex-wrap gap-2">
                     </div>
                 </div>
 
-                <div class="md:w-1/2 mt-8 md:mt-0">
-                    <div>
-                        <p id="product-brand" class="text-sm font-medium text-gray-500"></p>
-                        <h1 id="product-name" class="text-3xl font-bold mt-1"></h1>
-                        <p id="product-price" class="text-2xl mt-2 font-bold text-gray-900"></p>
-                    </div>
+                <div class="mb-8">
+                    <h3 class="text-sm font-semibold mb-2">QUANTITY</h3>
+                    <input type="number" value="1" min="1"
+                        class="w-20 px-3 py-2 border border-gray-300 rounded-md text-center">
+                </div>
 
-                    <div class="mt-8">
-                        <h3 class="text-sm font-semibold mb-2">SIZE</h3>
-                        <div id="size-options" class="flex flex-wrap gap-2">
-                        </div>
-                    </div>
+                <button id="add-to-cart-button"
+                    class="w-full bg-black text-white px-8 py-4 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 rounded-sm">Add
+                    to Cart</button>
 
-                    <div class="mb-8">
-                        <h3 class="text-sm font-semibold mb-2">QUANTITY</h3>
-                        <input type="number" value="1" min="1"
-                            class="w-20 px-3 py-2 border border-gray-300 rounded-md text-center">
-                    </div>
-
-                    <button id="add-to-cart-button"
-                        class="w-full bg-black text-white px-8 py-4 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 rounded-sm">Add
-                        to Cart</button>
-
-                    <div class="mt-8 border-t border-gray-200 pt-8">
-                        <h3 class="text-lg font-bold mb-3">Description</h3>
-                        <p id="product-description" class="text-gray-700 leading-relaxed"></p>
-                        <ul id="product-details" class="list-disc list-inside text-gray-700 mt-4">
-                        </ul>
-                    </div>
+                <div class="mt-8 border-t border-gray-200 pt-8">
+                    <h3 class="text-lg font-bold mb-3">Description</h3>
+                    <p id="product-description" class="text-gray-700 leading-relaxed"></p>
+                    <ul id="product-details" class="list-disc list-inside text-gray-700 mt-4">
+                    </ul>
                 </div>
             </div>
         </div>
@@ -475,18 +690,14 @@
                 });
             });
 
-            // --- Logica della Pagina Prodotto Dinamica ---
-
+            // --- Logica della Pagina Prodotto Dinamica e Carosello ---
             let currentImageIndex = 0;
-            const carouselMainImage = document.getElementById('carousel-main-image');
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            const thumbnailContainer = document.getElementById('thumbnail-container');
+            const mainImage = document.getElementById('main-image');
+            const prevButton = document.getElementById('carousel-prev');
+            const nextButton = document.getElementById('carousel-next');
 
-            function updateMainImage(index, product) {
-                if (carouselMainImage && product.images && product.images[index]) {
-                    carouselMainImage.src = product.images[index];
-                }
+            function updateCarousel(images) {
+                mainImage.src = images[currentImageIndex];
             }
 
             // Funzione per aggiornare la pagina con i dati del prodotto
@@ -516,35 +727,21 @@
                     detailsList.appendChild(listItem);
                 });
 
-                // Aggiorna le immagini e le miniature del carosello
-                currentImageIndex = 0;
-                updateMainImage(currentImageIndex, product);
-                thumbnailContainer.innerHTML = '';
 
-                product.images.forEach((imgSrc, index) => {
-                    const thumbnail = document.createElement('img');
-                    thumbnail.src = imgSrc;
-                    thumbnail.alt = `${product.name} - Thumb ${index}`;
-                    thumbnail.classList.add('w-full', 'h-auto', 'object-cover', 'cursor-pointer', 'hover:opacity-80');
-                    thumbnail.addEventListener('click', () => {
-                        currentImageIndex = index;
-                        updateMainImage(currentImageIndex, product);
-                    });
-                    thumbnailContainer.appendChild(thumbnail);
+                // Inizializza il carosello
+                currentImageIndex = 0;
+                updateCarousel(product.images);
+
+                prevButton.addEventListener('click', () => {
+                    currentImageIndex = (currentImageIndex - 1 + product.images.length) % product.images.length;
+                    updateCarousel(product.images);
                 });
 
-                // Gestione dei pulsanti del carosello
-                if (prevBtn && nextBtn) {
-                    prevBtn.addEventListener('click', () => {
-                        currentImageIndex = (currentImageIndex - 1 + product.images.length) % product.images.length;
-                        updateMainImage(currentImageIndex, product);
-                    });
+                nextButton.addEventListener('click', () => {
+                    currentImageIndex = (currentImageIndex + 1) % product.images.length;
+                    updateCarousel(product.images);
+                });
 
-                    nextBtn.addEventListener('click', () => {
-                        currentImageIndex = (currentImageIndex + 1) % product.images.length;
-                        updateMainImage(currentImageIndex, product);
-                    });
-                }
 
                 // Aggiorna le taglie basate sulla disponibilità
                 const sizeOptionsContainer = document.getElementById('size-options');
