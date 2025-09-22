@@ -250,7 +250,7 @@
             background-color: #000;
             color: white;
         }
-
+        
         /* Stili per le freccette del carosello */
         #prev-btn, #next-btn {
             display: block;
@@ -341,7 +341,7 @@
 
                 <div class="mb-8">
                     <h3 class="text-sm font-semibold mb-2">QUANTITY</h3>
-                    <input type="number" value="1" min="1"
+                    <input type="number" value="1" min="1" id="quantity-input"
                         class="w-20 px-3 py-2 border border-gray-300 rounded-md text-center">
                 </div>
 
@@ -641,6 +641,66 @@
                 }
             };
 
+            // Funzione per gestire il carrello e aggiornare l'interfaccia
+            function updateCartCount(count) {
+                const cartBadge = document.getElementById('cart-item-count');
+                if (cartBadge) {
+                    if (count > 0) {
+                        cartBadge.textContent = count;
+                        cartBadge.classList.remove('hidden');
+                    } else {
+                        cartBadge.classList.add('hidden');
+                    }
+                }
+            }
+
+            // Inizializza il carrello (simulazione con sessionStorage)
+            let cartItems = JSON.parse(sessionStorage.getItem('cart')) || [];
+            updateCartCount(cartItems.length);
+
+            // Aggiungi un gestore di eventi al pulsante "Add to Cart"
+            const addToCartButton = document.getElementById('add-to-cart-button');
+            addToCartButton.addEventListener('click', () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const productId = urlParams.get('id');
+                const product = products[productId];
+                
+                const selectedSizeButton = document.querySelector('.size-button.active');
+                if (!selectedSizeButton) {
+                    alert('Seleziona una taglia prima di aggiungere al carrello.');
+                    return;
+                }
+                const selectedSize = selectedSizeButton.textContent;
+                const quantity = parseInt(document.getElementById('quantity-input').value, 10);
+
+                if (product && selectedSize && quantity > 0) {
+                    const existingItemIndex = cartItems.findIndex(item => item.id === productId && item.size === selectedSize);
+
+                    if (existingItemIndex > -1) {
+                        // Aggiorna la quantità se l'articolo esiste già
+                        cartItems[existingItemIndex].quantity += quantity;
+                    } else {
+                        // Aggiungi un nuovo articolo
+                        cartItems.push({
+                            id: productId,
+                            name: product.name,
+                            brand: product.brand,
+                            price: product.price,
+                            size: selectedSize,
+                            quantity: quantity,
+                            image: product.images[0]
+                        });
+                    }
+
+                    // Salva nel session storage
+                    sessionStorage.setItem('cart', JSON.stringify(cartItems));
+
+                    // Aggiorna l'interfaccia del carrello
+                    updateCartCount(cartItems.length);
+                    alert(`Hai aggiunto ${quantity} x ${product.name} (Taglia: ${selectedSize}) al carrello!`);
+                }
+            });
+
             // Script per il menu mobile e il footer
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -778,26 +838,4 @@
                     const product = products[id];
                     const productCard = document.createElement('a');
                     productCard.href = `product.html?id=${product.id}`;
-                    productCard.classList.add('block', 'group');
-                    productCard.innerHTML = `
-                        <div class="relative overflow-hidden product-card">
-                            <img src="${product.images[0]}" alt="${product.name}" class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center product-overlay">
-                                <button class="bg-white text-black px-6 py-2 uppercase text-sm font-semibold tracking-wider transition-colors duration-300 hover:bg-gray-200">View Product</button>
-                            </div>
-                        </div>
-                        <div class="mt-4 text-center">
-                            <h3 class="text-sm uppercase font-semibold text-gray-800">${product.brand}</h3>
-                            <p class="text-sm text-gray-600">${product.name}</p>
-                            <p class="mt-2 font-bold">${product.price}</p>
-                        </div>
-                    `;
-                    relatedProductsContainer.appendChild(productCard);
-                });
-            }
-            generateRelatedProducts();
-        });
-
-    </script>
-</body>
-</html>
+                    productCard.classList.add('block', 'group
