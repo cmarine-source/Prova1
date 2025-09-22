@@ -296,7 +296,6 @@
             <div class="hidden md:flex space-x-8">
                 <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
                 <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
-
                 <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
             </div>
 
@@ -325,7 +324,6 @@
                     class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
                 <a href="collections.html"
                     class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
-
                 <a href="features.html"
                     class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
             </div>
@@ -541,7 +539,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Dati dei prodotti aggiornati con le disponibilità delle taglie e immagini
+            // Dati dei prodotti aggiornati con le disponibilità delle taglie
             const products = {
                 "1": {
                     id: "1",
@@ -838,7 +836,7 @@
             // Genera i prodotti correlati
             const relatedProductsContainer = document.getElementById('related-products-container');
             if (relatedProductsContainer) {
-                const productIds = Object.keys(products);
+                const productIds = Object.keys(products).filter(id => id !== productId);
                 const shuffledIds = productIds.sort(() => 0.5 - Math.random());
                 const displayedIds = shuffledIds.slice(0, 4);
 
