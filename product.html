@@ -403,7 +403,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Updated product data with size availability
-            const products = "2" {
+            const products = {
+                "1": {
                     id: "1",
                     brand: "HAVEN",
                     name: "Tapered Track Pant",
@@ -426,6 +427,7 @@
                         "L": false,
                         "XL": true
                     }
+                },
                 "2": {
                     id: "2",
                     brand: "HAVEN",
@@ -626,9 +628,7 @@
                         button.disabled = true;
                     } else {
                         button.addEventListener('click', () => {
-                            // Remove 'active' from all buttons
                             document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('active'));
-                            // Add 'active' to the clicked button
                             button.classList.add('active');
                             selectedSize = size;
                             addToCartButton.disabled = false;
@@ -637,61 +637,61 @@
                     sizeOptionsContainer.appendChild(button);
                 }
 
-                // Initial image setup for the carousel
-                if (product.images.length > 0) {
-                    currentImageIndex = 0;
-                    mainImage.src = product.images[currentImageIndex];
-                    updateCarouselNav();
-                }
-            }
+                // Handle image carousel
+                currentImageIndex = 0;
+                mainImage.src = product.images[currentImageIndex];
+                prevButton.disabled = true;
+                nextButton.disabled = product.images.length <= 1;
 
-            // Carousel navigation logic
-            function updateCarouselNav() {
-                prevButton.disabled = currentImageIndex === 0;
-                nextButton.disabled = currentImageIndex === currentProduct.images.length - 1;
-            }
-
-            if (prevButton) {
                 prevButton.addEventListener('click', () => {
                     if (currentImageIndex > 0) {
                         currentImageIndex--;
-                        mainImage.src = currentProduct.images[currentImageIndex];
-                        updateCarouselNav();
+                        mainImage.src = product.images[currentImageIndex];
+                        nextButton.disabled = false;
+                    }
+                    if (currentImageIndex === 0) {
+                        prevButton.disabled = true;
                     }
                 });
-            }
 
-            if (nextButton) {
                 nextButton.addEventListener('click', () => {
-                    if (currentImageIndex < currentProduct.images.length - 1) {
+                    if (currentImageIndex < product.images.length - 1) {
                         currentImageIndex++;
-                        mainImage.src = currentProduct.images[currentImageIndex];
-                        updateCarouselNav();
+                        mainImage.src = product.images[currentImageIndex];
+                        prevButton.disabled = false;
+                    }
+                    if (currentImageIndex === product.images.length - 1) {
+                        nextButton.disabled = true;
                     }
                 });
             }
 
-            // --- Event Listeners and Initial Load ---
+            // Load product data
             if (productId && products[productId]) {
                 currentProduct = products[productId];
                 updateProductPage(currentProduct);
-                updateCartBadge(); // Update badge on page load
+                document.getElementById('page-title').textContent = `${currentProduct.name} | Cmarine`;
             } else {
-                document.querySelector('.max-w-7xl.mx-auto').innerHTML = '<div class="text-center py-20"><h1 class="text-3xl font-bold">Prodotto non trovato</h1><p class="mt-4">L\'ID del prodotto non è valido.</p></div>';
+                // Redirect to a 404 page or show an error
+                console.error("Product not found.");
+                document.getElementById('product-name').textContent = "Product Not Found";
+                document.querySelector('.md\\:w-1\\/2').style.display = 'none';
             }
 
-            // Add to cart event listener
-            if (addToCartButton) {
-                addToCartButton.addEventListener('click', () => {
-                    if (selectedSize && quantityInput.value > 0) {
-                        const quantity = parseInt(quantityInput.value, 10);
-                        addToCart(currentProduct, selectedSize, quantity);
-                        alert(`Aggiunto al carrello: ${quantity} x ${currentProduct.name} (Taglia: ${selectedSize})`);
-                    } else {
-                        alert("Seleziona una taglia e una quantità valida.");
-                    }
-                });
-            }
+            // Add to Cart button logic
+            addToCartButton.addEventListener('click', () => {
+                const quantity = parseInt(quantityInput.value);
+                if (currentProduct && selectedSize && quantity > 0) {
+                    addToCart(currentProduct, selectedSize, quantity);
+                    // Optional: Provide visual feedback to the user
+                    addToCartButton.textContent = 'Added!';
+                    setTimeout(() => {
+                        addToCartButton.textContent = 'Add to Cart';
+                    }, 1500);
+                }
+            });
+
+            updateCartBadge();
         });
     </script>
 </body>
