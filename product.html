@@ -1,19 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dettagli Prodotto | Cmarine</title>
-    <meta name="description" content="Esplora i dettagli di questo prodotto di Cmarine.">
+    <meta name="description" content="Scopri i dettagli di un prodotto Cmarine specifico. Visualizza immagini, prezzo, taglie disponibili e aggiungi al carrello.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-overlay {
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .category-card img {
+            transition: transform 0.3s ease;
+        }
+
+        .newsletter-input {
+            border-bottom: 1px solid #000;
+            transition: border-color 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-bottom-color: #555;
+        }
+
+        /* Stili specifici per il menu mobile */
         .mobile-menu {
             display: none;
         }
+
         .mobile-menu.open {
             display: block;
         }
+
+        /* Stili per il footer a fisarmonica */
         .footer-accordion-header {
             cursor: pointer;
             display: flex;
@@ -23,23 +54,28 @@
             border-bottom: 1px solid #e5e7eb;
             margin-bottom: 1rem;
         }
+
         .footer-accordion-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
             opacity: 0;
         }
+
         .footer-accordion-content.open {
             max-height: 200px;
             opacity: 1;
             transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
         }
+
         .footer-accordion-header .arrow-icon {
             transition: transform 0.3s ease;
         }
+
         .footer-accordion-header.open .arrow-icon {
             transform: rotate(180deg);
         }
+
         @media (min-width: 768px) {
             .footer-accordion-header {
                 cursor: default;
@@ -54,6 +90,8 @@
                 opacity: 1;
             }
         }
+
+        /* Stili per il badge del carrello */
         .cart-badge {
             font-family: sans-serif;
             position: absolute;
@@ -76,26 +114,28 @@
             transform-origin: center;
             transition: transform 0.2s ease-out;
         }
+
         .cart-badge.hidden {
             display: none;
         }
+
         .cart-badge:not(.hidden) {
             animation: bounceIn 0.3s forwards;
         }
+
         @keyframes bounceIn {
             0% { transform: scale(0); opacity: 0; }
             50% { transform: scale(1.2); opacity: 1; }
             100% { transform: scale(1); }
         }
-        .size-button.active {
+
+        .size-button.selected {
             border-color: #000;
-            background-color: #000;
-            color: #fff;
         }
-        .size-button.unavailable {
-            text-decoration: line-through;
-            opacity: 0.5;
-            cursor: not-allowed;
+
+        .error-message {
+            color: red;
+            font-size: 0.875rem;
         }
     </style>
 </head>
@@ -117,10 +157,12 @@
 
             <div class="flex items-center space-x-4 md:space-x-6">
                 <a href="search.html" class="text-xl"><i class="fas fa-search"></i></a>
+                
                 <a href="cart.html" class="text-xl relative">
                     <i class="fas fa-shopping-bag"></i>
                     <span id="cart-item-count" class="cart-badge hidden">0</span>
                 </a>
+
                 <div class="md:hidden">
                     <button id="mobile-menu-button" class="focus:outline-none">
                         <i class="fas fa-bars text-xl"></i>
@@ -140,46 +182,121 @@
     </header>
 
     <main class="py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row -mx-4">
-                <div class="md:flex-1 px-4">
-                    <div class="h-96 w-full rounded-lg bg-gray-300 mb-8 relative">
-                        <img id="main-image" class="h-full w-full object-cover" src="" alt="Product Image">
-                        <div id="image-counter" class="absolute bottom-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded"></div>
-                        <button id="prev-btn" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 focus:outline-none"><i class="fas fa-chevron-left"></i></button>
-                        <button id="next-btn" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 focus:outline-none"><i class="fas fa-chevron-right"></i></button>
-                    </div>
-                </div>
-
-                <div class="md:flex-1 px-4">
-                    <h2 id="product-brand" class="text-sm font-semibold text-gray-500 uppercase"></h2>
-                    <h1 id="product-name" class="text-3xl font-bold text-gray-900 mb-2"></h1>
-                    <p id="product-price" class="text-2xl text-gray-900 font-bold mb-4"></p>
-                    <p id="product-description" class="text-gray-600 text-sm leading-relaxed mb-6"></p>
-                    
-                    <div class="mb-4">
-                        <h3 class="text-sm font-semibold uppercase text-gray-700 mb-2">Taglia</h3>
-                        <div id="size-options" class="flex flex-wrap gap-2">
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center space-x-4 mb-6">
-                        <input type="number" value="1" min="1" class="w-20 px-3 py-2 border border-gray-300 rounded-md focus:ring-black focus:border-black text-sm">
-                        <button id="add-to-cart-button" class="w-full md:w-auto px-6 py-3 bg-black text-white text-sm font-semibold rounded-md hover:bg-gray-800 transition-colors">
-                            Aggiungi al carrello
-                        </button>
-                    </div>
-                    
-                    <div class="border-t border-gray-200 pt-6 mt-6">
-                        <h3 class="text-sm font-semibold uppercase text-gray-700 mb-2">Dettagli del Prodotto</h3>
-                        <ul id="product-details" class="list-disc list-inside text-gray-600 text-sm space-y-1">
-                        </ul>
-                    </div>
-                </div>
+        <div id="product-details-container" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             </div>
-        </div>
     </main>
 
+    <style>
+        /* CSS per la newsletter e il footer */
+        @font-face {
+            font-display: block;
+            font-family: Roboto;
+            src: url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/7529907e9eaf8ebb5220c5f9850e3811.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/25c678feafdc175a70922a116c9be3e7.woff) format("woff")
+        }
+        @font-face {
+            font-display: fallback;
+            font-family: Roboto;
+            font-weight: 600;
+            src: url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/6e9caeeafb1f3491be3e32744bc30440.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/71501f0d8d5aa95960f6475d5487d4c2.woff) format("woff")
+        }
+        @font-face {
+            font-display: fallback;
+            font-family: Roboto;
+            font-weight: 700;
+            src: url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/3ef7cf158f310cf752d5ad08cd0e7e60.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/ece3a1d82f18b60bcce0211725c476aa.woff) format("woff")
+        }
+        #sib-container input:-ms-input-placeholder {
+            text-align: left;
+            font-family: Helvetica, sans-serif;
+            color: #716e6e;
+        }
+        #sib-container input::placeholder {
+            text-align: left;
+            font-family: Helvetica, sans-serif;
+            color: #716e6e;
+        }
+        #sib-container textarea::placeholder {
+            text-align: left;
+            font-family: Helvetica, sans-serif;
+            color: #716e6e;
+        }
+        #sib-container a {
+            text-decoration: underline;
+            color: #2BB2FC;
+        }
+    </style>
+    <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
+
+    <div class="sib-form" style="text-align: center; background-color: #EFF2F7;">
+        <div id="sib-form-container" class="sib-form-container">
+            <div id="error-message" class="sib-form-message-panel" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;max-width:540px;">
+                <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+                    <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon">
+                        <path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-11.49 120h22.979c6.823 0 12.274 5.682 11.99 12.5l-7 168c-.268 6.428-5.556 11.5-11.99 11.5h-8.979c-6.433 0-11.722-5.073-11.99-11.5l-7-168c-.283-6.818 5.167-12.5 11.99-12.5zM256 340c-15.464 0-28 12.536-28 28s12.536 28 28 28 28-12.536 28-28-12.536-28-28-28z" />
+                    </svg>
+                    <span class="sib-form-message-panel__inner-text">La tua iscrizione non può essere convalidata.</span>
+                </div>
+            </div>
+            <div></div>
+            <div id="success-message" class="sib-form-message-panel" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#085229; background-color:#e7faf0; border-radius:3px; border-color:#13ce66;max-width:540px;">
+                <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+                    <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon">
+                        <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 464c-118.664 0-216-96.055-216-216 0-118.663 96.055-216 216-216 118.664 0 216 96.055 216 216 0 118.663-96.055 216-216 216zm141.63-274.961L217.15 376.071c-4.705 4.667-12.303 4.637-16.97-.068l-85.878-86.572c-4.667-4.705-4.637-12.303.068-16.97l8.52-8.451c4.705-4.667 12.303-4.637 16.97.068l68.976 69.533 163.441-162.13c4.705-4.667 12.303-4.637 16.97.068l8.451 8.52c4.668 4.705 4.637 12.303-.068 16.97z" />
+                    </svg>
+                    <span class="sib-form-message-panel__inner-text">La tua iscrizione è avvenuta correttamente.</span>
+                </div>
+            </div>
+            <div></div>
+            <div id="sib-container" class="sib-container--large sib-container--vertical" style="text-align:center; background-color:rgba(3,2,2,1); max-width:540px; border-radius:3px; border-width:1px; border-color:#020203; border-style:solid; direction:ltr">
+                <form id="sib-form" method="POST" action="https://16d50c30.sibforms.com/serve/MUIFAD9TXScE1MH3F0qel6S3jfP0w6bSn-l8fl3UDWHoZdV_D34up2OGFcPLyoDr6KP2XiW6OPR5ZamGqhzqD3Q9VeI-R1D2Rnp1vvssGUax9eyhSsbShaZZjj7c29vMbCCb0g9Kg3U09F9z0dq81XcnlAA6iOvkEzfEKdHoAqVzkqVOTbxnRK3DXqLFAZj-5KlwexuK5i6MAdty" data-type="subscription">
+                    <div style="padding: 8px 0;">
+                        <div class="sib-form-block" style="font-size:11px; text-align:center; font-family:Helvetica, sans-serif; color:#fdfeff; background-color:transparent; text-align:center">
+                            <div class="sib-text-form-block">
+                                <p>SPEDIZIONE GRATUITA SUL TUO PRIMO ORDINE</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <div class="sib-form-block" style="font-size:32px; text-align:center; font-weight:700; font-family:Helvetica, sans-serif; color:#fafafa; background-color:transparent; text-align:center">
+                            <p>Iscriviti alla Nostra Newsletter</p>
+                        </div>
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <div class="sib-form-block" style="font-size:11px; text-align:center; font-family:Helvetica, sans-serif; color:#fdfeff; background-color:transparent; text-align:center">
+                            <div class="sib-text-form-block">
+                                <p>Iscriviti per accesso anticipato a lanci, promozioni ed eventi.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <div class="sib-input sib-form-block">
+                            <div class="form__entry entry_block">
+                                <div class="form__label-row ">
+                                    <div class="entry__field">
+                                        <input class="input " type="text" id="EMAIL" name="EMAIL" autocomplete="off" placeholder="Il tuo indirizzo email" data-required="true" required />
+                                    </div>
+                                </div>
+                                <label class="entry__error entry__error--primary" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <div class="sib-form-block" style="text-align: center">
+                            <button class="sib-form-block__button sib-form-block__button-with-loader" style="font-size:17px; text-align:center; font-weight:700; font-family:Helvetica, sans-serif; color:#030202; background-color:#f7f9fc; border-radius:1px; border-width:0px;" form="sib-form" type="submit">
+                                <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512" style="">
+                                    <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
+                                </svg>
+                                ISCRIVITI
+                            </button>
+                        </div>
+                    </div>
+                    <input type="text" name="email_address_check" value="" class="input--hidden">
+                    <input type="hidden" name="locale" value="it">
+                </form>
+            </div>
+        </div>
+    </div>
     <footer class="bg-gray-100 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
@@ -229,6 +346,7 @@
                     </div>
                     <p class="text-sm text-gray-600 leading-relaxed">Iscriviti alla nostra newsletter per ricevere aggiornamenti sui nuovi arrivi, offerte speciali e altre informazioni sugli sconti.</p>
                 </div>
+
             </div>
             <div class="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600">
                 <p class="text-sm text-center md:text-left mb-4 md:mb-0">© 2025 Cmarine. Tutti i diritti riservati.</p>
@@ -240,292 +358,199 @@
             </div>
         </div>
     </footer>
-
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const products = {
-                "1": {
-                    id: "1",
-                    brand: "Helly Hansen",
-                    name: "HP AHIGA EVO 5",
-                    price: "$120.00",
-                    description: "Le scarpe da uomo HP Ahiga Evo 5 Marine Lifestyle portano la linea Ahiga a un livello superiore, con un'intersuola generosa per il massimo comfort. Progettate per le giornate estive al mare o in città, sono realizzate con HH Hydro-Grip per la massima aderenza sulle superfici bagnate, HH Quick Dry per asciugarsi velocemente e HH Max-Vent per la traspirabilità.",
-                    details: [
-                        "HH® Quick Dry",
-                        "HH® Max-Vent",
-                        "HH® Lite-Frame",
-                        "HH® Comfort Insole",
-                        "HH® Hover-Stride",
-                        "HH Hydro-Grip",
-                        "HH Storm Siping",
-                        "Lacci realizzati al 100% con materiale riciclato.",
-                        "Fettuccia in poliestere realizzata al 100% con materiale riciclato.",
-                        "Intersuola in EVA (etilene vinil acetato) che contiene il 30% di materiale riciclato.",
-                        "Fodera interna della scarpa realizzata al 100% con materiale riciclato.",
-                        "Etichetta con il marchio tessuta al 100% in poliestere riciclato.",
-                        "Gomma per la suola o altre parti della scarpa che contiene il 30% di materiale riciclato.",
-                        "La strobel è realizzata al 100% in poliestere riciclato.",
-                        "Nastro di rinforzo e rinforzo del collare della scarpa realizzati al 100% in RPET (poliestere riciclato da bottiglie di plastica)."
-                    ],
-                    images: [
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/2ad4c7cb-40a1-47b7-8349-a68e2bc4bf7e.png?cacheVersion=1714112626",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/4c22eede-6627-43d9-be5d-2617fce10193.png?cacheVersion=1678266183",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/16116306-458d-4b5e-a8db-7ecee5d570c9.png?cacheVersion=1678266183",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/0e0facc3-73c9-4dc8-95b6-df77dd42ec6f.png?cacheVersion=1678953900",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/99f7921a-41c9-4999-807d-c9d71c8ca9e9.png?cacheVersion=1678953889"
-                    ],
-                    sizes: {
-                        "40": true,
-                        "41": false,
-                        "42": true,
-                        "43": true,
-                        "44": false
-                    }
-                },
-                "2": {
-                    id: "2",
-                    brand: "HAVEN",
-                    name: "Tapered Track Pant",
-                    price: "$260.00",
-                    description: "The HAVEN Tapered Track Pant is made from a high-quality Re-Cotton fabric, offering both comfort and a stylish tapered fit.",
-                    details: [
-                        "Re-Cotton fabric",
-                        "Tapered fit",
-                        "Elastic waistband with drawstring",
-                        "Zipped pockets"
-                    ],
-                    images: [
-                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-1.jpg?v=1748536100&width=800&crop=center",
-                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-2.jpg?v=1748536100&width=200&crop=center",
-                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-3.jpg?v=1748536100&width=200&crop=center"
-                    ],
-                    sizes: {
-                        "S": true,
-                        "M": true,
-                        "L": false,
-                        "XL": true
-                    }
-                },
-                "3": {
-                    id: "3",
-                    brand: "HAVEN",
-                    name: "Sleeveless Turtleneck",
-                    price: "$140.00",
-                    description: "A versatile sleeveless turtleneck from HAVEN, perfect for layering or wearing on its own during warmer days. Crafted from a soft jersey fabric.",
-                    details: [
-                        "Soft jersey fabric",
-                        "Sleeveless design",
-                        "Turtleneck collar",
-                        "Machine washable"
-                    ],
-                    images: [
-                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-1.jpg?v=1748536034&width=800&crop=center",
-                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-2.jpg?v=1748536034&width=200&crop=center",
-                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-3.jpg?v=1748536034&width=200&crop=center"
-                    ],
-                    sizes: {
-                        "XS": false,
-                        "S": true,
-                        "M": true,
-                        "L": true
-                    }
-                },
-                "4": {
-                    id: "4",
-                    brand: "WTAPS",
-                    name: "Netminder / LS / Poly Black",
-                    price: "$180.00",
-                    description: "The Netminder long-sleeve tee by WTAPS, featuring a poly-cotton blend for comfort and durability. Ideal for a relaxed, urban look.",
-                    details: [
-                        "Poly-cotton blend",
-                        "Ribbed cuffs and neckline",
-                        "WTAPS logo print",
-                        "Relaxed fit"
-                    ],
-                    images: [
-                        "https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-1.jpg?v=1748527318&width=800&crop=center",
-                        "https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-2.jpg?v=1748527318&width=200&crop=center",
-                        "https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-3.jpg?v=1748527318&width=200&crop=center"
-                    ],
-                    sizes: {
-                        "S": true,
-                        "M": true,
-                        "L": true,
-                        "XL": false
-                    }
-                }
-            };
+        // Funzionalità del carrello aggiornate e allineate con shop.html
+        const CART_STORAGE_KEY = 'cmarineCart';
 
-            const CART_STORAGE_KEY = 'cmarineCart';
+        window.updateCartDisplay = function() {
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+            const cartItemCountElement = document.getElementById('cart-item-count');
+            const totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
 
-            let selectedSize = null;
-
-            function updateProductPage(productId) {
-                const product = products[productId];
-                const mainContent = document.querySelector('.max-w-7xl.mx-auto');
-                if (!product) {
-                    mainContent.innerHTML = '<div class="text-center py-20"><h1 class="text-3xl font-bold">Prodotto non trovato</h1><p class="mt-4">L\'ID del prodotto non è valido.</p></div>';
-                    return;
-                }
-
-                let currentImageIndex = 0;
-                const mainImage = document.getElementById('main-image');
-                const prevButton = document.getElementById('prev-btn');
-                const nextButton = document.getElementById('next-btn');
-                const imageCounter = document.getElementById('image-counter');
-                const productImages = product.images;
-
-                function updateMainImage() {
-                    if (mainImage && productImages.length > 0) {
-                        mainImage.src = productImages[currentImageIndex];
-                        if (imageCounter) {
-                            imageCounter.textContent = `${currentImageIndex + 1} / ${productImages.length}`;
-                        }
-                        if (prevButton && nextButton) {
-                            prevButton.style.display = productImages.length > 1 ? 'block' : 'none';
-                            nextButton.style.display = productImages.length > 1 ? 'block' : 'none';
-                        }
-                    }
-                }
-                if (prevButton && nextButton) {
-                    prevButton.addEventListener('click', () => {
-                        currentImageIndex = (currentImageIndex - 1 + productImages.length) % productImages.length;
-                        updateMainImage();
-                    });
-                    nextButton.addEventListener('click', () => {
-                        currentImageIndex = (currentImageIndex + 1) % productImages.length;
-                        updateMainImage();
-                    });
-                }
-
-                document.getElementById('product-brand').textContent = product.brand;
-                document.getElementById('product-name').textContent = product.name;
-                document.getElementById('product-price').textContent = product.price;
-                document.getElementById('product-description').textContent = product.description;
-
-                const detailsList = document.getElementById('product-details');
-                if (detailsList) {
-                    detailsList.innerHTML = '';
-                    product.details.forEach(detail => {
-                        const li = document.createElement('li');
-                        li.textContent = detail;
-                        detailsList.appendChild(li);
-                    });
-                }
-
-                updateMainImage();
-
-                const sizeOptionsContainer = document.getElementById('size-options');
-                if (sizeOptionsContainer) {
-                    sizeOptionsContainer.innerHTML = '';
-                    selectedSize = null;
-                    for (const size in product.sizes) {
-                        const isAvailable = product.sizes[size];
-                        const button = document.createElement('button');
-                        button.textContent = size;
-                        button.className = `size-button px-4 py-2 border border-gray-300 rounded-md text-sm transition-colors ${isAvailable ? 'hover:bg-gray-200' : 'unavailable'}`;
-                        button.disabled = !isAvailable;
-
-                        if (isAvailable) {
-                            button.addEventListener('click', () => {
-                                document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('active'));
-                                button.classList.add('active');
-                                selectedSize = size;
-                            });
-                        }
-                        sizeOptionsContainer.appendChild(button);
-                    }
+            if (cartItemCountElement) {
+                cartItemCountElement.textContent = totalItems;
+                if (totalItems > 0) {
+                    cartItemCountElement.classList.remove('hidden');
+                } else {
+                    cartItemCountElement.classList.add('hidden');
                 }
             }
+        };
 
-            function updateCartBadge() {
-                const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || {};
-                const totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
-                const cartBadge = document.getElementById('cart-item-count');
+        window.addProductToCart = function(product, selectedSize) {
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || {};
+            const itemKey = `${product.id}_${selectedSize}`;
 
-                if (cartBadge) {
-                    if (totalItems > 0) {
-                        cartBadge.textContent = totalItems;
-                        cartBadge.classList.remove('hidden');
-                    } else {
-                        cartBadge.classList.add('hidden');
-                    }
-                }
+            if (cart[itemKey]) {
+                cart[itemKey].quantity += 1;
+            } else {
+                cart[itemKey] = {
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    size: selectedSize,
+                    quantity: 1
+                };
             }
 
-            const addToCartButton = document.getElementById('add-to-cart-button');
-            if (addToCartButton) {
-                addToCartButton.addEventListener('click', () => {
-                    if (!selectedSize) {
-                        alert('Seleziona una taglia prima di aggiungere al carrello.');
-                        return;
-                    }
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const productId = urlParams.get('id');
-                    const product = products[productId];
-                    const quantityInput = document.querySelector('input[type="number"]');
-                    const quantity = quantityInput ? parseInt(quantityInput.value, 10) : 1;
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+            window.updateCartDisplay();
+        };
 
-                    if (!product || quantity < 1) {
-                        alert('Prodotto o quantità non validi.');
-                        return;
-                    }
+        // Funzionalità per il menu mobile
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
 
-                    const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || {};
-                    const cartItemKey = `${productId}-${selectedSize}`;
-                    
-                    if (cart[cartItemKey]) {
-                        cart[cartItemKey].quantity += quantity;
-                    } else {
-                        cart[cartItemKey] = {
-                            id: productId,
-                            name: product.name,
-                            brand: product.brand,
-                            price: product.price,
-                            size: selectedSize,
-                            quantity: quantity,
-                            image: product.images[0]
-                        };
-                    }
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('open');
+            });
+        }
 
-                    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-                    updateCartBadge();
-                    alert(`Prodotto aggiunto al carrello: ${product.name} (Taglia: ${selectedSize}, Quantità: ${quantity})`);
-                });
-            }
-
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', function () {
-                    mobileMenu.classList.toggle('open');
-                });
-            }
-            const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
-            accordionHeaders.forEach(header => {
-                const accordionContent = header.nextElementSibling;
+        // Funzionalità per il footer a fisarmonica (solo per mobile)
+        document.querySelectorAll('.footer-accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
                 if (window.innerWidth < 768) {
-                    header.addEventListener('click', () => {
-                        header.classList.toggle('open');
-                        accordionContent.classList.toggle('open');
-                    });
+                    const content = header.nextElementSibling;
+                    header.classList.toggle('open');
+                    content.classList.toggle('open');
                 }
             });
+        });
+
+        // Dati dei prodotti - Prezzi normali
+        const products = [
+             { id: 1, name: "HP AHIGA EVO 5", price: 120.00, image: "https://i.imgur.com/H68Dwfb.jpeg", category: "scarpe", gender: "uomo", details: "Scarpe da uomo per sport acquatici." },
+            { id: 2, name: "W HP MARINE LS", price: 145.00, image: "https://i.imgur.com/nj6zDLP.jpeg", category: "scarpe", gender: "uomo", details: "T-shirt a maniche lunghe da donna." },
+            { id: 3, name: "W ANAKIN LEATHER 2", price: 133.00, image: "https://i.imgur.com/pKxQXlB.jpeg", category: "scarpe", gender: "donna", details: "Sneakers in pelle da donna." },
+            { id: 4, name: "CREW LOW", price: 135.00, image: "https://i.imgur.com/Yoca5iJ.jpeg", category: "scarpe", gender: "uomo", details: "T-shirt casual da uomo." },
+            { id: 5, name: "HH QD CARGO SHORTS 11\"", price: 84.00, image: "https://i.imgur.com/yorxeV8.jpeg", category: "bermuda", gender: "uomo", details: "Shorts cargo quick dry da uomo." },
+            { id: 6, name: "HH QD CARGO SHORTS 11\" NEW", price: 84.00, image: "https://i.imgur.com/pD9YLMu.jpeg", category: "bermuda", gender: "uomo", details: "Nuovi shorts cargo quick dry da uomo." },
+            { id: 7, name: "HH QD CARGO SHORTS 11\" V2", price: 84.00, image: "https://i.imgur.com/NqBYqMi.jpeg", category: "bermuda", gender: "uomo", details: "Versione 2 degli shorts cargo quick dry da uomo." },
+            { id: 8, name: "DRIFTLINE POLO", price: 73.00, image: "https://i.imgur.com/L4CtSsY.jpeg", category: "polo", gender: "uomo", details: "Polo Driftline per uomo." },
+            { id: 9, name: "DRIFTLINE POLO V2", price: 73.00, image: "https://i.imgur.com/L79Rt80.jpeg", category: "polo", gender: "uomo", details: "Polo Driftline per uomo, versione 2." },
+            { id: 10, name: "CREWLINE LS POLO", price: 78.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/34f3961501bc4f0bbe8927c0948419a2.png?cacheVersion=1747293531", category: "polo", gender: "uomo", details: "Polo a maniche lunghe unisex." },
+            { id: 11, name: "HH LOGO T-SHIRT 2.0", price: 38.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/files/others/b198611d-d14d-433c-99c8-bd4c5755264e.jpg?cacheVersion=1747232962", category: "t-shirts", gender: "donna", details: "T-shirt con logo HH 2.0 da donna." },
+            { id: 12, name: "HH LOGO T-SHIRT 2.0 V2", price: 38.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/db54de6a-8b9c-47a4-863b-17a3b7b6c8ed.png?cacheVersion=1747232962", category: "t-shirts", gender: "uomo", details: "T-shirt con logo HH 2.0 v2 da uomo." },
+            { id: 13, name: "HH TECH T-SHIRT 2.0", price: 33.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/7d1c28c2-eeb5-478d-9b68-f74fc7e241de.png?cacheVersion=1747826872", category: "t-shirts", gender: "uomo", details: "T-shirt tecnica HH 2.0 per bambini." },
+            { id: 14, name: "HH TECH T-SHIRT 2.0 V2", price: 33.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/67a68603-c835-4d87-829b-625749589375.png?cacheVersion=1747826872", category: "t-shirts", gender: "donna", details: "T-shirt tecnica HH 2.0 v2 da donna." },
+            { id: 15, name: "HH TECH T-SHIRT 2.0 V3", price: 33.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/69a91f5f-b519-4fd8-832e-de3d1be7144e.png?cacheVersion=1747826872", category: "t-shirts", gender: "uomo", details: "T-shirt tecnica HH 2.0 v3 da uomo." },
+            { id: 16, name: "CREW JACKET 2.0", price: 170.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/7207fa52-b7a4-4c56-963f-e33a017185a8.png?cacheVersion=1746187241", category: "giacche", gender: "uomo", details: "Giacca Crew 2.0 per uomo." },
+            { id: 17, name: "CREW VEST 2.0", price: 152.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/7b0bee14-41b6-412b-8c9d-8d9f84a87639.png?cacheVersion=1747294479", category: "giacche", gender: "uomo", details: "Gilet Crew 2.0 per uomo." },
+            { id: 18, name: "CREW VEST 2.0 V2", price: 152.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/files/others/64b4965f-b920-4d6a-9c01-2a1662d2dcfc.jpg?cacheVersion=1747917841", category: "giacche", gender: "uomo", details: "Gilet Crew 2.0 v2 per donna." },
+            { id: 19, name: "PIER 3.0 JACKET", price: 280.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/d790421cbd49482398dc4f93837002bd.png?cacheVersion=1699967242", category: "giubbotti", gender: "uomo", details: "Giacca Pier 3.0 ad alte prestazioni." },
+            { id: 20, name: "PIER 3.0 BIB", price: 220.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/caafd8784f03475ca29cf474d82a48dd.png?cacheVersion=1699966954", category: "giubbotti", gender: "uomo", details: "Salopette Pier 3.0." },
+            { id: 21, name: "NEWPORT BOARD SHORTS 8\"", price: 69.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/d05b87cf-5e79-4d20-8e76-eb8b529291d9.png?cacheVersion=1714054491", category: "costumi", gender: "uomo", details: "Board shorts Newport 8 pollici." },
+            { id: 22, name: "HP CURVE BOARD SHORTS 7\"", price: 75.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/33b45a5f-972f-4d24-9a83-51e239ffc309.png?cacheVersion=1710236979", category: "costumi", gender: "uomo", details: "Board shorts HP Curve 7 pollici." },
+            { id: 23, name: "HH SOUWESTER", price: 35.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/8269c68e-9406-42df-9f2e-cdac2e2a71e2.png?cacheVersion=1714396721", category: "accessories", gender: "unisex", details: "Cappello impermeabile Souwester." },
+            { id: 24, name: "CREW CAP 2.0", price: 33.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/e8154d74c3374c5e9627e08d5892f77a.png?cacheVersion=1690988202", category: "cappelli", gender: "unisex", details: "Cappellino Crew 2.0." },
+            { id: 25, name: "CREW CAP 2.0", price: 33.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/bf31c9df-e9b5-4b95-84c9-d65e459aee69.png?cacheVersion=1746187239", category: "cappelli", gender: "unisex", details: "Cappellino Crew 2.0 v2." },
+            { id: 26, name: "CREW CAP 2.0", price: 33.00, image: "https://brandmaster.hellyha", category: "cappelli", gender: "unisex", details: "Cappellino Crew 2.0 v3." },
+            { id: 27, name: "CREW CAP 2.0", price: 33.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/81a95a12-881c-4394-a16f-161b402e4ac6.png?cacheVersion=1746187239", category: "cappelli", gender: "unisex", details: "Cappellino Crew 2.0 v4." }
+        ];
+
+        // Mappa delle taglie per categoria
+        const sizesByCategory = {
+            "scarpe": ["40", "41", "42", "43", "44"],
+            "t-shirts": ["S", "M", "L", "XL"],
+            "bermuda": ["S", "M", "L", "XL"],
+            "polo": ["S", "M", "L", "XL"],
+            "giacche": ["S", "M", "L", "XL"],
+            "giubbotti": ["S", "M", "L", "XL"],
+            "costumi": ["S", "M", "L", "XL"],
+            "cappelli": ["Taglia Unica"],
+            "accessories": ["Taglia Unica"]
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Aggiorna il badge del carrello all'apertura della pagina
+            window.updateCartDisplay();
 
             const urlParams = new URLSearchParams(window.location.search);
-            const productId = urlParams.get('id');
-            if (productId) {
-                updateProductPage(productId);
+            const productId = parseInt(urlParams.get('id'));
+
+            const product = products.find(p => p.id === productId);
+
+            if (product) {
+                renderProductDetails(product);
             } else {
-                const mainContent = document.querySelector('.max-w-7xl.mx-auto');
-                if (mainContent) {
-                    mainContent.innerHTML = '<div class="text-center py-20"><h1 class="text-3xl font-bold">Nessun ID prodotto specificato</h1><p class="mt-4">Seleziona un prodotto dalla pagina del negozio.</p></div>';
-                }
+                document.getElementById('product-details-container').innerHTML = '<p class="text-center text-gray-500 text-xl font-semibold">Prodotto non trovato.</p>';
             }
-
-            updateCartBadge();
         });
-    </script>
 
+        function renderProductDetails(product) {
+            const container = document.getElementById('product-details-container');
+            const sizes = sizesByCategory[product.category] || ["Taglia Unica"];
+
+            const sizeButtonsHtml = sizes.map(size =>
+                `<button class="size-button border border-gray-300 rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-200 transition-colors" data-size="${size}">${size}</button>`
+            ).join('');
+
+            container.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+                    <div>
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-auto object-cover rounded-lg shadow-md">
+                    </div>
+
+                    <div class="flex flex-col justify-start space-y-6">
+                        <div class="space-y-2">
+                            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900">${product.name}</h2>
+                            <p class="text-lg lg:text-xl font-semibold text-gray-700">${product.price.toFixed(2)}$</p>
+                        </div>
+                        
+                        <p class="text-gray-600 leading-relaxed">${product.details}</p>
+
+                        <div class="space-y-2">
+                            <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-900">Seleziona Taglia</h3>
+                            <div id="size-buttons-container" class="flex flex-wrap gap-2">
+                                ${sizeButtonsHtml}
+                            </div>
+                            <p id="size-error" class="error-message hidden mt-2">Per favore, seleziona una taglia.</p>
+                        </div>
+
+                        <div>
+                            <button id="add-to-cart-button" class="w-full bg-black text-white py-3 px-6 rounded-md font-semibold text-sm uppercase tracking-wider hover:bg-gray-800 transition-colors">
+                                Aggiungi al Carrello
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Aggiungi event listener per i pulsanti delle taglie
+            const sizeButtons = document.querySelectorAll('.size-button');
+            let selectedSize = null;
+            sizeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    sizeButtons.forEach(btn => btn.classList.remove('selected'));
+                    button.classList.add('selected');
+                    selectedSize = button.dataset.size;
+                    document.getElementById('size-error').classList.add('hidden');
+                });
+            });
+
+            // Aggiungi event listener per il pulsante Aggiungi al Carrello
+            const addToCartButton = document.getElementById('add-to-cart-button');
+            addToCartButton.addEventListener('click', () => {
+                if (selectedSize) {
+                    window.addProductToCart(product, selectedSize);
+                    alert('Prodotto aggiunto al carrello!');
+                    
+                    const originalText = addToCartButton.textContent;
+                    addToCartButton.textContent = 'Aggiunto!';
+                    addToCartButton.classList.remove('bg-black', 'hover:bg-gray-800');
+                    addToCartButton.classList.add('bg-green-600', 'hover:bg-green-700');
+                    setTimeout(() => {
+                        addToCartButton.textContent = originalText;
+                        addToCartButton.classList.remove('bg-green-600', 'hover:bg-green-700');
+                        addToCartButton.classList.add('bg-black', 'hover:bg-gray-800');
+                    }, 1500);
+                } else {
+                    document.getElementById('size-error').classList.remove('hidden');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
