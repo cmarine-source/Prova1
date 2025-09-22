@@ -1,1321 +1,797 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
-
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title id="page-title">Premium Menswear and Streetwear | Cmarine</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<style>
-
-/* Stili personalizzati di base */
-
-.product-card:hover .product-overlay {
-
-opacity: 1;
-
-}
-
-
-
-.product-overlay {
-
-transition: opacity 0.3s ease;
-
-opacity: 0;
-
-}
-
-
-
-.category-card:hover img {
-
-transform: scale(1.05);
-
-}
-
-
-
-.category-card img {
-
-transition: transform 0.3s ease;
-
-}
-
-
-
-.newsletter-input {
-
-border-bottom: 1px solid #000;
-
-transition: border-color 0.3s ease;
-
-}
-
-
-
-.newsletter-input:focus {
-
-outline: none;
-
-border-bottom-color: #555;
-
-}
-
-
-
-/* Stili specifici per il menu mobile */
-
-.mobile-menu {
-
-display: none;
-
-}
-
-
-
-.mobile-menu.open {
-
-display: block;
-
-}
-
-
-
-/* Stili per il footer a fisarmonica */
-
-.footer-accordion-header {
-
-cursor: pointer;
-
-display: flex;
-
-justify-content: space-between;
-
-align-items: center;
-
-padding-bottom: 1rem;
-
-border-bottom: 1px solid #e5e7eb;
-
-margin-bottom: 1rem;
-
-}
-
-
-
-.footer-accordion-content {
-
-max-height: 0;
-
-overflow: hidden;
-
-transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-
-opacity: 0;
-
-}
-
-
-
-.footer-accordion-content.open {
-
-max-height: 200px;
-
-opacity: 1;
-
-transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
-
-}
-
-
-
-.footer-accordion-header .arrow-icon {
-
-transition: transform 0.3s ease;
-
-}
-
-
-
-.footer-accordion-header.open .arrow-icon {
-
-transform: rotate(180deg);
-
-}
-
-
-
-@media (min-width: 768px) {
-
-.footer-accordion-header {
-
-cursor: default;
-
-border-bottom: none;
-
-margin-bottom: 1rem;
-
-}
-
-
-
-.footer-accordion-header .arrow-icon {
-
-display: none;
-
-}
-
-
-
-.footer-accordion-content {
-
-max-height: none;
-
-opacity: 1;
-
-}
-
-}
-
-
-
-/* Stili per il badge del carrello */
-
-.cart-badge {
-
-font-family: sans-serif;
-
-position: absolute;
-
-top: -5px;
-
-right: -10px;
-
-background-color: #ef4444;
-
-color: white;
-
-font-size: 0.75rem;
-
-font-weight: bold;
-
-border-radius: 9999px;
-
-height: 18px;
-
-width: 18px;
-
-display: flex;
-
-align-items: center;
-
-justify-content: center;
-
-padding: 0;
-
-line-height: 1;
-
-box-shadow: 0 0 0 2px white;
-
-transform: scale(0.9);
-
-transform-origin: center;
-
-transition: transform 0.2s ease-out;
-
-}
-
-
-
-.cart-badge.hidden {
-
-display: none;
-
-}
-
-
-
-.cart-badge:not(.hidden) {
-
-animation: bounceIn 0.3s forwards;
-
-}
-
-
-
-@keyframes bounceIn {
-
-0% {
-
-transform: scale(0);
-
-opacity: 0;
-
-}
-
-
-
-50% {
-
-transform: scale(1.2);
-
-opacity: 1;
-
-}
-
-
-
-100% {
-
-transform: scale(1);
-
-}
-
-}
-
-
-
-.hero-image {
-
-background-image: url('https://cdn.havenshop.com/24e09d69ae24a65dc6fc8ef7f29761f9a404cb6e-2048x2560.jpg');
-
-background-size: cover;
-
-background-position: center;
-
-}
-
-
-
-.product-card:hover .product-overlay {
-
-opacity: 1;
-
-}
-
-
-
-.product-overlay {
-
-transition: opacity 0.3s ease;
-
-opacity: 0;
-
-}
-
-
-
-.category-card:hover img {
-
-transform: scale(1.05);
-
-}
-
-
-
-.category-card img {
-
-transition: transform 0.3s ease;
-
-}
-
-
-
-.newsletter-input {
-
-border-bottom: 1px solid #000;
-
-transition: border-color 0.3s ease;
-
-}
-
-
-
-.newsletter-input:focus {
-
-outline: none;
-
-border-bottom-color: #555;
-
-}
-
-
-
-/* Stili specifici per il menu mobile */
-
-.mobile-menu {
-
-display: none;
-
-}
-
-
-
-.mobile-menu.open {
-
-display: block;
-
-}
-
-
-
-/* Stili per il footer a fisarmonica */
-
-.footer-accordion-header {
-
-cursor: pointer;
-
-display: flex;
-
-justify-content: space-between;
-
-align-items: center;
-
-padding-bottom: 1rem;
-
-border-bottom: 1px solid #e5e7eb;
-
-margin-bottom: 1rem;
-
-}
-
-
-
-.footer-accordion-content {
-
-max-height: 0;
-
-overflow: hidden;
-
-transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-
-opacity: 0;
-
-}
-
-
-
-.footer-accordion-content.open {
-
-max-height: 200px;
-
-opacity: 1;
-
-transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
-
-}
-
-
-
-.footer-accordion-header .arrow-icon {
-
-transition: transform 0.3s ease;
-
-}
-
-
-
-.footer-accordion-header.open .arrow-icon {
-
-transform: rotate(180deg);
-
-}
-
-
-
-@media (min-width: 768px) {
-
-.footer-accordion-header {
-
-cursor: default;
-
-border-bottom: none;
-
-margin-bottom: 1rem;
-
-}
-
-
-
-.footer-accordion-header .arrow-icon {
-
-display: none;
-
-}
-
-
-
-.footer-accordion-content {
-
-max-height: none;
-
-opacity: 1;
-
-}
-
-}
-
-
-
-/* Nuovo stile per le taglie non disponibili */
-
-.unavailable {
-
-color: #9ca3af;
-
-/* grigio scuro */
-
-cursor: not-allowed;
-
-background-color: #f3f4f6;
-
-/* grigio chiaro */
-
-border-color: #d1d5db;
-
-/* bordo grigio */
-
-text-decoration: line-through;
-
-}
-
-
-
-.size-button.active {
-
-border-color: #000;
-
-background-color: #000;
-
-color: white;
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Premium Menswear and Streetwear | Cmarine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Stili personalizzati di base */
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-overlay {
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .category-card img {
+            transition: transform 0.3s ease;
+        }
+
+        .newsletter-input {
+            border-bottom: 1px solid #000;
+            transition: border-color 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-bottom-color: #555;
+        }
+
+        /* Stili specifici per il menu mobile */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu.open {
+            display: block;
+        }
+
+        /* Stili per il footer a fisarmonica */
+        .footer-accordion-header {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
+        }
+
+        .footer-accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+        }
+
+        .footer-accordion-content.open {
+            max-height: 200px;
+            opacity: 1;
+            transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
+        }
+
+        .footer-accordion-header .arrow-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .footer-accordion-header.open .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        @media (min-width: 768px) {
+            .footer-accordion-header {
+                cursor: default;
+                border-bottom: none;
+                margin-bottom: 1rem;
+            }
+
+            .footer-accordion-header .arrow-icon {
+                display: none;
+            }
+
+            .footer-accordion-content {
+                max-height: none;
+                opacity: 1;
+            }
+        }
+
+        /* Stili per il badge del carrello */
+        .cart-badge {
+            font-family: sans-serif;
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: #ef4444;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 9999px;
+            height: 18px;
+            width: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            line-height: 1;
+            box-shadow: 0 0 0 2px white;
+            transform: scale(0.9);
+            transform-origin: center;
+            transition: transform 0.2s ease-out;
+        }
+
+        .cart-badge.hidden {
+            display: none;
+        }
+
+        .cart-badge:not(.hidden) {
+            animation: bounceIn 0.3s forwards;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .hero-image {
+            background-image: url('https://cdn.havenshop.com/24e09d69ae24a65dc6fc8ef7f29761f9a404cb6e-2048x2560.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+
+        /* Nuovo stile per le taglie non disponibili */
+        .unavailable {
+            color: #9ca3af;
+            /* grigio scuro */
+            cursor: not-allowed;
+            background-color: #f3f4f6;
+            /* grigio chiaro */
+            border-color: #d1d5db;
+            /* bordo grigio */
+            text-decoration: line-through;
+        }
+
+        .size-button.active {
+            border-color: #000;
+            background-color: #000;
+            color: white;
+        }
+
+        /* Stili per le freccette del carosello */
+        #prev-btn, #next-btn {
+            display: block;
+        }
+
+        .product-image-container:hover #prev-btn,
+        .product-image-container:hover #next-btn {
+            display: block;
+        }
+    </style>
 </head>
 
-
-
 <body class="bg-gray-50">
-
-<header class="sticky top-0 z-50 bg-white shadow-sm">
-
-<div class="container mx-auto px-4 py-4 flex justify-between items-center">
-
-<div class="flex items-center">
-
-<a href="index.html" class="flex items-center no-underline hover:no-underline">
-
-<img src="https://i.imgur.com/PigMJrD.jpeg" alt="Il mio logo" class="h-10">
-
-</a>
-
-</div>
-
-
-
-<div class="hidden md:flex space-x-8">
-
-<a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
-
-<a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
-
-
-
-<a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
-
-</div>
-
-
-
-<div class="flex items-center space-x-4 md:space-x-6">
-
-<a href="search.html" class="text-xl"><i class="fas fa-search"></i></a>
-
-
-
-<a href="cart.html" class="text-xl relative">
-
-<i class="fas fa-shopping-bag"></i>
-
-<span id="cart-item-count" class="cart-badge hidden">0</span>
-
-</a>
-
-
-
-<div class="md:hidden">
-
-<button id="mobile-menu-button" class="focus:outline-none">
-
-<i class="fas fa-bars text-xl"></i>
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
-
-<div class="px-2 pt-2 pb-3 space-y-1">
-
-<a href="shop.html?category=uomo"
-
-class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
-
-<a href="shop.html?category=donna"
-
-class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
-
-<a href="shop.html?category=bambini"
-
-class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
-
-<a href="collections.html"
-
-class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
-
-
-
-<a href="features.html"
-
-class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
-
-</div>
-
-</div>
-
-</header>
-
-
-
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-<div class="flex flex-col md:flex-row gap-8">
-
-<div class="md:w-1/2">
-
-<img id="main-image" src="" alt="" class="w-full h-auto object-cover mb-4">
-
-<div id="thumbnail-container" class="grid grid-cols-4 gap-2">
-
-</div>
-
-</div>
-
-
-
-<div class="md:w-1/2">
-
-<span id="product-brand" class="text-sm uppercase tracking-widest text-gray-600"></span>
-
-<h1 id="product-name" class="text-3xl font-bold mt-2 mb-4"></h1>
-
-<p id="product-price" class="text-2xl font-semibold mb-6"></p>
-
-
-
-<div class="mb-6">
-
-<h3 class="text-sm font-semibold mb-2">SIZE</h3>
-
-<div id="size-options" class="flex flex-wrap gap-2">
-
-</div>
-
-</div>
-
-
-
-<div class="mb-8">
-
-<h3 class="text-sm font-semibold mb-2">QUANTITY</h3>
-
-<input type="number" value="1" min="1"
-
-class="w-20 px-3 py-2 border border-gray-300 rounded-md text-center">
-
-</div>
-
-
-
-<button id="add-to-cart-button"
-
-class="w-full bg-black text-white px-8 py-4 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 rounded-sm">Add
-
-to Cart</button>
-
-
-
-<div class="mt-8 border-t border-gray-200 pt-8">
-
-<h3 class="text-lg font-bold mb-3">Description</h3>
-
-<p id="product-description" class="text-gray-700 leading-relaxed"></p>
-
-<ul id="product-details" class="list-disc list-inside text-gray-700 mt-4">
-
-</ul>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<div class="bg-gray-50 py-16">
-
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-<h2 class="text-3xl font-bold mb-8 text-center">You might also like</h2>
-
-<div id="related-products-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
-
-
-
-<div class="sib-form" style="text-align: center; background-color: #EFF2F7;">
-
-<div id="sib-form-container" class="sib-form-container">
-
-<div id="error-message" class="sib-form-message-panel"
-
-style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;max-width:540px;">
-
-<div class="sib-form-message-panel__text sib-form-message-panel__text--center">
-
-<svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon">
-
-<path
-
-d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-11.49 120h22.979c6.823 0 12.274 5.682 11.99 12.5l-7 168c-.268 6.428-5.556 11.5-11.99 11.5h-8.979c-6.433 0-11.722-5.073-11.99-11.5l-7-168c-.283-6.818 5.167-12.5 11.99-12.5zM256 340c-15.464 0-28 12.536-28 28s12.536 28 28 28 28-12.536 28-28-12.536-28-28-28z" />
-
-</svg>
-
-<span class="sib-form-message-panel__inner-text">La tua iscrizione non può essere convalidata.</span>
-
-</div>
-
-</div>
-
-<div></div>
-
-<div id="success-message" class="sib-form-message-panel"
-
-style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#085229; background-color:#e7faf0; border-radius:3px; border-color:#13ce66;max-width:540px;">
-
-<div class="sib-form-message-panel__text sib-form-message-panel__text--center">
-
-<svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon">
-
-<path
-
-d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 464c-118.664 0-216-96.055-216-216 0-118.663 96.055-216 216-216 118.664 0 216 96.055 216 216 0 118.663-96.055 216-216 216zm141.63-274.961L217.15 376.071c-4.705 4.667-12.303 4.637-16.97-.068l-85.878-86.572c-4.667-4.705-4.637-12.303.068-16.97l8.52-8.451c4.705-4.667 12.303-4.637 16.97.068l68.976 69.533 163.441-162.13c4.705-4.667 12.303-4.637 16.97.068l8.451 8.52c4.668 4.705 4.637 12.303-.068 16.97z" />
-
-</svg>
-
-<span class="sib-form-message-panel__inner-text">La tua iscrizione è avvenuta correttamente.</span>
-
-</div>
-
-</div>
-
-<div></div>
-
-<div id="sib-container" class="sib-container--large sib-container--vertical"
-
-style="text-align:center; background-color:rgba(3,2,2,1); max-width:540px; border-radius:3px; border-width:1px; border-color:#020203; border-style:solid; direction:ltr">
-
-<form id="sib-form" method="POST"
-
-action="https://16d50c30.sibforms.com/serve/MUIFAD9TXScE1MH3F0qel6S3jfP0w6bSn-l8fl3UDWHoZdV_D34up2OGFcPLyoDr6KP2XiW6OPR5ZamGqhzqD3Q9VeI-R1D2Rnp1vvssGUax9eyhSsbShaZZjj7c29vMbCCb0g9Kg3U09F9z0dq81XcnlAA6iOvkEzfEKdHoAqVzkqVOTbxnRK3DXqLFAZj-5KlwexuK5i6MAdty"
-
-data-type="subscription">
-
-<div style="padding: 8px 0;">
-
-<div class="sib-form-block"
-
-style="font-size:11px; text-align:center; font-family:Helvetica, sans-serif; color:#fdfeff; background-color:transparent; text-align:center">
-
-<div class="sib-text-form-block">
-
-<p>SPEDIZIONE GRATUITA SUL TUO PRIMO ORDINE</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div style="padding: 8px 0;">
-
-<div class="sib-form-block"
-
-style="font-size:32px; text-align:center; font-weight:700; font-family:Helvetica, sans-serif; color:#fafafa; background-color:transparent; text-align:center">
-
-<p>Iscriviti alla Nostra Newsletter</p>
-
-</div>
-
-</div>
-
-<div style="padding: 8px 0;">
-
-<div class="sib-form-block"
-
-style="font-size:11px; text-align:center; font-family:Helvetica, sans-serif; color:#fdfeff; background-color:transparent; text-align:center">
-
-<div class="sib-text-form-block">
-
-<p>Iscriviti per accesso anticipato a lanci, promozioni ed eventi.</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div style="padding: 8px 0;">
-
-<div class="sib-input sib-form-block">
-
-<div class="form__entry entry_block">
-
-<div class="form__label-row ">
-
-<div class="entry__field">
-
-<input class="input " type="text" id="EMAIL" name="EMAIL" autocomplete="off"
-
-placeholder="Il tuo indirizzo email" data-required="true" required />
-
-</div>
-
-</div>
-
-<label class="entry__error entry__error--primary"
-
-style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;">
-
-</label>
-
-</div>
-
-</div>
-
-</div>
-
-<div style="padding: 8px 0;">
-
-<div class="sib-form-block" style="text-align: center">
-
-<button class="sib-form-block__button sib-form-block__button-with-loader"
-
-style="font-size:17px; text-align:center; font-weight:700; font-family:Helvetica, sans-serif; color:#030202; background-color:#f7f9fc; border-radius:1px; border-width:0px;"
-
-form="sib-form" type="submit">
-
-<svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon"
-
-viewBox="0 0 512 512" style="">
-
-<path
-
-d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
-
-</svg>
-
-ISCRIVITI
-
-</button>
-
-</div>
-
-</div>
-
-<input type="text" name="email_address_check" value="" class="input--hidden">
-
-<input type="hidden" name="locale" value="it">
-
-</form>
-
-</div>
-
-</div>
-
-</div>
-
-<footer class="bg-gray-100 py-12">
-
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-<div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
-
-
-
-<div class="footer-accordion">
-
-<div class="footer-accordion-header md:mb-4">
-
-<h3 class="text-sm font-semibold uppercase tracking-wider">Acquista</h3>
-
-<i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
-
-</div>
-
-<ul class="space-y-2 footer-accordion-content">
-
-<li><a href="shop.html" class="text-sm hover:underline text-gray-700">Nuovi Arrivi</a></li>
-
-<li><a href="collections.html" class="text-sm hover:underline text-gray-700">Collezioni</a>
-
-</li>
-
-<li><a href="sales.html" class="text-sm hover:underline text-gray-700">Saldi</a></li>
-
-</ul>
-
-</div>
-
-
-
-<div class="footer-accordion">
-
-<div class="footer-accordion-header md:mb-4">
-
-<h3 class="text-sm font-semibold uppercase tracking-wider">Chi Siamo</h3>
-
-<i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
-
-</div>
-
-<ul class="space-y-2 footer-accordion-content">
-
-<li><a href="#" class="text-sm hover:underline text-gray-700">La Nostra Storia</a></li>
-
-<li><a href="features.html" class="text-sm hover:underline text-gray-700">Partnership</a></li>
-
-<li><a href="#" class="text-sm hover:underline text-gray-700">Dove Trovarci</a></li>
-
-</ul>
-
-</div>
-
-
-
-<div class="footer-accordion">
-
-<div class="footer-accordion-header md:mb-4">
-
-<h3 class="text-sm font-semibold uppercase tracking-wider">Aiuto</h3>
-
-<i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
-
-</div>
-
-<ul class="space-y-2 footer-accordion-content">
-
-<li><a href="contact.html" class="text-sm hover:underline text-gray-700">Contattaci</a></li>
-
-<li><a href="#" class="text-sm hover:underline text-gray-700">Spedizione</a></li>
-
-<li><a href="#" class="text-sm hover:underline text-gray-700">Resi</a></li>
-
-<li><a href="#" class="text-sm hover:underline text-gray-700">FAQ</a></li>
-
-</ul>
-
-</div>
-
-
-
-<div>
-
-<h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Connettiti</h3>
-
-<div class="flex justify-center md:justify-start space-x-4 mb-4">
-
-<a href="#" class="text-gray-700 hover:text-gray-900"><i
-
-class="fab fa-instagram text-xl"></i></a>
-
-<a href="#" class="text-gray-700 hover:text-gray-900"><i
-
-class="fab fa-twitter text-xl"></i></a>
-
-<a href="#" class="text-gray-700 hover:text-gray-900"><i
-
-class="fab fa-facebook-f text-xl"></i></a>
-
-</div>
-
-<p class="text-sm text-gray-600 leading-relaxed">Iscriviti alla nostra newsletter per ricevere
-
-aggiornamenti sui nuovi arrivi, offerte speciali e altre informazioni sugli sconti.</p>
-
-</div>
-
-
-
-</div>
-
-<div
-
-class="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600">
-
-<p class="text-sm text-center md:text-left mb-4 md:mb-0">© 2025 Cmarine. Tutti i diritti riservati.
-
-</p>
-
-<div class="flex flex-wrap justify-center md:justify-end space-x-4 sm:space-x-6">
-
-<a href="#" class="text-sm hover:underline">Privacy Policy</a>
-
-<a href="#" class="text-sm hover:underline">Terms of Service</a>
-
-<a href="#" class="text-sm hover:underline">Accessibility</a>
-
-</div>
-
-</div>
-
-</div>
-
-</footer>
-
-
-
-<script>
-
-document.addEventListener('DOMContentLoaded', function () {
-
-// Dati dei prodotti aggiornati con le disponibilità delle taglie
-
-const products = {
-
-"1": {
-
-id: "1",
-
-brand: "Helly Hansen",
-
-name: "HP AHIGA EVO 5",
-
-price: "$120.00",
-
-description: "Le scarpe da uomo HP Ahiga Evo 5 Marine Lifestyle portano la linea Ahiga a un livello superiore, con un'intersuola generosa per il massimo comfort. Progettate per le giornate estive al mare o in città, sono realizzate con HH Hydro-Grip per la massima aderenza sulle superfici bagnate, HH Quick Dry per asciugarsi velocemente e HH Max-Vent per la traspirabilità.",
-
-details: [
-
-"HH® Quick Dry",
-
-"HH® Max-Vent",
-
-"HH® Lite-Frame",
-
-"HH® Comfort Insole",
-
-"HH® Hover-Stride",
-
-"HH Hydro-Grip",
-
-"HH Storm Siping",
-
-"Lacci realizzati al 100% con materiale riciclato.",
-
-"Fettuccia in poliestere realizzata al 100% con materiale riciclato.",
-
-"Intersuola in EVA (etilene vinil acetato) che contiene il 30% di materiale riciclato.",
-
-"Fodera interna della scarpa realizzata al 100% con materiale riciclato.",
-
-"Etichetta con il marchio tessuta al 100% in poliestere riciclato.",
-
-"Gomma per la suola o altre parti della scarpa che contiene il 30% di materiale riciclato.",
-
-"La strobel è realizzata al 100% in poliestere riciclato.",
-
-"Nastro di rinforzo e rinforzo del collare della scarpa realizzati al 100% in RPET (poliestere riciclato da bottiglie di plastica)."
-
-],
-
-images: [
-
-"https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/2ad4c7cb-40a1-47b7-8349-a68e2bc4bf7e.png?cacheVersion=1714112626",
-
-"https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/4c22eede-6627-43d9-be5d-2617fce10193.png?cacheVersion=1678266183",
-
-"https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/16116306-458d-4b5e-a8db-7ecee5d570c9.png?cacheVersion=1678266183",
-
-"https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/0e0facc3-73c9-4dc8-95b6-df77dd42ec6f.png?cacheVersion=1678953900",
-
-"https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/99f7921a-41c9-4999-807d-c9d71c8ca9e9.png?cacheVersion=1678953889"
-
-],
-
-sizes: {
-
-"40": true,
-
-"41": false,
-
-"42": true,
-
-"43": true,
-
-"44": false
-
-}
-
-},
-
-"2": {
-
-id: "2",
-
-brand: "HAVEN",
-
-name: "Tapered Track Pant",
-
-price: "$260.00",
-
-description: "The HAVEN Tapered Track Pant is made from a high-quality Re-Cotton fabric, offering both comfort and a stylish tapered fit.",
-
-details: [
-
-"Re-Cotton fabric",
-
-"Tapered fit",
-
-"Elastic waistband with drawstring",
-
-"Zipped pockets"
-
-],
-
-images: [
-
-"https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-1.jpg?v=1748536100&width=800&crop=center",
-
-"https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-2.jpg?v=1748536100&width=200&crop=center",
-
-"https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-3.jpg?v=1748536100&width=200&crop=center"
-
-],
-
-sizes: {
-
-"S": true,
-
-"M": true,
-
-"L": false,
-
-"XL": true
-
-}
-
-},
-
-"3": {
-
-id: "3",
-
-brand: "HAVEN",
-
-name: "Sleeveless Turtleneck",
-
-price: "$140.00",
-
-description: "A versatile sleeveless turtleneck from HAVEN, perfect for layering or wearing on its own during warmer days. Crafted from a soft jersey fabric.",
-
-details: [
-
-"Soft jersey fabric",
-
-"Sleeveless design",
-
-"Turtleneck collar",
-
-"Machine washable"
-
-],
-
-images: [
-
-"https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-1.jpg?v=1748536034&width=800&crop=center",
-
-"https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-2.jpg?v=1748536034&width=200&crop=center",
-
-"https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-3.jpg?v=1748536034&width=200&crop=center"
-
-],
-
-sizes: {
-
-"XS": false,
-
-"S": true,
-
-"M": true,
-
-"L": true
-
-}
-
-},
-
-"4": {
-
-id: "4",
-
-brand: "WTAPS",
-
-name: "Netminder / LS / Poly Black",
-
-price: "$180.00",
-
-description: "The Netminder long-sleeve tee by WTAPS, featuring a poly-cotton blend for comfort and durability. Ideal for a relaxed, urban look.",
-
-details: [
-
-"Poly-cotton blend",
-
-"Ribbed cuffs and neckline",
-
-"WTAPS logo print",
-
-"Relaxed fit"
-
-],
-
-images: [
-
-"https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-1.jpg?v=1748527318&width=800&crop=center",
-
-"https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-2.jpg?v=1748527318&width=200&crop=center",
-
-"https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-3.jpg?v=1748527318&width=200&crop=center"
-
-],
-
-sizes: {
-
-"S": true,
-
-"M": true,
-
-"L": true,
-
-"XL": false
-
-}
-
-}
-
-};
-
-
-
-// Script per il menu mobile e il footer
-
-const mobileMenuButton = document.getElementById('mobile-menu-button');
-
-const mobileMenu = document.getElementById('mobile-menu');
-
-if (mobileMenuButton && mobileMenu) {
-
-mobileMenuButton.addEventListener('click', function () {
-
-mobileMenu.classList.toggle('open');
-
-});
-
-}
-
-const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
-
-accordionHeaders.forEach(header => {
-
-const accordionContent = header.nextElementSibling;
-
-if (window.innerWidth < 768) {
-
-header.addEventListener('click', () => {
-
-header.classList.toggle('open');
-
-accordionContent.classList.toggle('open');
-
-});
-
-}
-
-});
-
-window.addEventListener('resize', () => {
-
-accordionHeaders.forEach(header => {
-
-const accordionContent = header.nextElementSibling;
-
-if (window.innerWidth >= 768) {
-
-header.classList.remove('open');
-
-accordionContent.classList.remove('open');
-
-}
-
-});
-
-});
-
-
-
-// --- Logica della Pagina Prodotto Dinamica ---
-
-
-
-// Funzione per aggiornare la pagina con i dati del prodotto
-
-function updateProductPage(productId) {
-
-const product = products[productId];
-
-const mainContent = document.querySelector('.max-w-7xl.mx-auto');
-
-if (!product) {
-
-mainContent.innerHTML = '<div class="text-center py-20"><h1 class="text-3xl font-bold">Prodotto non trovato</h1><p class="mt-4">L\'ID del prodotto non è valido.</p></div>';
-
-return;
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center no-underline hover:no-underline">
+                    <img src="https://i.imgur.com/PigMJrD.jpeg" alt="Il mio logo" class="h-10">
+                </a>
+            </div>
+
+            <div class="hidden md:flex space-x-8">
+                <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
+                <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
+
+                <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
+            </div>
+
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <a href="search.html" class="text-xl"><i class="fas fa-search"></i></a>
+
+                <a href="cart.html" class="text-xl relative">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-item-count" class="cart-badge hidden">0</span>
+                </a>
+
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="shop.html?category=uomo"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
+                <a href="shop.html?category=donna"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
+                <a href="shop.html?category=bambini"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
+                <a href="collections.html"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
+
+                <a href="features.html"
+                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="flex flex-col md:flex-row gap-8">
+            <div class="md:w-1/2">
+                <div class="relative group product-image-container">
+                    <img id="main-image" src="" alt="" class="w-full h-auto object-cover mb-4">
+                    
+                    <button id="prev-btn" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="next-btn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <div id="image-counter" class="absolute bottom-4 right-4 text-xs bg-black bg-opacity-50 text-white px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                </div>
+            </div>
+
+            <div class="md:w-1/2">
+                <span id="product-brand" class="text-sm uppercase tracking-widest text-gray-600"></span>
+                <h1 id="product-name" class="text-3xl font-bold mt-2 mb-4"></h1>
+                <p id="product-price" class="text-2xl font-semibold mb-6"></p>
+
+                <div class="mb-6">
+                    <h3 class="text-sm font-semibold mb-2">SIZE</h3>
+                    <div id="size-options" class="flex flex-wrap gap-2">
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-sm font-semibold mb-2">QUANTITY</h3>
+                    <input type="number" value="1" min="1"
+                        class="w-20 px-3 py-2 border border-gray-300 rounded-md text-center">
+                </div>
+
+                <button id="add-to-cart-button"
+                    class="w-full bg-black text-white px-8 py-4 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 rounded-sm">Add
+                    to Cart</button>
+
+                <div class="mt-8 border-t border-gray-200 pt-8">
+                    <h3 class="text-lg font-bold mb-3">Description</h3>
+                    <p id="product-description" class="text-gray-700 leading-relaxed"></p>
+                    <ul id="product-details" class="list-disc list-inside text-gray-700 mt-4">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-gray-50 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-8 text-center">You might also like</h2>
+            <div id="related-products-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
+
+    <div class="sib-form" style="text-align: center; background-color: #EFF2F7;">
+        <div id="sib-form-container" class="sib-form-container">
+            <div id="error-message" class="sib-form-message-panel"
+                style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;max-width:540px;">
+                <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+                    <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon">
+                        <path
+                            d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-11.49 120h22.979c6.823 0 12.274 5.682 11.99 12.5l-7 168c-.268 6.428-5.556 11.5-11.99 11.5h-8.979c-6.433 0-11.722-5.073-11.99-11.5l-7-168c-.283-6.818 5.167-12.5 11.99-12.5zM256 340c-15.464 0-28 12.536-28 28s12.536 28 28 28 28-12.536 28-28-12.536-28-28-28z" />
+                    </svg>
+                    <span class="sib-form-message-panel__inner-text">La tua iscrizione non può essere convalidata.</span>
+                </div>
+            </div>
+            <div></div>
+            <div id="success-message" class="sib-form-message-panel"
+                style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#085229; background-color:#e7faf0; border-radius:3px; border-color:#13ce66;max-width:540px;">
+                <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+                    <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon">
+                        <path
+                            d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 464c-118.664 0-216-96.055-216-216 0-118.663 96.055-216 216-216 118.664 0 216 96.055 216 216 0 118.663-96.055 216-216 216zm141.63-274.961L217.15 376.071c-4.705 4.667-12.303 4.637-16.97-.068l-85.878-86.572c-4.667-4.705-4.637-12.303.068-16.97l8.52-8.451c4.705-4.667 12.303-4.637 16.97.068l68.976 69.533 163.441-162.13c4.705-4.667 12.303-4.637 16.97.068l8.451 8.52c4.668 4.705 4.637 12.303-.068 16.97z" />
+                    </svg>
+                    <span class="sib-form-message-panel__inner-text">La tua iscrizione è avvenuta correttamente.</span>
+                </div>
+            </div>
+            <div></div>
+            <div id="sib-container" class="sib-container--large sib-container--vertical"
+                style="text-align:center; background-color:rgba(3,2,2,1); max-width:540px; border-radius:3px; border-width:1px; border-color:#020203; border-style:solid; direction:ltr">
+                <form id="sib-form" method="POST"
+                    action="https://16d50c30.sibforms.com/serve/MUIFAD9TXScE1MH3F0qel6S3jfP0w6bSn-l8fl3UDWHoZdV_D34up2OGFcPLyoDr6KP2XiW6OPR5ZamGqhzqD3Q9VeI-R1D2Rnp1vvssGUax9eyhSsbShaZZjj7c29vMbCCb0g9Kg3U09F9z0dq81XcnlAA6iOvkEzfEKdHoAqVzkqVOTbxnRK3DXqLFAZj-5KlwexuK5i6MAdty"
+                    data-type="subscription">
+                    <div style="padding: 8px 0;">
+                        <div class="sib-form-block"
+                            style="font-size:11px; text-align:center; font-family:Helvetica, sans-serif; color:#fdfeff; background-color:transparent; text-align:center">
+                            <div class="sib-text-form-block">
+                                <p>SPEDIZIONE GRATUITA SUL TUO PRIMO ORDINE</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <div class="sib-form-block"
+                            style="font-size:32px; text-align:center; font-weight:700; font-family:Helvetica, sans-serif; color:#fafafa; background-color:transparent; text-align:center">
+                            <p>Iscriviti alla Nostra Newsletter</p>
+                        </div>
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <div class="sib-form-block"
+                            style="font-size:11px; text-align:center; font-family:Helvetica, sans-serif; color:#fdfeff; background-color:transparent; text-align:center">
+                            <div class="sib-text-form-block">
+                                <p>Iscriviti per accesso anticipato a lanci, promozioni ed eventi.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <div class="sib-input sib-form-block">
+                            <div class="form__entry entry_block">
+                                <div class="form__label-row ">
+                                    <div class="entry__field">
+                                        <input class="input " type="text" id="EMAIL" name="EMAIL" autocomplete="off"
+                                            placeholder="Il tuo indirizzo email" data-required="true" required />
+                                    </div>
+                                </div>
+                                <label class="entry__error entry__error--primary"
+                                    style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <div class="sib-form-block" style="text-align: center">
+                            <button class="sib-form-block__button sib-form-block__button-with-loader"
+                                style="font-size:17px; text-align:center; font-weight:700; font-family:Helvetica, sans-serif; color:#030202; background-color:#f7f9fc; border-radius:1px; border-width:0px;"
+                                form="sib-form" type="submit">
+                                <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon"
+                                    viewBox="0 0 512 512" style="">
+                                    <path
+                                        d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
+                                </svg>
+                                ISCRIVITI
+                            </button>
+                        </div>
+                    </div>
+                    <input type="text" name="email_address_check" value="" class="input--hidden">
+                    <input type="hidden" name="locale" value="it">
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-gray-100 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+
+                <div class="footer-accordion">
+                    <div class="footer-accordion-header md:mb-4">
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Acquista</h3>
+                        <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
+                    </div>
+                    <ul class="space-y-2 footer-accordion-content">
+                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Nuovi Arrivi</a></li>
+                        <li><a href="collections.html" class="text-sm hover:underline text-gray-700">Collezioni</a>
+                        </li>
+                        <li><a href="sales.html" class="text-sm hover:underline text-gray-700">Saldi</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-accordion">
+                    <div class="footer-accordion-header md:mb-4">
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Chi Siamo</h3>
+                        <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
+                    </div>
+                    <ul class="space-y-2 footer-accordion-content">
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">La Nostra Storia</a></li>
+                        <li><a href="features.html" class="text-sm hover:underline text-gray-700">Partnership</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Dove Trovarci</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-accordion">
+                    <div class="footer-accordion-header md:mb-4">
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Aiuto</h3>
+                        <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
+                    </div>
+                    <ul class="space-y-2 footer-accordion-content">
+                        <li><a href="contact.html" class="text-sm hover:underline text-gray-700">Contattaci</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Spedizione</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Resi</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Connettiti</h3>
+                    <div class="flex justify-center md:justify-start space-x-4 mb-4">
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i
+                                class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i
+                                class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i
+                                class="fab fa-facebook-f text-xl"></i></a>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">Iscriviti alla nostra newsletter per ricevere
+                        aggiornamenti sui nuovi arrivi, offerte speciali e altre informazioni sugli sconti.</p>
+                </div>
+
+            </div>
+            <div
+                class="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600">
+                <p class="text-sm text-center md:text-left mb-4 md:mb-0">© 2025 Cmarine. Tutti i diritti riservati.
+                </p>
+                <div class="flex flex-wrap justify-center md:justify-end space-x-4 sm:space-x-6">
+                    <a href="#" class="text-sm hover:underline">Privacy Policy</a>
+                    <a href="#" class="text-sm hover:underline">Terms of Service</a>
+                    <a href="#" class="text-sm hover:underline">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Dati dei prodotti aggiornati con le disponibilità delle taglie
+            const products = {
+                "1": {
+                    id: "1",
+                    brand: "Helly Hansen",
+                    name: "HP AHIGA EVO 5",
+                    price: "$120.00",
+                    description: "Le scarpe da uomo HP Ahiga Evo 5 Marine Lifestyle portano la linea Ahiga a un livello superiore, con un'intersuola generosa per il massimo comfort. Progettate per le giornate estive al mare o in città, sono realizzate con HH Hydro-Grip per la massima aderenza sulle superfici bagnate, HH Quick Dry per asciugarsi velocemente e HH Max-Vent per la traspirabilità.",
+                    details: [
+                        "HH® Quick Dry",
+                        "HH® Max-Vent",
+                        "HH® Lite-Frame",
+                        "HH® Comfort Insole",
+                        "HH® Hover-Stride",
+                        "HH Hydro-Grip",
+                        "HH Storm Siping",
+                        "Lacci realizzati al 100% con materiale riciclato.",
+                        "Fettuccia in poliestere realizzata al 100% con materiale riciclato.",
+                        "Intersuola in EVA (etilene vinil acetato) che contiene il 30% di materiale riciclato.",
+                        "Fodera interna della scarpa realizzata al 100% con materiale riciclato.",
+                        "Etichetta con il marchio tessuta al 100% in poliestere riciclato.",
+                        "Gomma per la suola o altre parti della scarpa che contiene il 30% di materiale riciclato.",
+                        "La strobel è realizzata al 100% in poliestere riciclato.",
+                        "Nastro di rinforzo e rinforzo del collare della scarpa realizzati al 100% in RPET (poliestere riciclato da bottiglie di plastica)."
+                    ],
+                    images: [
+                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/2ad4c7cb-40a1-47b7-8349-a68e2bc4bf7e.png?cacheVersion=1714112626",
+                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/4c22eede-6627-43d9-be5d-2617fce10193.png?cacheVersion=1678266183",
+                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/16116306-458d-4b5e-a8db-7ecee5d570c9.png?cacheVersion=1678266183",
+                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/0e0facc3-73c9-4dc8-95b6-df77dd42ec6f.png?cacheVersion=1678953900",
+                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/99f7921a-41c9-4999-807d-c9d71c8ca9e9.png?cacheVersion=1678953889"
+                    ],
+                    sizes: {
+                        "40": true,
+                        "41": false,
+                        "42": true,
+                        "43": true,
+                        "44": false
+                    }
+                },
+                "2": {
+                    id: "2",
+                    brand: "HAVEN",
+                    name: "Tapered Track Pant",
+                    price: "$260.00",
+                    description: "The HAVEN Tapered Track Pant is made from a high-quality Re-Cotton fabric, offering both comfort and a stylish tapered fit.",
+                    details: [
+                        "Re-Cotton fabric",
+                        "Tapered fit",
+                        "Elastic waistband with drawstring",
+                        "Zipped pockets"
+                    ],
+                    images: [
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-1.jpg?v=1748536100&width=800&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-2.jpg?v=1748536100&width=200&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Tapered-Track-Pant-Re-Cotton-Olive-3.jpg?v=1748536100&width=200&crop=center"
+                    ],
+                    sizes: {
+                        "S": true,
+                        "M": true,
+                        "L": false,
+                        "XL": true
+                    }
+                },
+                "3": {
+                    id: "3",
+                    brand: "HAVEN",
+                    name: "Sleeveless Turtleneck",
+                    price: "$140.00",
+                    description: "A versatile sleeveless turtleneck from HAVEN, perfect for layering or wearing on its own during warmer days. Crafted from a soft jersey fabric.",
+                    details: [
+                        "Soft jersey fabric",
+                        "Sleeveless design",
+                        "Turtleneck collar",
+                        "Machine washable"
+                    ],
+                    images: [
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-1.jpg?v=1748536034&width=800&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-2.jpg?v=1748536034&width=200&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-3.jpg?v=1748536034&width=200&crop=center"
+                    ],
+                    sizes: {
+                        "XS": false,
+                        "S": true,
+                        "M": true,
+                        "L": true
+                    }
+                },
+                "4": {
+                    id: "4",
+                    brand: "WTAPS",
+                    name: "Netminder / LS / Poly Black",
+                    price: "$180.00",
+                    description: "The Netminder long-sleeve tee by WTAPS, featuring a poly-cotton blend for comfort and durability. Ideal for a relaxed, urban look.",
+                    details: [
+                        "Poly-cotton blend",
+                        "Ribbed cuffs and neckline",
+                        "WTAPS logo print",
+                        "Relaxed fit"
+                    ],
+                    images: [
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-1.jpg?v=1748527318&width=800&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-2.jpg?v=1748527318&width=200&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-3.jpg?v=1748527318&width=200&crop=center"
+                    ],
+                    sizes: {
+                        "S": true,
+                        "M": true,
+                        "L": true,
+                        "XL": false
+                    }
+                }
+            };
+
+            // Script per il menu mobile e il footer
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function () {
+                    mobileMenu.classList.toggle('open');
+                });
+            }
+            const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
+            accordionHeaders.forEach(header => {
+                const accordionContent = header.nextElementSibling;
+                if (window.innerWidth < 768) {
+                    header.addEventListener('click', () => {
+                        header.classList.toggle('open');
+                        accordionContent.classList.toggle('open');
+                    });
+                }
+            });
+            window.addEventListener('resize', () => {
+                accordionHeaders.forEach(header => {
+                    const accordionContent = header.nextElementSibling;
+                    if (window.innerWidth >= 768) {
+                        header.classList.remove('open');
+                        accordionContent.classList.remove('open');
+                    }
+                });
+            });
+
+            // --- Logica della Pagina Prodotto Dinamica ---
+
+            // Funzione per aggiornare la pagina con i dati del prodotto
+            function updateProductPage(productId) {
+                const product = products[productId];
+                const mainContent = document.querySelector('.max-w-7xl.mx-auto');
+                if (!product) {
+                    mainContent.innerHTML = '<div class="text-center py-20"><h1 class="text-3xl font-bold">Prodotto non trovato</h1><p class="mt-4">L\'ID del prodotto non è valido.</p></div>';
+                    return;
+                }
+
+                // Variabili per il carosello
+                let currentImageIndex = 0;
+                const mainImage = document.getElementById('main-image');
+                const prevButton = document.getElementById('prev-btn');
+                const nextButton = document.getElementById('next-btn');
+                const imageCounter = document.getElementById('image-counter');
+                const productImages = product.images;
+
+                // Funzione per aggiornare l'immagine principale
+                function updateMainImage() {
+                    mainImage.src = productImages[currentImageIndex];
+                    // Aggiorna il contatore
+                    imageCounter.textContent = `${currentImageIndex + 1} / ${productImages.length}`;
+                    // Mostra/nascondi le frecce se c'è più di un'immagine
+                    if (productImages.length > 1) {
+                        prevButton.style.display = 'block';
+                        nextButton.style.display = 'block';
+                        imageCounter.style.display = 'block';
+                    } else {
+                        prevButton.style.display = 'none';
+                        nextButton.style.display = 'none';
+                        imageCounter.style.display = 'none';
+                    }
+                }
+
+                // Event listener per la freccia "avanti"
+                nextButton.addEventListener('click', () => {
+                    currentImageIndex = (currentImageIndex + 1) % productImages.length;
+                    updateMainImage();
+                });
+
+                // Event listener per la freccia "indietro"
+                prevButton.addEventListener('click', () => {
+                    currentImageIndex = (currentImageIndex - 1 + productImages.length) % productImages.length;
+                    updateMainImage();
+                });
+
+                // Inizializza la visualizzazione
+                updateMainImage();
+
+                // Resto del codice della pagina prodotto
+                document.getElementById('page-title').textContent = product.name + " | Cmarine";
+                document.getElementById('product-brand').textContent = product.brand;
+                document.getElementById('product-name').textContent = product.name;
+                document.getElementById('product-price').textContent = product.price;
+
+                // Gestione delle taglie
+                const sizeOptionsContainer = document.getElementById('size-options');
+                sizeOptionsContainer.innerHTML = '';
+                for (const size in product.sizes) {
+                    const isAvailable = product.sizes[size];
+                    const sizeButton = document.createElement('button');
+                    sizeButton.textContent = size;
+                    sizeButton.classList.add('size-button', 'px-4', 'py-2', 'border', 'border-gray-300', 'rounded-md', 'hover:border-black', 'transition-colors');
+                    if (!isAvailable) {
+                        sizeButton.classList.add('unavailable');
+                        sizeButton.disabled = true;
+                    } else {
+                        sizeButton.addEventListener('click', () => {
+                            // Rimuove la classe 'active' da tutti i bottoni
+                            document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('active'));
+                            // Aggiunge la classe 'active' al bottone cliccato
+                            sizeButton.classList.add('active');
+                        });
+                    }
+                    sizeOptionsContainer.appendChild(sizeButton);
+                }
+
+                // Gestione descrizione e dettagli
+                document.getElementById('product-description').textContent = product.description;
+                const detailsList = document.getElementById('product-details');
+                detailsList.innerHTML = '';
+                product.details.forEach(detail => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = detail;
+                    detailsList.appendChild(listItem);
+                });
+            }
+
+            // Aggiungi un piccolo delay per assicurarti che la pagina si sia caricata completamente
+            // prima di cercare l'ID del prodotto nell'URL.
+            setTimeout(() => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const productId = urlParams.get('id');
+                if (productId) {
+                    updateProductPage(productId);
+                }
+            }, 50);
+
+            // Funzione per generare prodotti correlati (esempio)
+            function generateRelatedProducts() {
+                const relatedProductsContainer = document.getElementById('related-products-container');
+                relatedProductsContainer.innerHTML = '';
+                const productIds = Object.keys(products).sort(() => 0.5 - Math.random()).slice(0, 4);
+                productIds.forEach(id => {
+                    const product = products[id];
+                    const productCard = document.createElement('a');
+                    productCard.href = `product.html?id=${product.id}`;
+                    productCard.classList.add('block', 'group');
+                    productCard.innerHTML = `
+                        <div class="relative overflow-hidden product-card">
+                            <img src="${product.images[0]}" alt="${product.name}" class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center product-overlay">
+                                <button class="bg-white text-black px-6 py-2 uppercase text-sm font-semibold tracking-wider transition-colors duration-300 hover:bg-gray-200">View Product</button>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <h3 class="text-sm uppercase font-semibold text-gray-800">${product.brand}</h3>
+                            <p class="text-sm text-gray-600">${product.name}</p>
+                            <p class="mt-2 font-bold">${product.price}</p>
+                        </div>
+                    `;
+                    relatedProductsContainer.appendChild(productCard);
+                });
+            }
+            generateRelatedProducts();
+        });
+
+    </script>
+    </script>
+     <script>
+        // *** Nuova costante per la chiave di localStorage, usata in modo consistente ***
+        const CART_STORAGE_KEY = 'cmarineCart';
+
+        // Funzioni globali per il carrello
+        window.updateCartDisplay = function() {
+            // *** Usa CART_STORAGE_KEY per leggere il carrello ***
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+            const cartItemCountElement = document.getElementById('cart-item-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (cartItemCountElement) {
+                cartItemCountElement.textContent = totalItems;
+                if (totalItems > 0) {
+                    cartItemCountElement.classList.remove('hidden');
+                } else {
+                    cartItemCountElement.classList.add('hidden');
+                }
+            }
+        };
+
+        window.addProductToCart = function(product, buttonElement = null) {
+            // *** Usa CART_STORAGE_KEY per leggere e salvare il carrello ***
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+            const existingProductIndex = cart.findIndex(item => item.id === product.id);
+
+            if (existingProductIndex > -1) {
+                cart[existingProductIndex].quantity += 1;
+            } else {
+                product.quantity = 1;
+                cart.push(product);
+            }
+
+            // *** Usa CART_STORAGE_KEY per salvare il carrello ***
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+            window.updateCartDisplay(); // Questa riga aggiorna il badge
+
+            if (buttonElement) {
+                const originalText = buttonElement.textContent;
+                buttonElement.textContent = 'Aggiunto!';
+                buttonElement.classList.remove('bg-black', 'hover:bg-gray-800');
+                buttonElement.classList.add('bg-green-600', 'hover:bg-green-700');
+                setTimeout(() => {
+                    buttonElement.textContent = originalText;
+                    buttonElement.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    buttonElement.classList.add('bg-black', 'hover:bg-gray-800');
+                }, 1500);
+            }
+        };
+
+        window.removeProductFromCart = function(productId) {
+            // *** Usa CART_STORAGE_KEY per leggere e salvare il carrello ***
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+            window.updateCartDisplay();
+        };
+
+        window.changeProductQuantity = function(productId, newQuantity) {
+            // *** Usa CART_STORAGE_KEY per leggere e salvare il carrello ***
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+            const productIndex = cart.findIndex(item => item.id === productId);
+
+            if (productIndex > -1) {
+                if (newQuantity > 0) {
+                    cart[productIndex].quantity = newQuantity;
+                } else {
+                    cart.splice(productIndex, 1);
+                }
+            }
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+            window.updateCartDisplay();
+        };
+
+        // Inizializza il display del carrello al caricamento della pagina e quando si torna ad essa
+        window.addEventListener('pageshow', window.updateCartDisplay);
+    </script>
+</body>
+</html>
