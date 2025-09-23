@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Premium Menswear and Streetwear | Cmarine</title>
+    <title>Negozio | Cmarine</title>
+    <meta name="description" content="Esplora tutti i prodotti di Cmarine. Abbigliamento uomo, donna e bambini con prezzi normali e collezioni complete.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -83,11 +83,9 @@
                 border-bottom: none;
                 margin-bottom: 1rem;
             }
-
             .footer-accordion-header .arrow-icon {
                 display: none;
             }
-
             .footer-accordion-content {
                 max-height: none;
                 opacity: 1;
@@ -127,171 +125,14 @@
         }
 
         @keyframes bounceIn {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-
-            50% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .hero-image {
-            background-image: url('https://cdn.havenshop.com/24e09d69ae24a65dc6fc8ef7f29761f9a404cb6e-2048x2560.jpg');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .product-card:hover .product-overlay {
-            opacity: 1;
-        }
-
-        .product-overlay {
-            transition: opacity 0.3s ease;
-            opacity: 0;
-        }
-
-        .category-card:hover img {
-            transform: scale(1.05);
-        }
-
-        .category-card img {
-            transition: transform 0.3s ease;
-        }
-
-        .newsletter-input {
-            border-bottom: 1px solid #000;
-            transition: border-color 0.3s ease;
-        }
-
-        .newsletter-input:focus {
-            outline: none;
-            border-bottom-color: #555;
-        }
-
-        /* Stili specifici per il menu mobile */
-        .mobile-menu {
-            display: none;
-        }
-
-        .mobile-menu.open {
-            display: block;
-        }
-
-        /* Stili per il footer a fisarmonica */
-        .footer-accordion-header {
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e5e7eb;
-            margin-bottom: 1rem;
-        }
-
-        .footer-accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-            opacity: 0;
-        }
-
-        .footer-accordion-content.open {
-            max-height: 200px;
-            opacity: 1;
-            transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
-        }
-
-        .footer-accordion-header .arrow-icon {
-            transition: transform 0.3s ease;
-        }
-
-        .footer-accordion-header.open .arrow-icon {
-            transform: rotate(180deg);
-        }
-
-        @media (min-width: 768px) {
-            .footer-accordion-header {
-                cursor: default;
-                border-bottom: none;
-                margin-bottom: 1rem;
-            }
-
-            .footer-accordion-header .arrow-icon {
-                display: none;
-            }
-
-            .footer-accordion-content {
-                max-height: none;
-                opacity: 1;
-            }
-        }
-
-        /* Nuovo stile per le taglie non disponibili */
-        .unavailable {
-            color: #9ca3af;
-            /* grigio scuro */
-            cursor: not-allowed;
-            background-color: #f3f4f6;
-            /* grigio chiaro */
-            border-color: #d1d5db;
-            /* bordo grigio */
-            text-decoration: line-through;
-        }
-
-        .size-button.active {
-            border-color: #000;
-            background-color: #000;
-            color: white;
-        }
-
-        /* Stili per il carosello */
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .carousel-image {
-            width: 100%;
-            display: block;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        .carousel-control {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            z-index: 10;
-            opacity: 0.7;
-        }
-
-        .carousel-control:hover {
-            opacity: 1;
-        }
-
-        .carousel-control.prev {
-            left: 10px;
-        }
-
-        .carousel-control.next {
-            right: 10px;
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
-
 <body class="bg-gray-50">
+
     <header class="sticky top-0 z-50 bg-white shadow-sm">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center">
@@ -303,13 +144,13 @@
             <div class="hidden md:flex space-x-8">
                 <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
                 <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
-
+                
                 <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
             </div>
 
             <div class="flex items-center space-x-4 md:space-x-6">
                 <a href="search.html" class="text-xl"><i class="fas fa-search"></i></a>
-
+                
                 <a href="cart.html" class="text-xl relative">
                     <i class="fas fa-shopping-bag"></i>
                     <span id="cart-item-count" class="cart-badge hidden">0</span>
@@ -324,118 +165,135 @@
         </div>
         <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="shop.html?category=uomo"
-                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
-                <a href="shop.html?category=donna"
-                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
-                <a href="shop.html?category=bambini"
-                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
-                <a href="collections.html"
-                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
-
-                <a href="features.html"
-                    class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
+                <a href="shop.html?category=uomo" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
+                <a href="shop.html?category=donna" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
+                <a href="shop.html?category=bambini" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
+                <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
+                
+                <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
             </div>
         </div>
     </header>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="flex flex-col md:flex-row gap-8">
-            <div class="md:w-1/2">
-                <div class="carousel-container">
-                    <img id="main-image" src="" alt="" class="carousel-image">
-                    <button id="carousel-prev" class="carousel-control prev"><i class="fas fa-chevron-left"></i></button>
-                    <button id="carousel-next" class="carousel-control next"><i class="fas fa-chevron-right"></i></button>
-                </div>
-            </div>
-
-            <div class="md:w-1/2">
-                <span id="product-brand" class="text-sm uppercase tracking-widest text-gray-600"></span>
-                <h1 id="product-name" class="text-3xl font-bold mt-2 mb-4"></h1>
-                <p id="product-price" class="text-2xl font-semibold mb-6"></p>
-
-                <div class="mb-6">
-                    <h3 class="text-sm font-semibold mb-2">SIZE</h3>
-                    <div id="size-options" class="flex flex-wrap gap-2">
-                    </div>
-                </div>
-
-                <div class="mb-8">
-                    <h3 class="text-sm font-semibold mb-2">QUANTITY</h3>
-                    <input type="number" value="1" min="1"
-                        class="w-20 px-3 py-2 border border-gray-300 rounded-md text-center">
-                </div>
-
-                <button id="add-to-cart-button"
-                    class="w-full bg-black text-white px-8 py-4 text-lg uppercase tracking-wider hover:bg-gray-800 transition duration-300 rounded-sm">Add
-                    to Cart</button>
-
-                <div class="mt-8 border-t border-gray-200 pt-8">
-                    <h3 class="text-lg font-bold mb-3">Description</h3>
-                    <p id="product-description" class="text-gray-700 leading-relaxed"></p>
-                    <ul id="product-details" class="list-disc list-inside text-gray-700 mt-4">
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="bg-gray-50 py-16">
+    <main class="py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold mb-8 text-center">You might also like</h2>
-            <div id="related-products-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            </div>
-        </div>
-    </div>
+            <h1 class="text-4xl font-bold text-center mb-12">I Nostri Prodotti</h1>
 
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                <div class="flex flex-wrap gap-4">
+                    <select id="category-filter" class="border border-gray-300 p-2 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Tutte le Categorie</option>
+                        <option value="scarpe">Scarpe</option>
+                        <option value="outerwear">Outerwear</option>
+                        <option value="bottoms">Bottoms</option>
+                        <option value="t-shirts">T-Shirts</option>
+                        <option value="accessories">Accessori</option>
+                        <option value="uomo">Uomo</option>
+                        <option value="donna">Donna</option>
+                        <option value="bambini">Bambini</option>
+                    </select>
+                    <select id="sort-by" class="border border-gray-300 p-2 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500">
+                        <option value="relevance">Ordina per: Rilevanza</option>
+                        <option value="price-asc">Prezzo: Dal più basso</option>
+                        <option value="price-desc">Prezzo: Dal più alto</option>
+                        <option value="name-asc">Nome: A-Z</option>
+                        <option value="name-desc">Nome: Z-A</option>
+                    </select>
+                </div>
+                <div id="product-count" class="text-gray-700 text-sm">
+                    Mostrando 1-8 di 8 prodotti
+                </div>
+            </div>
+
+            <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                </div>
+
+            <div id="pagination" class="flex justify-center mt-12 space-x-2">
+                </div>
+        </div>
+    </main>
+
+    <style>
+        @font-face {
+            font-display: block;
+            font-family: Roboto;
+            src: url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/7529907e9eaf8ebb5220c5f9850e3811.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/25c678feafdc175a70922a116c9be3e7.woff) format("woff")
+        }
+
+        @font-face {
+            font-display: fallback;
+            font-family: Roboto;
+            font-weight: 600;
+            src: url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/6e9caeeafb1f3491be3e32744bc30440.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/71501f0d8d5aa95960f6475d5487d4c2.woff) format("woff")
+        }
+
+        @font-face {
+            font-display: fallback;
+            font-family: Roboto;
+            font-weight: 700;
+            src: url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/3ef7cf158f310cf752d5ad08cd0e7e60.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/ece3a1d82f18b60bcce0211725c476aa.woff) format("woff")
+        }
+
+        #sib-container input:-ms-input-placeholder {
+            text-align: left;
+            font-family: Helvetica, sans-serif;
+            color: #716e6e;
+        }
+
+        #sib-container input::placeholder {
+            text-align: left;
+            font-family: Helvetica, sans-serif;
+            color: #716e6e;
+        }
+
+        #sib-container textarea::placeholder {
+            text-align: left;
+            font-family: Helvetica, sans-serif;
+            color: #716e6e;
+        }
+
+        #sib-container a {
+            text-decoration: underline;
+            color: #2BB2FC;
+        }
+    </style>
     <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
 
     <div class="sib-form" style="text-align: center; background-color: #EFF2F7;">
         <div id="sib-form-container" class="sib-form-container">
-            <div id="error-message" class="sib-form-message-panel"
-                style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;max-width:540px;">
+            <div id="error-message" class="sib-form-message-panel" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;max-width:540px;">
                 <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
                     <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon">
-                        <path
-                            d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-11.49 120h22.979c6.823 0 12.274 5.682 11.99 12.5l-7 168c-.268 6.428-5.556 11.5-11.99 11.5h-8.979c-6.433 0-11.722-5.073-11.99-11.5l-7-168c-.283-6.818 5.167-12.5 11.99-12.5zM256 340c-15.464 0-28 12.536-28 28s12.536 28 28 28 28-12.536 28-28-12.536-28-28-28z" />
+                        <path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-11.49 120h22.979c6.823 0 12.274 5.682 11.99 12.5l-7 168c-.268 6.428-5.556 11.5-11.99 11.5h-8.979c-6.433 0-11.722-5.073-11.99-11.5l-7-168c-.283-6.818 5.167-12.5 11.99-12.5zM256 340c-15.464 0-28 12.536-28 28s12.536 28 28 28 28-12.536 28-28-12.536-28-28-28z" />
                     </svg>
                     <span class="sib-form-message-panel__inner-text">La tua iscrizione non può essere convalidata.</span>
                 </div>
             </div>
             <div></div>
-            <div id="success-message" class="sib-form-message-panel"
-                style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#085229; background-color:#e7faf0; border-radius:3px; border-color:#13ce66;max-width:540px;">
+            <div id="success-message" class="sib-form-message-panel" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#085229; background-color:#e7faf0; border-radius:3px; border-color:#13ce66;max-width:540px;">
                 <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
                     <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon">
-                        <path
-                            d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 464c-118.664 0-216-96.055-216-216 0-118.663 96.055-216 216-216 118.664 0 216 96.055 216 216 0 118.663-96.055 216-216 216zm141.63-274.961L217.15 376.071c-4.705 4.667-12.303 4.637-16.97-.068l-85.878-86.572c-4.667-4.705-4.637-12.303.068-16.97l8.52-8.451c4.705-4.667 12.303-4.637 16.97.068l68.976 69.533 163.441-162.13c4.705-4.667 12.303-4.637 16.97.068l8.451 8.52c4.668 4.705 4.637 12.303-.068 16.97z" />
+                        <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 464c-118.664 0-216-96.055-216-216 0-118.663 96.055-216 216-216 118.664 0 216 96.055 216 216 0 118.663-96.055 216-216 216zm141.63-274.961L217.15 376.071c-4.705 4.667-12.303 4.637-16.97-.068l-85.878-86.572c-4.667-4.705-4.637-12.303.068-16.97l8.52-8.451c4.705-4.667 12.303-4.637 16.97.068l68.976 69.533 163.441-162.13c4.705-4.667 12.303-4.637 16.97.068l8.451 8.52c4.668 4.705 4.637 12.303-.068 16.97z" />
                     </svg>
                     <span class="sib-form-message-panel__inner-text">La tua iscrizione è avvenuta correttamente.</span>
                 </div>
             </div>
             <div></div>
-            <div id="sib-container" class="sib-container--large sib-container--vertical"
-                style="text-align:center; background-color:rgba(3,2,2,1); max-width:540px; border-radius:3px; border-width:1px; border-color:#020203; border-style:solid; direction:ltr">
-                <form id="sib-form" method="POST"
-                    action="https://16d50c30.sibforms.com/serve/MUIFAD9TXScE1MH3F0qel6S3jfP0w6bSn-l8fl3UDWHoZdV_D34up2OGFcPLyoDr6KP2XiW6OPR5ZamGqhzqD3Q9VeI-R1D2Rnp1vvssGUax9eyhSsbShaZZjj7c29vMbCCb0g9Kg3U09F9z0dq81XcnlAA6iOvkEzfEKdHoAqVzkqVOTbxnRK3DXqLFAZj-5KlwexuK5i6MAdty"
-                    data-type="subscription">
+            <div id="sib-container" class="sib-container--large sib-container--vertical" style="text-align:center; background-color:rgba(3,2,2,1); max-width:540px; border-radius:3px; border-width:1px; border-color:#020203; border-style:solid; direction:ltr">
+                <form id="sib-form" method="POST" action="https://16d50c30.sibforms.com/serve/MUIFAD9TXScE1MH3F0qel6S3jfP0w6bSn-l8fl3UDWHoZdV_D34up2OGFcPLyoDr6KP2XiW6OPR5ZamGqhzqD3Q9VeI-R1D2Rnp1vvssGUax9eyhSsbShaZZjj7c29vMbCCb0g9Kg3U09F9z0dq81XcnlAA6iOvkEzfEKdHoAqVzkqVOTbxnRK3DXqLFAZj-5KlwexuK5i6MAdty" data-type="subscription">
                     <div style="padding: 8px 0;">
-                        <div class="sib-form-block"
-                            style="font-size:11px; text-align:center; font-family:Helvetica, sans-serif; color:#fdfeff; background-color:transparent; text-align:center">
+                        <div class="sib-form-block" style="font-size:11px; text-align:center; font-family:Helvetica, sans-serif; color:#fdfeff; background-color:transparent; text-align:center">
                             <div class="sib-text-form-block">
                                 <p>SPEDIZIONE GRATUITA SUL TUO PRIMO ORDINE</p>
                             </div>
                         </div>
                     </div>
                     <div style="padding: 8px 0;">
-                        <div class="sib-form-block"
-                            style="font-size:32px; text-align:center; font-weight:700; font-family:Helvetica, sans-serif; color:#fafafa; background-color:transparent; text-align:center">
+                        <div class="sib-form-block" style="font-size:32px; text-align:center; font-weight:700; font-family:Helvetica, sans-serif; color:#fafafa; background-color:transparent; text-align:center">
                             <p>Iscriviti alla Nostra Newsletter</p>
                         </div>
                     </div>
                     <div style="padding: 8px 0;">
-                        <div class="sib-form-block"
-                            style="font-size:11px; text-align:center; font-family:Helvetica, sans-serif; color:#fdfeff; background-color:transparent; text-align:center">
+                        <div class="sib-form-block" style="font-size:11px; text-align:center; font-family:Helvetica, sans-serif; color:#fdfeff; background-color:transparent; text-align:center">
                             <div class="sib-text-form-block">
                                 <p>Iscriviti per accesso anticipato a lanci, promozioni ed eventi.</p>
                             </div>
@@ -446,25 +304,19 @@
                             <div class="form__entry entry_block">
                                 <div class="form__label-row ">
                                     <div class="entry__field">
-                                        <input class="input " type="text" id="EMAIL" name="EMAIL" autocomplete="off"
-                                            placeholder="Il tuo indirizzo email" data-required="true" required />
+                                        <input class="input " type="text" id="EMAIL" name="EMAIL" autocomplete="off" placeholder="Il tuo indirizzo email" data-required="true" required />
                                     </div>
                                 </div>
-                                <label class="entry__error entry__error--primary"
-                                    style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;">
+                                <label class="entry__error entry__error--primary" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;">
                                 </label>
                             </div>
                         </div>
                     </div>
                     <div style="padding: 8px 0;">
                         <div class="sib-form-block" style="text-align: center">
-                            <button class="sib-form-block__button sib-form-block__button-with-loader"
-                                style="font-size:17px; text-align:center; font-weight:700; font-family:Helvetica, sans-serif; color:#030202; background-color:#f7f9fc; border-radius:1px; border-width:0px;"
-                                form="sib-form" type="submit">
-                                <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon"
-                                    viewBox="0 0 512 512" style="">
-                                    <path
-                                        d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
+                            <button class="sib-form-block__button sib-form-block__button-with-loader" style="font-size:17px; text-align:center; font-weight:700; font-family:Helvetica, sans-serif; color:#030202; background-color:#f7f9fc; border-radius:1px; border-width:0px;" form="sib-form" type="submit">
+                                <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512" style="">
+                                    <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
                                 </svg>
                                 ISCRIVITI
                             </button>
@@ -487,8 +339,7 @@
                     </div>
                     <ul class="space-y-2 footer-accordion-content">
                         <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Nuovi Arrivi</a></li>
-                        <li><a href="collections.html" class="text-sm hover:underline text-gray-700">Collezioni</a>
-                        </li>
+                        <li><a href="collections.html" class="text-sm hover:underline text-gray-700">Collezioni</a></li>
                         <li><a href="sales.html" class="text-sm hover:underline text-gray-700">Saldi</a></li>
                     </ul>
                 </div>
@@ -521,22 +372,16 @@
                 <div>
                     <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Connettiti</h3>
                     <div class="flex justify-center md:justify-start space-x-4 mb-4">
-                        <a href="#" class="text-gray-700 hover:text-gray-900"><i
-                                class="fab fa-instagram text-xl"></i></a>
-                        <a href="#" class="text-gray-700 hover:text-gray-900"><i
-                                class="fab fa-twitter text-xl"></i></a>
-                        <a href="#" class="text-gray-700 hover:text-gray-900"><i
-                                class="fab fa-facebook-f text-xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-facebook-f text-xl"></i></a>
                     </div>
-                    <p class="text-sm text-gray-600 leading-relaxed">Iscriviti alla nostra newsletter per ricevere
-                        aggiornamenti sui nuovi arrivi, offerte speciali e altre informazioni sugli sconti.</p>
+                    <p class="text-sm text-gray-600 leading-relaxed">Iscriviti alla nostra newsletter per ricevere aggiornamenti sui nuovi arrivi, offerte speciali e altre informazioni sugli sconti.</p>
                 </div>
 
             </div>
-            <div
-                class="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600">
-                <p class="text-sm text-center md:text-left mb-4 md:mb-0">© 2025 Cmarine. Tutti i diritti riservati.
-                </p>
+            <div class="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600">
+                <p class="text-sm text-center md:text-left mb-4 md:mb-0">© 2025 Cmarine. Tutti i diritti riservati.</p>
                 <div class="flex flex-wrap justify-center md:justify-end space-x-4 sm:space-x-6">
                     <a href="#" class="text-sm hover:underline">Privacy Policy</a>
                     <a href="#" class="text-sm hover:underline">Terms of Service</a>
@@ -547,366 +392,317 @@
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Dati dei prodotti aggiornati con le disponibilità delle taglie
-            const products = {
-                "1": {
-                    id: "1",
-                    brand: "Helly Hansen",
-                    nome: "HP AHIGA EVO 5",
-                    prezzo: "$120.00",
-                    descrizione: "Le scarpe da uomo HP Ahiga Evo 5 Marine Lifestyle portano la linea Ahiga a un livello superiore, con un'intersuola generosa per il massimo comfort. Progettate per le giornate estive al mare o in città, sono realizzate con HH Hydro-Grip per la massima aderenza sulle superfici bagnate, HH Quick Dry per asciugarsi velocemente e HH Max-Vent per la traspirabilità.",
-                    dettagli: [
-                        "HH® Quick Dry",
-                        "HH® Max-Vent",
-                        "HH® Lite-Frame",
-                        "HH® Comfort Insole",
-                        "HH® Hover-Stride",
-                        "HH Hydro-Grip",
-                        "HH Storm Siping",
-                        "Lacci realizzati al 100% con materiale riciclato.",
-                        "Fettuccia in poliestere realizzata al 100% con materiale riciclato.",
-                        "Intersuola in EVA (etilene vinil acetato) che contiene il 30% di materiale riciclato.",
-                        "Fodera interna della scarpa realizzata al 100% con materiale riciclato.",
-                        "Etichetta con il marchio tessuta al 100% in poliestere riciclato.",
-                        "Gomma per la suola o altre parti della scarpa che contiene il 30% di materiale riciclato.",
-                        "La strobel è realizzata al 100% in poliestere riciclato.",
-                        "Nastro di rinforzo e rinforzo del collare della scarpa realizzati al 100% in RPET (poliestere riciclato da bottiglie di plastica)."
-                    ],
-                    images: [
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/2ad4c7cb-40a1-47b7-8349-a68e2bc4bf7e.png?cacheVersion=1714112626",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/4c22eede-6627-43d9-be5d-2617fce10193.png?cacheVersion=1678266183",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/e704a698-aa3e-4ecd-8768-2855cd0a3a85.png?cacheVersion=1678266183",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/16116306-458d-4b5e-a8db-7ecee5d570c9.png?cacheVersion=1678266183",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/99f7921a-41c9-4999-807d-c9d71c8ca9e9.png?cacheVersion=1678953889"
-                    ],
-                    sizes: {
-                        "40": true,
-                        "41": false,
-                        "42": true,
-                        "43": true,
-                        "44": false
-                    }
-                },
-                "2": {
-                    id: "2",
-                    brand: "Helly Hansen",
-                    nome: "HP MARINE LS",
-                    prezzo: "$145.00",
-                    descrizione: "Goditi il comfort al porto turistico o durante una giornata di relax in barca grazie al look sportivo delle nostre scarpe da uomo Hydropower Marine Lifestyle. Le caratteristiche includono le tecnologie HH Lite-Frame e HH Max-Vent per un supporto leggero e una maggiore traspirabilità, oltre a una soletta HH Max-Comfort e alla tecnologia HH Quick Dry per una calzata personalizzata e asciutta. La suola HH Hydro-Grip e la protezione HH Pro-Guard offrono trazione e protezione, mentre la tecnologia HH Hover-Stride favorisce una falcata naturale per un'esperienza più confortevole.",
-                    dettagli: [
-                        "HH® Quick Dry",
-                 "HH® Max-Vent",
-              "HH® Hover-Stride",
-"HH® Max-Comfort Insole",
-"HH Hydro-Grip",
-"HH® Max Grip",
-"100% Recycled Lace",
-"100% RPET Reinforcement Tape and Collar Reinforcement",
-"100% Recycled Lining",
-"30% Recycled Rubber",
-"30% Recycled EVA Mid-sole",
-"100% Recycled Polyester Strobel",
-"Premium Suede",
-"PFC-free",
-"LWG leather",
-"Oceanbound Recycled materials"
-                    ],
-                    images: [
-                      "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/676c14b5-47fd-4499-8e41-acc1eaa5c7a7.png?cacheVersion=1678953947",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/5f78de63-0403-4627-90ca-ede62163140a.png?cacheVersion=1678266182",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/72033ce9-fe78-4bfd-8e8d-884a8ab84653.png?cacheVersion=1678266182",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/dc811389-3a7a-49b6-8260-3693fe31a37a.png?cacheVersion=1678266182",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/726dd397-33d9-4559-874b-f93ead5b6b79.png?cacheVersion=1678953938"
-                    ],
-                    taglie: {
-                        "S": true,
-                        "M": true,
-                        "L": false,
-                        "XL": true
-                    }
-                },
-                "3": {
-                    id: "3",
-                    brand: "Helly Hansen",
-                    nome: "W ANAKIN LEATHER 2",
-                    prezzo: "$133.00",
-                    descrizione: "Combinando il meglio del design sportivo e dello stile di vita urbano, la sneaker Anakin è la tua compagna ideale in città. L'abbiamo progettata con colori ispirati al varsity e abbiamo utilizzato una tomaia in pelle e pelle scamosciata di alta qualità, abbinata a tessuti traspiranti e ad asciugatura rapida. L'intersuola e la soletta aggiungono comfort e reattività. Per la suola abbiamo utilizzato la nostra tecnologia HH Max-Grip, che ti garantirà un'ottima trazione ovunque tu vada. È l'apice dello stile casual e del comfort.",
-                    dettagli: [
-                        "HH® Max-Vent",
-                        "HH® Hover-Stride",
-                        "HH® Max Grip",
-                        "HH® Comfort Insole",
-                        "100% Recycled Lining",
-                        "100% Recycled Toe box and Heel reinforcement",
-                        "100% Recycled Reinforcement",
-                        "Waterproof Suede",
-                        "Non-marking rubber soles",
-                        "Premium Suede",
-                        "Premium Leather",
-                        "LWG leather"
-                    
-                    ],
-                    images: [
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/1c0437c1-9a6f-405c-83d4-53bf770a70b8.png?cacheVersion=1718014525",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/d2f73254-b33e-4f70-bf10-3f8d9f7c40c3.png?cacheVersion=1718014525",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/5d5cc74f-eb31-4ae2-8f7a-9e2ec79243d1.png?cacheVersion=1718014525",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/3c4d08e8-4270-4f72-943f-5a5fde3d02fa.png?cacheVersion=1718014525",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/5c98aaa1-3312-4b51-8d59-a4ec90600b3d.png?cacheVersion=1718014525"
-                    ],
-                    sizes: {
-                        "40": true,
-                        "41": false,
-                        "42": true,
-                        "43": true,
-                        "44": false
-                    }
-                },
-                "4": {
-                    id: "4",
-                    brand: "Helly Hansen",
-                    nome: "CREW LOW",
-                    prezzo: "$135.00",
-                    descrizione: "Sappiamo che, sia che tu stia navigando in coperta o ormeggiando in porto, l'agilità e la stabilità sono essenziali. Entra nelle nostre scarpe da vela basse da uomo Crew, un modello classico ma costruito per le prestazioni. Con un'intersuola ben ammortizzata e stabile e un tallone imbottito, offrono comfort durante le lunghe ore in piedi. Hanno anche una protezione su tallone e punta e una mescola reattiva che ti permette di muoverti velocemente. Le abbiamo realizzate con le nostre tecnologie HH Hydro-Grip e HH Storm Siping per una presa e una trazione superiori su diverse superfici. Leggere, traspiranti e ad asciugatura rapida, queste scarpe sono pronte per le avventure in acqua e al porto.",
-                    dettagli: [
-                        "HH® Free-Flex",
-                        "HH® Max Grip",
-                        "HH Surround-Grip",
-                        "HH Hydro-Grip",
-                        "HH Storm Siping",
-                        "HH® Quick Dry",
-                        "HH® Max-Vent",
-                        "HH® Max-Comfort Insole",
-                        "HH® Lite-Frame",
-                        "HH® Power-Stride",
-                        "HH® Pro Guard",
-                        "100% Recycled Lace",
-                        "100% Recycled Polyester Webbing",
-                        "100% Recycled Lining",
-                        "30% Recycled Rubber",
-                        "30% Recycled EVA Mid-sole",
-                        "100% Recycled Polyester Strobel",
-                        "More than 70% of the upper is made of recycled materials",
-                        "Recycled Content"
-                    
-                    ],
-                    images: [
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/70e52b0d-861f-4267-b884-73ad42133d55.png?cacheVersion=1718014523",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/ee170987-dfba-4574-92f7-a7c917caea00.png?cacheVersion=1718014523",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/78285d0e-881a-40c1-ade1-e2212d0ddc59.png?cacheVersion=1718014523",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/d7a511fc-feb8-4a8a-9c27-2d099d339ab1.png?cacheVersion=1718014523",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/8182d463-4c93-4618-a824-938df3786ad0.png?cacheVersion=1718014523"
-                    ],
-                    sizes: {
-                        "40": true,
-                        "41": false,
-                        "42": true,
-                        "43": true,
-                        "44": false
-                    }
-                }
-            };
+        // *** Nuova costante per la chiave di localStorage, usata in modo consistente ***
+        const CART_STORAGE_KEY = 'cmarineCart';
 
-            // Script per il menu mobile e il footer
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', function () {
-                    mobileMenu.classList.toggle('open');
-                });
-            }
-            const accordionHeaders = document.querySelectorAll('.footer-accordion-header');
-            accordionHeaders.forEach(header => {
-                const accordionContent = header.nextElementSibling;
-                if (window.innerWidth < 768) {
-                    header.addEventListener('click', () => {
-                        header.classList.toggle('open');
-                        accordionContent.classList.toggle('open');
-                    });
-                }
-            });
-            window.addEventListener('resize', () => {
-                accordionHeaders.forEach(header => {
-                    const accordionContent = header.nextElementSibling;
-                    if (window.innerWidth >= 768) {
-                        header.classList.remove('open');
-                        accordionContent.classList.remove('open');
-                    }
-                });
-            });
+        // Funzioni globali per il carrello
+        window.updateCartDisplay = function() {
+            // *** Usa CART_STORAGE_KEY per leggere il carrello ***
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+            const cartItemCountElement = document.getElementById('cart-item-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-            // --- Logica della Pagina Prodotto Dinamica e Carosello ---
-            let currentImageIndex = 0;
-            const mainImage = document.getElementById('main-image');
-            const prevButton = document.getElementById('carousel-prev');
-            const nextButton = document.getElementById('carousel-next');
-
-            function updateCarousel(images) {
-                mainImage.src = images[currentImageIndex];
-            }
-
-            // Funzione per aggiornare la pagina con i dati del prodotto
-            function updateProductPage(productId) {
-                const product = products[productId];
-                const mainContent = document.querySelector('.max-w-7xl.mx-auto');
-                if (!product) {
-                    mainContent.innerHTML = '<div class="text-center py-20"><h1 class="text-3xl font-bold">Prodotto non trovato</h1><p class="mt-4">L\'ID del prodotto non è valido.</p></div>';
-                    return;
-                }
-
-                // Aggiorna titolo della pagina
-                document.getElementById('page-title').textContent = `${product.name} | ${product.brand} | Cmarine`;
-
-                // Aggiorna le informazioni di base
-                document.getElementById('product-brand').textContent = product.brand;
-                document.getElementById('product-name').textContent = product.name;
-                document.getElementById('product-price').textContent = product.price;
-                document.getElementById('product-description').textContent = product.description;
-
-                // Aggiorna i dettagli del prodotto
-                const detailsList = document.getElementById('product-details');
-                detailsList.innerHTML = '';
-                product.details.forEach(detail => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = detail;
-                    detailsList.appendChild(listItem);
-                });
-
-
-                // Inizializza il carosello
-                currentImageIndex = 0;
-                updateCarousel(product.images);
-
-                prevButton.addEventListener('click', () => {
-                    currentImageIndex = (currentImageIndex - 1 + product.images.length) % product.images.length;
-                    updateCarousel(product.images);
-                });
-
-                nextButton.addEventListener('click', () => {
-                    currentImageIndex = (currentImageIndex + 1) % product.images.length;
-                    updateCarousel(product.images);
-                });
-
-
-                // Aggiorna le taglie basate sulla disponibilità
-                const sizeOptionsContainer = document.getElementById('size-options');
-                sizeOptionsContainer.innerHTML = '';
-                for (const size in product.sizes) {
-                    const available = product.sizes[size];
-                    const sizeButton = document.createElement('button');
-                    sizeButton.textContent = size;
-                    sizeButton.dataset.size = size;
-                    sizeButton.classList.add(
-                        'size-button',
-                        'px-4',
-                        'py-2',
-                        'border',
-                        'border-gray-300',
-                        'text-sm',
-                        'font-medium',
-                        'rounded-sm',
-                        'transition',
-                        'duration-200'
-                    );
-
-                    if (!available) {
-                        sizeButton.classList.add('unavailable');
-                    } else {
-                        sizeButton.classList.add('hover:bg-gray-200');
-                        sizeButton.addEventListener('click', () => {
-                            document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('active'));
-                            sizeButton.classList.add('active');
-                        });
-                    }
-                    sizeOptionsContainer.appendChild(sizeButton);
-                }
-            }
-
-
-            // --- Logica del Carrello ---
-
-            const CART_STORAGE_KEY = 'cmarineCart';
-
-            // Funzione per aggiornare il badge del carrello
-            window.updateCartDisplay = function () {
-                let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
-                const cartItemCountElement = document.getElementById('cart-item-count');
-                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-                if (cartItemCountElement) {
-                    cartItemCountElement.textContent = totalItems;
-                    if (totalItems > 0) {
-                        cartItemCountElement.classList.remove('hidden');
-                    } else {
-                        cartItemCountElement.classList.add('hidden');
-                    }
-                }
-            };
-
-            // Funzione per aggiungere un prodotto al carrello
-            window.addProductToCart = function (product, buttonElement = null) {
-                let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
-                const existingProductIndex = cart.findIndex(item => item.id === product.id);
-
-                if (existingProductIndex > -1) {
-                    cart[existingProductIndex].quantity += product.quantity;
+            if (cartItemCountElement) {
+                cartItemCountElement.textContent = totalItems;
+                if (totalItems > 0) {
+                    cartItemCountElement.classList.remove('hidden');
                 } else {
-                    cart.push(product);
+                    cartItemCountElement.classList.add('hidden');
                 }
-                localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-                window.updateCartDisplay();
+            }
+        };
 
-                if (buttonElement) {
-                    const originalText = buttonElement.textContent;
-                    buttonElement.textContent = 'Aggiunto!';
-                    buttonElement.classList.remove('bg-black', 'hover:bg-gray-800');
-                    buttonElement.classList.add('bg-green-600', 'hover:bg-green-700');
-                    setTimeout(() => {
-                        buttonElement.textContent = originalText;
-                        buttonElement.classList.remove('bg-green-600', 'hover:bg-green-700');
-                        buttonElement.classList.add('bg-black', 'hover:bg-gray-800');
-                    }, 1500);
-                }
-            };
+        window.addProductToCart = function(product, buttonElement = null) {
+            // *** Usa CART_STORAGE_KEY per leggere e salvare il carrello ***
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+            const existingProductIndex = cart.findIndex(item => item.id === product.id);
 
-            // Collega il pulsante "Add to Cart" alla funzione di aggiunta
-            const addToCartButton = document.getElementById('add-to-cart-button');
-            const urlParams = new URLSearchParams(window.location.search);
-            const productId = urlParams.get('id');
-
-            if (addToCartButton && productId) {
-                const productData = products[productId];
-                addToCartButton.addEventListener('click', () => {
-                    const selectedSizeButton = document.querySelector('.size-button.active');
-                    const quantityInput = document.querySelector('input[type="number"]');
-
-                    if (!selectedSizeButton) {
-                        alert('Per favore, seleziona una taglia.');
-                        return;
-                    }
-
-                    const selectedSize = selectedSizeButton.dataset.size;
-                    const quantity = parseInt(quantityInput.value, 10);
-
-                    const productToAdd = {
-                        id: productData.id + '-' + selectedSize.replace(/\s/g, ''),
-                        name: productData.name,
-                        price: parseFloat(productData.price.replace('$', '')),
-                        image: productData.images[0],
-                        size: selectedSize,
-                        quantity: quantity
-                    };
-
-                    window.addProductToCart(productToAdd, addToCartButton);
-                });
+            if (existingProductIndex > -1) {
+                cart[existingProductIndex].quantity += 1;
+            } else {
+                product.quantity = 1;
+                cart.push(product);
             }
 
-            // Inizializza la pagina prodotto e il carrello al caricamento
-            updateProductPage(productId);
-            window.updateCartDisplay();
+            // *** Usa CART_STORAGE_KEY per salvare il carrello ***
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+            window.updateCartDisplay(); // Questa riga aggiorna il badge
 
+            if (buttonElement) {
+                const originalText = buttonElement.textContent;
+                buttonElement.textContent = 'Aggiunto!';
+                buttonElement.classList.remove('bg-black', 'hover:bg-gray-800');
+                buttonElement.classList.add('bg-green-600', 'hover:bg-green-700');
+                setTimeout(() => {
+                    buttonElement.textContent = originalText;
+                    buttonElement.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    buttonElement.classList.add('bg-black', 'hover:bg-gray-800');
+                }, 1500);
+            }
+        };
+
+        window.removeProductFromCart = function(productId) {
+            // *** Usa CART_STORAGE_KEY per leggere e salvare il carrello ***
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+            window.updateCartDisplay();
+        };
+
+        window.changeProductQuantity = function(productId, newQuantity) {
+            // *** Usa CART_STORAGE_KEY per leggere e salvare il carrello ***
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+            const productIndex = cart.findIndex(item => item.id === productId);
+
+            if (productIndex > -1) {
+                if (newQuantity > 0) {
+                    cart[productIndex].quantity = newQuantity;
+                } else {
+                    cart.splice(productIndex, 1);
+                }
+            }
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+            window.updateCartDisplay();
+        };
+
+        // Inizializza il display del carrello al caricamento della pagina e quando si torna ad essa
+        window.addEventListener('pageshow', window.updateCartDisplay);
+    </script>
+    <script>
+        // Funzionalità per il menu mobile
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('open');
+            });
+        }
+
+        // Funzionalità per il footer a fisarmonica (solo per mobile)
+        document.querySelectorAll('.footer-accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    const content = header.nextElementSibling;
+                    header.classList.toggle('open');
+                    content.classList.toggle('open');
+                }
+            });
         });
+
+        // Dati dei prodotti - Prezzi normali
+     const products = [
+            { id: 1, name: "HP AHIGA EVO 5", price: 120.00, image: "https://i.imgur.com/H68Dwfb.jpeg", category: "scarpe", gender: "uomo", details: "Scarpe da uomo per sport acquatici." },
+            { id: 2, name: "W HP MARINE LS", price: 145.00, image: "https://i.imgur.com/nj6zDLP.jpeg", category: "scarpe", gender: "uomo", details: "T-shirt a maniche lunghe da donna." },
+            { id: 3, name: "W ANAKIN LEATHER 2", price: 133.00, image: "https://i.imgur.com/pKxQXlB.jpeg", category: "scarpe", gender: "donna", details: "Sneakers in pelle da donna." },
+            { id: 4, name: "CREW LOW", price: 135.00, image: "https://i.imgur.com/Yoca5iJ.jpeg", category: "scarpe", gender: "uomo", details: "T-shirt casual da uomo." },
+            { id: 5, name: "HH QD CARGO SHORTS 11\"", price: 84.00, image: "https://i.imgur.com/yorxeV8.jpeg", category: "bermuda", gender: "uomo", details: "Shorts cargo quick dry da uomo." },
+            { id: 6, name: "HH QD CARGO SHORTS 11\" NEW", price: 84.00, image: "https://i.imgur.com/pD9YLMu.jpeg", category: "bermuda", gender: "uomo", details: "Nuovi shorts cargo quick dry da uomo." },
+            { id: 7, name: "HH QD CARGO SHORTS 11\" V2", price: 84.00, image: "https://i.imgur.com/NqBYqMi.jpeg", category: "bermuda", gender: "uomo", details: "Versione 2 degli shorts cargo quick dry da uomo." },
+            { id: 8, name: "DRIFTLINE POLO", price: 73.00, image: "https://i.imgur.com/L4CtSsY.jpeg", category: "polo", gender: "uomo", details: "Polo Driftline per uomo." },
+            { id: 9, name: "DRIFTLINE POLO V2", price: 73.00, image: "https://i.imgur.com/L79Rt80.jpeg", category: "polo", gender: "uomo", details: "Polo Driftline per uomo, versione 2." },
+            { id: 10, name: "CREWLINE LS POLO", price: 78.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/34f3961501bc4f0bbe8927c0948419a2.png?cacheVersion=1747293531", category: "polo", gender: "uomo", details: "Polo a maniche lunghe unisex." },
+            { id: 11, name: "HH LOGO T-SHIRT 2.0", price: 38.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/files/others/b198611d-d14d-433c-99c8-bd4c5755264e.jpg?cacheVersion=1747232962", category: "t-shirts", gender: "donna", details: "T-shirt con logo HH 2.0 da donna." },
+            { id: 12, name: "HH LOGO T-SHIRT 2.0 V2", price: 38.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/db54de6a-8b9c-47a4-863b-17a3b7b6c8ed.png?cacheVersion=1747232962", category: "t-shirts", gender: "uomo", details: "T-shirt con logo HH 2.0 v2 da uomo." },
+            { id: 13, name: "HH TECH T-SHIRT 2.0", price: 33.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/7d1c28c2-eeb5-478d-9b68-f74fc7e241de.png?cacheVersion=1747826872", category: "t-shirts", gender: "uomo", details: "T-shirt tecnica HH 2.0 per bambini." },
+            { id: 14, name: "HH TECH T-SHIRT 2.0 V2", price: 33.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/67a68603-c835-4d87-829b-625749589375.png?cacheVersion=1747826872", category: "t-shirts", gender: "uomo", details: "T-shirt tecnica HH 2.0 v2 da donna." },
+            { id: 15, name: "HH TECH T-SHIRT 2.0 V3", price: 33.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/69a91f5f-b519-4fd8-832e-de3d1be7144e.png?cacheVersion=1747826872", category: "t-shirts", gender: "uomo", details: "T-shirt tecnica HH 2.0 v3 da uomo." },
+            { id: 16, name: "CREW JACKET 2.0", price: 170.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/7207fa52-b7a4-4c56-963f-e33a017185a8.png?cacheVersion=1746187241", category: "giacche", gender: "uomo", details: "Giacca Crew 2.0 per uomo." },
+            { id: 17, name: "CREW VEST 2.0", price: 152.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/7b0bee14-41b6-412b-8c9d-8d9f84a87639.png?cacheVersion=1747294479", category: "giacche", gender: "uomo", details: "Gilet Crew 2.0 per uomo." },
+            { id: 18, name: "CREW VEST 2.0 V2", price: 152.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/files/others/64b4965f-b920-4d6a-9c01-2a1662d2dcfc.jpg?cacheVersion=1747917841", category: "giacche", gender: "uomo", details: "Gilet Crew 2.0 v2 per donna." },
+            { id: 19, name: "PIER 3.0 JACKET", price: 280.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/d790421cbd49482398dc4f93837002bd.png?cacheVersion=1699967242", category: "giubbotti", gender: "uomo", details: "Giacca Pier 3.0 ad alte prestazioni." },
+            { id: 20, name: "PIER 3.0 BIB", price: 220.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/caafd8784f03475ca29cf474d82a48dd.png?cacheVersion=1699966954", category: "giubbotti", gender: "uomo", details: "Salopette Pier 3.0." },
+            { id: 21, name: "NEWPORT BOARD SHORTS 8\"", price: 69.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/d05b87cf-5e79-4d20-8e76-eb8b529291d9.png?cacheVersion=1714054491", category: "costumi", gender: "uomo", details: "Board shorts Newport 8 pollici." },
+            { id: 22, name: "HP CURVE BOARD SHORTS 7\"", price: 75.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/33b45a5f-972f-4d24-9a83-51e239ffc309.png?cacheVersion=1710236979", category: "costumi", gender: "uomo", details: "Board shorts HP Curve 7 pollici." },
+            { id: 23, name: "HH SOUWESTER", price: 35.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/8269c68e-9406-42df-9f2e-cdac2e2a71e2.png?cacheVersion=1714396721", category: "accessories", gender: "unisex", details: "Cappello impermeabile Souwester." },
+            { id: 24, name: "CREW CAP 2.0", price: 33.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/e8154d74c3374c5e9627e08d5892f77a.png?cacheVersion=1690988202", category: "cappelli", gender: "unisex", details: "Cappellino Crew 2.0." },
+            { id: 25, name: "CREW CAP 2.0", price: 33.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/bf31c9df-e9b5-4b95-84c9-d65e459aee69.png?cacheVersion=1746187239", category: "cappelli", gender: "unisex", details: "Cappellino Crew 2.0 v2." },
+            { id: 26, name: "CREW CAP 2.0", price: 33.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/e027e1e1-243e-4f11-af08-f2b4e510b368.png?cacheVersion=1746187239", category: "cappelli", gender: "unisex", details: "Cappellino Crew 2.0 v3." },
+            { id: 27, name: "WANDERER SHOULDER BAG", price: 40.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/569f0929-ca9a-4715-92e6-57333e6c1307.png?cacheVersion=1714117164", category: "accessori", gender: "unisex", details: "Borsa a tracolla Wanderer." },
+            { id: 28, name: "WANDERER SHOULDER BAG", price: 40.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/7f42ff1b-bc5f-4347-b80f-8990718b385d.png?cacheVersion=1714117166", category: "accessori", gender: "unisex", details: "Borsa a tracolla Wanderer v2." },
+            { id: 29, name: "CEDAR 25L BACKPACK", price: 150.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/55dfa3bc-43ee-4ccf-857d-d36e94fba495.png?cacheVersion=1745578924", category: "accessori", gender: "unisex", details: "Zaino Cedar da 25L." },
+            { id: 30, name: "H/H SCOUT DUFFEL", price: 93.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/d312abaf-6194-4a1f-bccb-732871bbda76.png?cacheVersion=1710236985", category: "accessori", gender: "unisex", details: "Borsone Scout S." },
+            { id: 31, name: "SPORT II", price: 54.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/5157278aef2b4f8ea2278c7c55e0b6a2.png?cacheVersion=1690988247", category: "accessori", gender: "unisex", details: "Sandali sportivi II." },
+            { id: 32, name: "JR RIDER VEST", price: 50.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/04f415289a5943329f5449554731c50b.png?cacheVersion=1682061970", category: "outerwear", gender: "bambini", details: "Gilet da bambino JR Rider." },
+            { id: 33, name: "ANKLE SOCKS 2-PACK", price: 10.00, image: "https://i.imgur.com/Q2hH3xX.jpeg", category: "accessories", gender: "unisex", details: "Calzini alla caviglia (confezione da 2)." },
+            { id: 34, name: "KIDS GRAPHIC TEE", price: 35.00, image: "https://i.imgur.com/R3iI4yY.jpeg", category: "t-shirts", gender: "bambini", details: "T-shirt grafica per bambini." },
+            { id: 35, name: "SPORT SANDALS V2", price: 80.00, image: "https://i.imgur.com/S4jJ5zZ.jpeg", category: "scarpe", gender: "unisex", details: "Sandali sportivi v2." },
+            { id: 36, name: "PUFFER VEST LIGHT", price: 100.00, image: "https://i.imgur.com/T5kK6aA.jpeg", category: "outerwear", gender: "uomo", details: "Gilet imbottito leggero." },
+            { id: 37, name: "DENIM SHORTS WOMAN", price: 65.00, image: "https://i.imgur.com/U6lL7bB.jpeg", category: "bottoms", gender: "donna", details: "Shorts in denim da donna." },
+            { id: 38, name: "SUNGLASSES SPORT", price: 55.00, image: "https://i.imgur.com/V7mM8cC.jpeg", category: "accessories", gender: "unisex", details: "Occhiali da sole sportivi." },
+            { id: 39, name: "RUNNING SHOES PRO", price: 130.00, image: "https://i.imgur.com/W8nN9dD.jpeg", category: "scarpe", gender: "donna", details: "Scarpe da running professionali." },
+            { id: 40, name: "BASIC T-SHIRT UNISEX", price: 20.00, image: "https://i.imgur.com/X9oO0eE.jpeg", category: "t-shirts", gender: "unisex", details: "T-shirt basica unisex." }
+        ];
+
+        const productGrid = document.getElementById('product-grid');
+        const categoryFilter = document.getElementById('category-filter');
+        const sortBy = document.getElementById('sort-by');
+        const productCountElement = document.getElementById('product-count');
+        const paginationElement = document.getElementById('pagination');
+
+        const productsPerPage = 8;
+        let currentPage = 1;
+
+        function renderProducts(productsToRender) {
+            productGrid.innerHTML = '';
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const paginatedProducts = productsToRender.slice(startIndex, endIndex);
+
+            if (paginatedProducts.length === 0) {
+                productGrid.innerHTML = '<p class="col-span-full text-center text-gray-500">Nessun prodotto trovato per i criteri selezionati.</p>';
+                productCountElement.textContent = 'Nessun prodotto trovato.';
+                renderPagination(productsToRender.length); 
+                return;
+            }
+
+            paginatedProducts.forEach(product => {
+                const priceDisplay = `<p class="text-xl font-bold text-gray-900 mb-4">&euro;${product.price.toFixed(2)}</p>`;
+
+                const productCard = `
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden product-card group">
+                        <a href="product.html?id=${product.id}" class="block">
+                            <div class="relative overflow-hidden">
+                                <img src="${product.image}" alt="${product.name}" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300 ease-in-out">
+                                <div class="product-overlay absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                                    <span class="text-white text-lg font-semibold">Vedi Dettagli</span>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-gray-800">${product.name}</h3>
+                            <p class="text-gray-600 text-sm mb-2">${product.gender ? product.gender.charAt(0).toUpperCase() + product.gender.slice(1) : ''} - ${product.category ? product.category.charAt(0).toUpperCase() + product.category.slice(1) : ''}</p>
+                            ${priceDisplay}
+                            <button class="add-to-cart-btn w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition duration-300"
+                                    data-product-id="${product.id}"
+                                    data-product-name="${product.name}"
+                                    data-product-price="${product.price}"
+                                    data-product-image="${product.image}"
+                            >Aggiungi al Carrello</button>
+                        </div>
+                    </div>
+                `;
+                productGrid.insertAdjacentHTML('beforeend', productCard);
+            });
+
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productToAdd = {
+                        id: this.dataset.productId,
+                        name: this.dataset.productName,
+                        price: parseFloat(this.dataset.productPrice),
+                        image: this.dataset.productImage,
+                        quantity: 1
+                    };
+                    window.addProductToCart(productToAdd, this);
+                });
+            });
+
+            updateProductCount(productsToRender.length);
+            renderPagination(productsToRender.length); 
+        }
+
+        function updateProductCount(totalProducts) {
+            const currentStart = (currentPage - 1) * productsPerPage + 1;
+            const currentEnd = Math.min(currentPage * productsPerPage, totalProducts);
+            if (totalProducts === 0) {
+                productCountElement.textContent = `Nessun prodotto trovato`;
+            } else {
+                productCountElement.textContent = `Mostrando ${currentStart}-${currentEnd} di ${totalProducts} prodotti`;
+            }
+        }
+
+        function renderPagination(totalProducts) {
+            paginationElement.innerHTML = '';
+            const totalPages = Math.ceil(totalProducts / productsPerPage);
+            const maxPagesToShow = 4; 
+
+            if (totalPages > 1) {
+                const prevButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage - 1}">Precedente</a>`;
+                paginationElement.insertAdjacentHTML('beforeend', prevButton);
+
+                let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+                let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+                if (endPage - startPage + 1 < maxPagesToShow) {
+                    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    const pageButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${i === currentPage ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-200'}" data-page="${i}">${i}</a>`;
+                    paginationElement.insertAdjacentHTML('beforeend', pageButton);
+                }
+
+                const nextButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage + 1}">Successivo</a>`;
+                paginationElement.insertAdjacentHTML('beforeend', nextButton);
+            }
+        }
+
+        function filterAndSortProducts() {
+            let filteredProducts = [...products];
+
+            const selectedCategory = categoryFilter.value;
+            if (selectedCategory) {
+                filteredProducts = filteredProducts.filter(product =>
+                    product.category === selectedCategory || product.gender === selectedCategory
+                );
+            }
+
+            const sortOption = sortBy.value;
+            switch (sortOption) {
+                case 'price-asc':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-desc':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'name-asc':
+                    filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'name-desc':
+                    filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
+                    break;
+                case 'relevance':
+                default:
+                    break;
+            }
+
+            renderProducts(filteredProducts);
+        }
+
+        // Event listeners per filtri e ordinamento
+        categoryFilter.addEventListener('change', () => {
+            currentPage = 1;
+            filterAndSortProducts();
+        });
+        sortBy.addEventListener('change', () => {
+            currentPage = 1;
+            filterAndSortProducts();
+        });
+        
+        // Event Listener per la paginazione
+        paginationElement.addEventListener('click', function(event) {
+            event.preventDefault();
+            const target = event.target;
+            const targetPage = parseInt(target.dataset.page);
+
+            if (!isNaN(targetPage) && target.hasAttribute('data-page') && !target.classList.contains('cursor-not-allowed')) {
+                currentPage = targetPage;
+                filterAndSortProducts(); 
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        function initializeSalesPage() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialCategory = urlParams.get('category');
+            if (initialCategory) {
+                categoryFilter.value = initialCategory;
+            }
+            filterAndSortProducts();
+        }
+
+        initializeSalesPage();
     </script>
 </body>
-
 </html>
