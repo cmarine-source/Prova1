@@ -547,18 +547,16 @@
     </footer>
 
     <script>
-       <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Dati dei prodotti aggiornati con le disponibilità delle taglie
-            // **NOTA:** TUTTE LE CHIAVI DEI PRODOTTI ORA SONO IN ITALIANO (nome, prezzo, descrizione, dettagli).
             const products = {
                 "1": {
                     id: "1",
                     brand: "Helly Hansen",
-                    nome: "HP AHIGA EVO 5",
-                    prezzo: "$120.00",
-                    descrizione: "Le scarpe da uomo HP Ahiga Evo 5 Marine Lifestyle portano la linea Ahiga a un livello superiore, con un'intersuola generosa per il massimo comfort. Progettate per le giornate estive al mare o in città, sono realizzate con HH Hydro-Grip per la massima aderenza sulle superfici bagnate, HH Quick Dry per asciugarsi velocemente e HH Max-Vent per la traspirabilità.",
-                    dettagli: [
+                    name: "HP AHIGA EVO 5",
+                    price: "$120.00",
+                    description: "Le scarpe da uomo HP Ahiga Evo 5 Marine Lifestyle portano la linea Ahiga a un livello superiore, con un'intersuola generosa per il massimo comfort. Progettate per le giornate estive al mare o in città, sono realizzate con HH Hydro-Grip per la massima aderenza sulle superfici bagnate, HH Quick Dry per asciugarsi velocemente e HH Max-Vent per la traspirabilità.",
+                    details: [
                         "HH® Quick Dry",
                         "HH® Max-Vent",
                         "HH® Lite-Frame",
@@ -593,36 +591,23 @@
                 "2": {
                     id: "2",
                     brand: "Helly Hansen",
-                    nome: "HP MARINE LS",
-                    prezzo: "$145.00",
-                    descrizione: "Goditi il comfort al porto turistico o durante una giornata di relax in barca grazie al look sportivo delle nostre scarpe da uomo Hydropower Marine Lifestyle. Le caratteristiche includono le tecnologie HH Lite-Frame e HH Max-Vent per un supporto leggero e una maggiore traspirabilità, oltre a una soletta HH Max-Comfort e alla tecnologia HH Quick Dry per una calzata personalizzata e asciutta. La suola HH Hydro-Grip e la protezione HH Pro-Guard offrono trazione e protezione, mentre la tecnologia HH Hover-Stride favorisce una falcata naturale per un'esperienza più confortevole.",
-                    dettagli: [
-                        "HH® Quick Dry",
-                        "HH® Max-Vent",
-                        "HH® Hover-Stride",
-                        "HH® Max-Comfort Insole",
-                        "HH Hydro-Grip",
-                        "HH® Max Grip",
-                        "100% Recycled Lace",
-                        "100% RPET Reinforcement Tape and Collar Reinforcement",
-                        "100% Recycled Lining",
-                        "30% Recycled Rubber",
-                        "30% Recycled EVA Mid-sole",
-                        "100% Recycled Polyester Strobel",
-                        "Premium Suede",
-                        "PFC-free",
-                        "LWG leather",
-                        "Oceanbound Recycled materials"
+                    name: "HP MARINE LS",
+                    price: "$145.00",
+                    description: "The HAVEN Tapered Track Pant is made from a high-quality Re-Cotton fabric, offering both comfort and a stylish tapered fit.",
+                    details: [
+                        "Re-Cotton fabric",
+                        "Tapered fit",
+                        "Elastic waistband with drawstring",
+                        "Zipped pockets"
                     ],
                     images: [
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/676c14b5-47fd-4499-8e41-acc1eaa5c7a7.png?cacheVersion=1678953947",
+                      "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/676c14b5-47fd-4499-8e41-acc1eaa5c7a7.png?cacheVersion=1678953947",
                         "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/5f78de63-0403-4627-90ca-ede62163140a.png?cacheVersion=1678266182",
                         "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/72033ce9-fe78-4bfd-8e8d-884a8ab84653.png?cacheVersion=1678266182",
                         "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/dc811389-3a7a-49b6-8260-3693fe31a37a.png?cacheVersion=1678266182",
                         "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/726dd397-33d9-4559-874b-f93ead5b6b79.png?cacheVersion=1678953938"
                     ],
-                    // Ho mantenuto 'taglie' per questo prodotto specifico per la massima compatibilità
-                    taglie: {
+                    sizes: {
                         "S": true,
                         "M": true,
                         "L": false,
@@ -631,81 +616,50 @@
                 },
                 "3": {
                     id: "3",
-                    brand: "Helly Hansen",
-                    nome: "W ANAKIN LEATHER 2",
-                    prezzo: "$133.00",
-                    descrizione: "Combinando il meglio del design sportivo e dello stile di vita urbano, la sneaker Anakin è la tua compagna ideale in città. L'abbiamo progettata con colori ispirati al varsity e abbiamo utilizzato una tomaia in pelle e pelle scamosciata di alta qualità, abbinata a tessuti traspiranti e ad asciugatura rapida. L'intersuola e la soletta aggiungono comfort e reattività. Per la suola abbiamo utilizzato la nostra tecnologia HH Max-Grip, che ti garantirà un'ottima trazione ovunque tu vada. È l'apice dello stile casual e del comfort.",
-                    dettagli: [
-                        "HH® Max-Vent",
-                        "HH® Hover-Stride",
-                        "HH® Max Grip",
-                        "HH® Comfort Insole",
-                        "100% Recycled Lining",
-                        "100% Recycled Toe box and Heel reinforcement",
-                        "100% Recycled Reinforcement",
-                        "Waterproof Suede",
-                        "Non-marking rubber soles",
-                        "Premium Suede",
-                        "Premium Leather",
-                        "LWG leather"
-
+                    brand: "HAVEN",
+                    name: "Sleeveless Turtleneck",
+                    price: "$140.00",
+                    description: "A versatile sleeveless turtleneck from HAVEN, perfect for layering or wearing on its own during warmer days. Crafted from a soft jersey fabric.",
+                    details: [
+                        "Soft jersey fabric",
+                        "Sleeveless design",
+                        "Turtleneck collar",
+                        "Machine washable"
                     ],
                     images: [
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/1c0437c1-9a6f-405c-83d4-53bf770a70b8.png?cacheVersion=1718014525",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/d2f73254-b3e-4f70-bf10-3f8d9f7c40c3.png?cacheVersion=1718014525",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/5d5cc74f-eb31-4ae2-8f7a-9e2ec79243d1.png?cacheVersion=1718014525",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/3c4d08e8-4270-4f72-943f-5a5fde3d02fa.png?cacheVersion=1718014525",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/5c98aaa1-3312-4b51-8d59-a4ec90600b3d.png?cacheVersion=1718014525"
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-1.jpg?v=1748536034&width=800&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-2.jpg?v=1748536034&width=200&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/HAVEN-Sleeveless-Turtleneck-Jersey-Black-3.jpg?v=1748536034&width=200&crop=center"
                     ],
                     sizes: {
-                        "40": true,
-                        "41": false,
-                        "42": true,
-                        "43": true,
-                        "44": false
+                        "XS": false,
+                        "S": true,
+                        "M": true,
+                        "L": true
                     }
                 },
                 "4": {
                     id: "4",
-                    brand: "Helly Hansen",
-                    nome: "CREW LOW",
-                    prezzo: "$135.00",
-                    descrizione: "Sappiamo che, sia che tu stia navigando in coperta o ormeggiando in porto, l'agilità e la stabilità sono essenziali. Entra nelle nostre scarpe da vela basse da uomo Crew, un modello classico ma costruito per le prestazioni. Con un'intersuola ben ammortizzata e stabile e un tallone imbottito, offrono comfort durante le lunghe ore in piedi. Hanno anche una protezione su tallone e punta e una mescola reattiva che ti permette di muoverti velocemente. Le abbiamo realizzate con le nostre tecnologie HH Hydro-Grip e HH Storm Siping per una presa e una trazione superiori su diverse superfici. Leggere, traspiranti e ad asciugatura rapida, queste scarpe sono pronte per le avventure in acqua e al porto.",
-                    dettagli: [
-                        "HH® Free-Flex",
-                        "HH® Max Grip",
-                        "HH Surround-Grip",
-                        "HH Hydro-Grip",
-                        "HH Storm Siping",
-                        "HH® Quick Dry",
-                        "HH® Max-Vent",
-                        "HH® Max-Comfort Insole",
-                        "HH® Lite-Frame",
-                        "HH® Power-Stride",
-                        "HH® Pro Guard",
-                        "100% Recycled Lace",
-                        "100% Recycled Polyester Webbing",
-                        "100% Recycled Lining",
-                        "30% Recycled Rubber",
-                        "30% Recycled EVA Mid-sole",
-                        "100% Recycled Polyester Strobel",
-                        "More than 70% of the upper is made of recycled materials",
-                        "Recycled Content"
-
+                    brand: "WTAPS",
+                    name: "Netminder / LS / Poly Black",
+                    price: "$180.00",
+                    description: "The Netminder long-sleeve tee by WTAPS, featuring a poly-cotton blend for comfort and durability. Ideal for a relaxed, urban look.",
+                    details: [
+                        "Poly-cotton blend",
+                        "Ribbed cuffs and neckline",
+                        "WTAPS logo print",
+                        "Relaxed fit"
                     ],
                     images: [
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/70e52b0d-861f-4267-b884-73ad42133d55.png?cacheVersion=1718014523",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/ee170987-dfba-4574-92f7-a7c917caea00.png?cacheVersion=1718014523",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/78285d0e-881a-40c1-ade1-e2212d0ddc59.png?cacheVersion=1718014523",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/d7a511fc-feb8-4a8a-9c27-2d099d339ab1.png?cacheVersion=1718014523",
-                        "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/8182d463-4c93-4618-a824-938df3786ad0.png?cacheVersion=1718014523"
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-1.jpg?v=1748527318&width=800&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-2.jpg?v=1748527318&width=200&crop=center",
+                        "https://cdn.shopify.com/s/files/1/0051/7042/files/WTAPS-Netminder-LS-Poly-Black-3.jpg?v=1748527318&width=200&crop=center"
                     ],
                     sizes: {
-                        "40": true,
-                        "41": false,
-                        "42": true,
-                        "43": true,
-                        "44": false
+                        "S": true,
+                        "M": true,
+                        "L": true,
+                        "XL": false
                     }
                 }
             };
@@ -758,18 +712,18 @@
                 }
 
                 // Aggiorna titolo della pagina
-                document.getElementById('page-title').textContent = `${product.nome} | ${product.brand} | Cmarine`;
+                document.getElementById('page-title').textContent = `${product.name} | ${product.brand} | Cmarine`;
 
-                // Aggiorna le informazioni di base (usando le chiavi in italiano)
+                // Aggiorna le informazioni di base
                 document.getElementById('product-brand').textContent = product.brand;
-                document.getElementById('product-name').textContent = product.nome;
-                document.getElementById('product-price').textContent = product.prezzo;
-                document.getElementById('product-description').textContent = product.descrizione;
+                document.getElementById('product-name').textContent = product.name;
+                document.getElementById('product-price').textContent = product.price;
+                document.getElementById('product-description').textContent = product.description;
 
-                // Aggiorna i dettagli del prodotto (usando la chiave in italiano 'dettagli')
+                // Aggiorna i dettagli del prodotto
                 const detailsList = document.getElementById('product-details');
                 detailsList.innerHTML = '';
-                product.dettagli.forEach(detail => {
+                product.details.forEach(detail => {
                     const listItem = document.createElement('li');
                     listItem.textContent = detail;
                     detailsList.appendChild(listItem);
@@ -794,11 +748,8 @@
                 // Aggiorna le taglie basate sulla disponibilità
                 const sizeOptionsContainer = document.getElementById('size-options');
                 sizeOptionsContainer.innerHTML = '';
-                // Uso un controllo per leggere la chiave 'sizes' o 'taglie'
-                const sizesToUse = product.sizes || product.taglie;
-
-                for (const size in sizesToUse) {
-                    const available = sizesToUse[size];
+                for (const size in product.sizes) {
+                    const available = product.sizes[size];
                     const sizeButton = document.createElement('button');
                     sizeButton.textContent = size;
                     sizeButton.dataset.size = size;
@@ -852,7 +803,6 @@
             // Funzione per aggiungere un prodotto al carrello
             window.addProductToCart = function (product, buttonElement = null) {
                 let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
-                // L'ID è combinato con la taglia per tracciare varianti diverse
                 const existingProductIndex = cart.findIndex(item => item.id === product.id);
 
                 if (existingProductIndex > -1) {
@@ -895,11 +845,10 @@
                     const selectedSize = selectedSizeButton.dataset.size;
                     const quantity = parseInt(quantityInput.value, 10);
 
-                    // Qui usiamo 'nome' e 'prezzo' per creare l'oggetto del carrello
                     const productToAdd = {
                         id: productData.id + '-' + selectedSize.replace(/\s/g, ''),
-                        name: productData.nome, 
-                        price: parseFloat(productData.prezzo.replace('$', '')),
+                        name: productData.name,
+                        price: parseFloat(productData.price.replace('$', '')),
                         image: productData.images[0],
                         size: selectedSize,
                         quantity: quantity
