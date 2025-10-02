@@ -1852,6 +1852,89 @@
             window.updateCartDisplay();
 
         });
+        // =======================================================
+// --- LOGICA PRODOTTI CORRELATI (DA INSERIRE QUI) ---
+// =======================================================
+
+function getRelatedProducts(currentProductId) {
+    // La logica assume che 'products' sia un oggetto globale
+    const currentProduct = products[currentProductId];
+    
+    if (!currentProduct) {
+        return [];
+    }
+
+    const currentCategory = currentProduct.category;
+    // Converte l'oggetto 'products' in un array per poter filtrare
+    const allProductsArray = Object.values(products); 
+
+    const relatedProducts = allProductsArray.filter(product => {
+        // 1. Escludi il prodotto corrente
+        if (product.id === currentProduct.id) {
+            return false;
+        }
+        // 2. Includi solo i prodotti con la stessa categoria
+        return product.category === currentCategory;
+    });
+
+    // Limita il risultato a un massimo di 4 prodotti da visualizzare
+    return relatedProducts.slice(0, 4); 
+}
+
+function renderRelatedProducts(relatedProducts) {
+    const container = document.getElementById('related-products-container');
+    
+    if (!container) return; 
+
+    if (relatedProducts.length === 0) {
+        // Nasconde l'intera sezione HTML se non ci sono prodotti correlati
+        const parentSection = container.closest('.bg-gray-50');
+        if (parentSection) {
+             parentSection.style.display = 'none';
+        }
+        return;
+    } 
+
+    container.innerHTML = ''; // Pulisce il contenitore prima di inserire i nuovi prodotti
+
+    relatedProducts.forEach(product => {
+        // Nota: Assicurati che 'la_tua_pagina_prodotto.html' sia il nome corretto del tuo file
+        const productHtml = `
+            <a href="la_tua_pagina_prodotto.html?id=${product.id}" class="group block text-center bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition">
+                <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md">
+                    <img src="${product.image}" alt="${product.name}" class="h-full w-full object-cover object-center group-hover:opacity-85">
+                </div>
+                <h3 class="mt-4 text-sm text-gray-700">${product.gender}</h3>
+                <p class="mt-1 font-medium text-gray-900">${product.name}</p>
+                <p class="text-lg text-red-600 font-semibold">€${product.price.toFixed(2)}</p>
+            </a>
+        `;
+        const productElement = document.createElement('div');
+        productElement.innerHTML = productHtml;
+        container.appendChild(productElement.firstChild);
+    });
+}
+
+// =======================================================
+// --- FINE LOGICA PRODOTTI CORRELATI ---
+// =======================================================
+        // ... [Logica del pulsante "Add to Cart"] ...
+
+// Inizializza la pagina prodotto e il carrello al caricamento
+updateProductPage(productId); 
+window.updateCartDisplay();
+
+// -----------------------------------------------------------------
+// === CHIAMATA PRODOTTI CORRELATI (DA INSERIRE QUI) ===
+// -----------------------------------------------------------------
+if (productId) {
+    const relatedProducts = getRelatedProducts(productId);
+    renderRelatedProducts(relatedProducts);
+}
+// -----------------------------------------------------------------
+
+}); 
+</script>
     </script>
 </body>
 
