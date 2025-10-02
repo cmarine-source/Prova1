@@ -1724,14 +1724,72 @@
             }
 
             // Funzione per aggiornare la pagina con i dati del prodotto
-            function updateProductPage(productId) {
-                const product = products[productId];
-                const mainContent = document.querySelector('.max-w-7xl.mx-auto');
-                if (!product) {
-                    mainContent.innerHTML = '<div class="text-center py-20"><h1 class="text-3xl font-bold">Prodotto non trovato</h1><p class="mt-4">L\'ID del prodotto non è valido.</p></div>';
-                    return;
-                }
+           function updateProductPage(productId) {
+    const productData = products[productId];
 
+    if (!productData) {
+        document.getElementById('page-title').innerText = 'Prodotto non trovato';
+        document.getElementById('product-name').innerText = 'Prodotto non trovato';
+        return;
+    }
+
+    document.getElementById('page-title').innerText = `${productData.name} | Cmarine`;
+    document.getElementById('product-brand').innerText = productData.brand || '';
+    document.getElementById('product-name').innerText = productData.name;
+    // Uso l'operatore OR (||) per assicurarmi che innerText non diventi "undefined"
+    document.getElementById('product-price').innerText = productData.price || '';
+
+    // Carosello Immagini
+    const mainImage = document.getElementById('main-image');
+    if (productData.images && productData.images.length > 0) {
+        mainImage.src = productData.images[0];
+        // ... la logica del carosello rimane invariata
+    } else {
+        mainImage.src = 'placeholder.jpg';
+    }
+
+    // Taglie
+    const sizeOptionsContainer = document.getElementById('size-options');
+    sizeOptionsContainer.innerHTML = '';
+    
+    if (productData.sizes) {
+        Object.entries(productData.sizes).forEach(([size, isAvailable]) => {
+            const button = document.createElement('button');
+            button.innerText = size;
+            button.dataset.size = size;
+            button.classList.add('size-button', 'px-3', 'py-1', 'border', 'border-gray-300', 'rounded-sm', 'text-sm', 'hover:border-black', 'transition');
+            if (!isAvailable) {
+                button.classList.add('unavailable');
+                button.disabled = true;
+            } else {
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.size-button').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                });
+            }
+            sizeOptionsContainer.appendChild(button);
+        });
+    }
+
+
+    // Descrizione e Dettagli (FIX IMPLEMENTATO QUI)
+    // Se la descrizione non esiste, mostra una stringa vuota
+    document.getElementById('product-description').innerText = productData.description || '';
+
+    const detailsContainer = document.getElementById('product-details');
+    detailsContainer.innerHTML = '';
+
+    // CONTROLLO AGGIUNTO: Esegue il loop solo se productData.details è definito e un array.
+    if (productData.details && Array.isArray(productData.details)) {
+        productData.details.forEach(detail => {
+            const li = document.createElement('li');
+            li.innerText = detail;
+            detailsContainer.appendChild(li);
+        });
+    }
+
+    // ... (Se avevi logica per prodotti correlati, mettila qui, altrimenti lascia vuoto) ...
+}
                 // Aggiorna titolo della pagina
                 document.getElementById('page-title').textContent = `${product.name} | ${product.brand} | Cmarine`;
 
