@@ -669,9 +669,129 @@
             }
         }
 
-        function filterAndSortProducts() {
-            let filteredProducts = [...products];
+        // ==========================================================
+    // 2. FUNZIONE PER RECUPERARE PARAMETRI URL (?q=...)
+    //    *** AGGIUNTA FONDAMENTALE PER LEGGERE IL TERMINE DI RICERCA ***
+    // ==========================================================
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        let results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
 
+    // ==========================================================
+    // 3. LOGICA PRINCIPALE E FILTRI
+    // ==========================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        // Riferimenti agli elementi HTML
+        const productGrid = document.getElementById('product-grid');
+        const categoryFilter = document.getElementById('category-filter');
+        const sortBy = document.getElementById('sort-by');
+        const productCountElement = document.getElementById('product-count');
+        const paginationElement = document.getElementById('pagination');
+
+        const productsPerPage = 8;
+        let currentPage = 1;
+
+        // Controllo essenziale: se non ci sono gli elementi, si ferma.
+        if (!productGrid || !categoryFilter || !sortBy || !productCountElement || !paginationElement) {
+             console.error("Mancano alcuni elementi HTML essenziali per la pagina shop.");
+             return;
+        }
+
+        // --- Funzioni di Rendering e Paginazione ---
+
+        function renderProducts(productsToRender) {
+            productGrid.innerHTML = '';
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const paginatedProducts = productsToRender.slice(startIndex, endIndex);
+
+            if (paginatedProducts.length === 0) {
+                productGrid.innerHTML = '<p class="col-span-full text-center text-gray-500">Nessun prodotto trovato per i criteri selezionati.</p>';
+                productCountElement.textContent = 'Nessun prodotto trovato.';
+                renderPagination(productsToRender.length); 
+                return;
+            }
+
+            paginatedProducts.forEach(product => {
+                const priceDisplay = `<p class="text-xl font-bold text-gray-900 mb-4">&euro;${product.price.toFixed(2)}</p>`;
+                
+                // Funzione per l'aggiunta al carrello (usa la funzione globale addProductToCart)
+                const cartButtonAction = window.addProductToCart ? 
+                    `onclick="window.addProductToCart({id: ${product.id}, name: '${product.name.replace(/'/g, "\\'")}', price: ${product.price}, image: '${product.image}', quantity: 1}, this)"` : 
+                    '';
+
+                const productCard = `
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden product-card group">
+                        <a href="product.html?id=${product.id}" class="block">
+                            <div class="relative overflow-hidden">
+                                <img src="${product.image}" alt="${product.name}" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300 ease-in-out">
+                                <div class="product-overlay absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                                    <span class="text-white text-lg font-semibold">Vedi Dettagli</span>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-gray-800">${product.name}</h3>
+                            <p class="text-gray-600 text-sm mb-2">${product.gender ? product.gender.charAt(0).toUpperCase() + product.gender.slice(1) : ''} - ${product.category ? product.category.charAt(0).toUpperCase() + product.category.slice(1) : ''}</p>
+                            ${priceDisplay}
+                            <button class="add-to-cart-btn w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition duration-300"
+                                ${cartButtonAction}
+                            >Aggiungi al Carrello</button>
+                        </div>
+                    </div>
+                `;
+                productGrid.insertAdjacentHTML('beforeend', productCard);
+            });
+
+            updateProductCount(productsToRender.length);
+            renderPagination(productsToRender.length); 
+        }
+
+        function updateProductCount(totalProducts) {
+            const currentStart = (currentPage - 1) * productsPerPage + 1;
+            const currentEnd = Math.min(currentPage * productsPerPage, totalProducts);
+            if (totalProducts === 0) {
+                productCountElement.textContent = `Nessun prodotto trovato`;
+            } else {
+                productCountElement.textContent = `Mostrando ${currentStart}-${currentEnd} di ${totalProducts} prodotti`;
+            }
+        }
+
+        function renderPagination(totalProducts) {
+            paginationElement.innerHTML = '';
+            const totalPages = Math.ceil(totalProducts / productsPerPage);
+            const maxPagesToShow = 4; 
+
+            if (totalPages > 1) {
+                const prevButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage - 1}">Precedente</a>`;
+                paginationElement.insertAdjacentHTML('beforeend', prevButton);
+
+                let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+                let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+                if (endPage - startPage + 1 < maxPagesToShow) {
+                    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    const pageButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${i === currentPage ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-200'}" data-page="${i}">${i}</a>`;
+                    paginationElement.insertAdjacentHTML('beforeend', pageButton);
+                }
+
+                const nextButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage + 1}">Successivo</a>`;
+                paginationElement.insertAdjacentHTML('beforeend', nextButton);
+            }
+        }
+
+        // --- Funzione di Filtro Aggiornata ---
+
+        function filterAndSortProducts() {
+            let filteredProducts = [...products]; 
+
+            // 1. FILTRO PER CATEGORIA/GENERE
             const selectedCategory = categoryFilter.value;
             if (selectedCategory) {
                 filteredProducts = filteredProducts.filter(product =>
@@ -679,6 +799,27 @@
                 );
             }
 
+            // 2. FILTRO PER RICERCA URL (?q=query) - AGGIUNTA!
+            const urlSearchQuery = getUrlParameter('q');
+            
+            if (urlSearchQuery) {
+                const lowerCaseSearchQuery = urlSearchQuery.toLowerCase();
+                
+                filteredProducts = filteredProducts.filter(product =>
+                    product.name.toLowerCase().includes(lowerCaseSearchQuery) || // Cerca nel NOME
+                    product.category.toLowerCase().includes(lowerCaseSearchQuery) || // Cerca nella CATEGORIA
+                    (product.details && product.details.toLowerCase().includes(lowerCaseSearchQuery)) // Cerca nei DETTAGLI (per "scarponi", "stivali")
+                );
+                
+                // Se c'è una query di ricerca, si ignora il filtro categoria (o si resettano entrambi)
+                // In questo caso, l'URL ha la precedenza.
+                if (categoryFilter.value !== '') {
+                    categoryFilter.value = ''; // Resetta il filtro visivo
+                    // Non serve rifiltrare perché il filtro 'q' ha già agito.
+                }
+            }
+            
+            // 3. ORDINAMENTO
             const sortOption = sortBy.value;
             switch (sortOption) {
                 case 'price-asc':
@@ -700,6 +841,8 @@
 
             renderProducts(filteredProducts);
         }
+
+        // --- Event Listeners e Inizializzazione ---
 
         // Event listeners per filtri e ordinamento
         categoryFilter.addEventListener('change', () => {
@@ -726,14 +869,20 @@
 
         function initializeSalesPage() {
             const urlParams = new URLSearchParams(window.location.search);
+            
+            // Applica il filtro categoria iniziale se presente nell'URL
             const initialCategory = urlParams.get('category');
             if (initialCategory) {
                 categoryFilter.value = initialCategory;
             }
+            
+            // Avvia i filtri (che ora leggeranno anche il parametro 'q')
             filterAndSortProducts();
         }
 
+        // Avvio della pagina
         initializeSalesPage();
-    </script>
+    });
+</script>
 </body>
 </html>
