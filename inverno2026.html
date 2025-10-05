@@ -1,1 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Negozio | Cmarine</title>
+    <meta name="description" content="Esplora tutti i prodotti di Cmarine. Abbigliamento uomo, donna e bambini con prezzi normali e collezioni complete.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Stili personalizzati di base */
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
 
+        .product-overlay {
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .category-card img {
+            transition: transform 0.3s ease;
+        }
+
+        .newsletter-input {
+            border-bottom: 1px solid #000;
+            transition: border-color 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-bottom-color: #555;
+        }
+
+        /* Stili specifici per il menu mobile */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu.open {
+            display: block;
+        }
+
+        /* Stili per il footer a fisarmonica */
+        .footer-accordion-header {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
+        }
+
+        .footer-accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+        }
+
+        .footer-accordion-content.open {
+            max-height: 200px;
+            opacity: 1;
+            transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
+        }
+
+        .footer-accordion-header .arrow-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .footer-accordion-header.open .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        @media (min-width: 768px) {
+            .footer-accordion-header {
+                cursor: default;
+                border-bottom: none;
+                margin-bottom: 1rem;
+            }
+            .footer-accordion-header .arrow-icon {
+                display: none;
+            }
+            .footer-accordion-content {
+                max-height: none;
+                opacity: 1;
+            }
+        }
+
+        /* Stili per il badge del carrello */
+        .cart-badge {
+            font-family: sans-serif;
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: #ef4444;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 9999px;
+            height: 18px;
+            width: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            line-height: 1;
+            box-shadow: 0 0 0 2px white;
+            transform: scale(0.9);
+            transform-origin: center;
+            transition: transform 0.2s ease-out;
+        }
+
+        .cart-badge.hidden {
+            display: none;
+        }
+
+        .cart-badge:not(.hidden) {
+            animation: bounceIn 0.3s forwards;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center no-underline hover:no-underline">
+                    <img src="https://i.imgur.com/PigMJrD.jpeg" alt="Il mio logo" class="h-10">
+                </a>
+            </div>
+
+            <div class="hidden md:flex space-x-8">
+                <a href="shop.html" class="text-sm uppercase hover:text-gray-600">Negozio</a>
+                <a href="collections.html" class="text-sm uppercase hover:text-gray-600">Collezioni</a>
+                
+                <a href="features.html" class="text-sm uppercase hover:text-gray-600">Partnership</a>
+            </div>
+
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <a href="search.html" class="text-xl"><i class="fas fa-search"></i></a>
+                
+                <a href="cart.html" class="text-xl relative">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-item-count" class="cart-badge hidden">0</span>
+                </a>
+
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white py-2 shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="shop.html?category=uomo" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Uomo</a>
+                <a href="shop.html?category=donna" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Donna</a>
+                <a href="shop.html?category=bambini" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Bambini</a>
+                <a href="collections.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Collezioni</a>
+                
+                <a href="features.html" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Partnership</a>
+            </div>
+        </div>
+    </header>
+    <main class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-bold text-center mb-12">I Nostri Prodotti</h1>
+
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                <div class="flex flex-wrap gap-4">
+                    <select id="category-filter" class="border border-gray-300 p-2 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Tutte le Categorie</option>
+                        <option value="scarpe">Scarpe</option>
+                        <option value="outerwear">Outerwear</option>
+                        <option value="bottoms">Bottoms</option>
+                        <option value="t-shirts">T-Shirts</option>
+                        <option value="accessories">Accessori</option>
+                        <option value="uomo">Uomo</option>
+                        <option value="donna">Donna</option>
+                        <option value="bambini">Bambini</option>
+                    </select>
+                    <select id="sort-by" class="border border-gray-300 p-2 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500">
+                        <option value="relevance">Ordina per: Rilevanza</option>
+                        <option value="price-asc">Prezzo: Dal più basso</option>
+                        <option value="price-desc">Prezzo: Dal più alto</option>
+                        <option value="name-asc">Nome: A-Z</option>
+                        <option value="name-desc">Nome: Z-A</option>
+                    </select>
+                </div>
+                <div id="product-count" class="text-gray-700 text-sm">
+                    Mostrando 1-8 di 8 prodotti
+                </div>
+            </div>
+
+            <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                </div>
+
+            <div id="pagination" class="flex justify-center mt-12 space-x-2">
+                </div>
+        </div>
+    </main>
+
+    <style>
+        @font-face {
+            font-display: block;
+            font-family: Roboto;
+            src: url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/7529907e9eaf8ebb5220c5f9850e3811.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/25c678feafdc175a70922a116c9be3e7.woff) format("woff")
+        }
+
+        @font-face {
+            font-display: fallback;
+            font-family: Roboto;
+            font-weight: 600;
+            src: url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/6e9caeeafb1f3491be3e32744bc30440.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/71501f0d8d5aa95960f6475d5487d4c2.woff) format("woff")
+        }
+
+        @font-face {
+            font-display: fallback;
+            font-family: Roboto;
+            font-weight: 700;
+            src: url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/3ef7cf158f310cf752d5ad08cd0e7e60.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/ece3a1d82f18b60bcce0211725c476aa.woff) format("woff")
+        }
+
+        #sib-container input:-ms-input-placeholder {
+            text-align: left;
+            font-family: Helvetica, sans-serif;
+            color: #716e6e;
+        }
+
+        #sib-container input::placeholder {
+            text-align: left;
+            font-family: Helvetica, sans-serif;
+            color: #716e6e;
+        }
+
+        #sib-container textarea::placeholder {
+            text-align: left;
+            font-family: Helvetica, sans-serif;
+            color: #716e6e;
+        }
+
+        #sib-container a {
+            text-decoration: underline;
+            color: #2BB2FC;
+        }
+    </style>
+    <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
+
+    <div class="sib-form" style="text-align: center; background-color: #EFF2F7;">
+        <div id="sib-form-container" class="sib-form-container">
+            <div id="error-message" class="sib-form-message-panel" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;max-width:540px;">
+                <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+                    <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon">
+                        <path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-11.49 120h22.979c6.823 0 12.274 5.682 11.99 12.5l-7 168c-.268 6.428-5.556 11.5-11.99 11.5h-8.979c-6.433 0-11.722-5.073-11.99-11.5l-7-168c-.283-6.818 5.167-12.5 11.99-12.5zM256 340c-15.464 0-28 12.536-28 28s12.536 28 28 28 28-12.536 28-28-12.536-28-28-28z" />
+                    </svg>
+                    <span class="sib-form-message-panel__inner-text">La tua iscrizione non può essere convalidata.</span>
+                </div>
+            </div>
+            <div></div>
+            <div id="success-message" class="sib-form-message-panel" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#085229; background-color:#e7faf0; border-radius:3px; border-color:#13ce66;max-width:540px;">
+                <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+                    <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon">
+                        <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 464c-118.664 0-216-96.055-216-216 0-118.663 96.055-216 216-216 118.664 0 216 96.055 216 216 0 118.663-96.055 216-216 216zm141.63-274.961L217.15 376.071c-4.705 4.667-12.303 4.637-16.97-.068l-85.878-86.572c-4.667-4.705-4.637-12.303.068-16.97l8.52-8.451c4.705-4.667 12.303-4.637 16.97.068l68.976 69.533 163.441-162.13c4.705-4.667 12.303-4.637 16.97.068l8.451 8.52c4.668 4.705 4.637 12.303-.068 16.97z" />
+                    </svg>
+                    <span class="sib-form-message-panel__inner-text">La tua iscrizione è avvenuta correttamente.</span>
+                </div>
+            </div>
+            <div></div>
+            <div id="sib-container" class="sib-container--large sib-container--vertical" style="text-align:center; background-color:rgba(3,2,2,1); max-width:540px; border-radius:3px; border-width:1px; border-color:#020203; border-style:solid; direction:ltr">
+                <form id="sib-form" method="POST" action="https://16d50c30.sibforms.com/serve/MUIFAD9TXScE1MH3F0qel6S3jfP0w6bSn-l8fl3UDWHoZdV_D34up2OGFcPLyoDr6KP2XiW6OPR5ZamGqhzqD3Q9VeI-R1D2Rnp1vvssGUax9eyhSsbShaZZjj7c29vMbCCb0g9Kg3U09F9z0dq81XcnlAA6iOvkEzfEKdHoAqVzkqVOTbxnRK3DXqLFAZj-5KlwexuK5i6MAdty" data-type="subscription">
+                    <div style="padding: 8px 0;">
+                        <div class="sib-form-block" style="font-size:11px; text-align:center; font-family:Helvetica, sans-serif; color:#fdfeff; background-color:transparent; text-align:center">
+                            <div class="sib-text-form-block">
+                                <p>SPEDIZIONE GRATUITA SUL TUO PRIMO ORDINE</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <div class="sib-form-block" style="font-size:32px; text-align:center; font-weight:700; font-family:Helvetica, sans-serif; color:#fafafa; background-color:transparent; text-align:center">
+                            <p>Iscriviti alla Nostra Newsletter</p>
+                        </div>
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <div class="sib-form-block" style="font-size:11px; text-align:center; font-family:Helvetica, sans-serif; color:#fdfeff; background-color:transparent; text-align:center">
+                            <div class="sib-text-form-block">
+                                <p>Iscriviti per accesso anticipato a lanci, promozioni ed eventi.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <div class="sib-input sib-form-block">
+                            <div class="form__entry entry_block">
+                                <div class="form__label-row ">
+                                    <div class="entry__field">
+                                        <input class="input " type="text" id="EMAIL" name="EMAIL" autocomplete="off" placeholder="Il tuo indirizzo email" data-required="true" required />
+                                    </div>
+                                </div>
+                                <label class="entry__error entry__error--primary" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <div class="sib-form-block" style="text-align: center">
+                            <button class="sib-form-block__button sib-form-block__button-with-loader" style="font-size:17px; text-align:center; font-weight:700; font-family:Helvetica, sans-serif; color:#030202; background-color:#f7f9fc; border-radius:1px; border-width:0px;" form="sib-form" type="submit">
+                                <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512" style="">
+                                    <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
+                                </svg>
+                                ISCRIVITI
+                            </button>
+                        </div>
+                    </div>
+                    <input type="text" name="email_address_check" value="" class="input--hidden">
+                    <input type="hidden" name="locale" value="it">
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-gray-100 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
+
+                <div class="footer-accordion">
+                    <div class="footer-accordion-header md:mb-4">
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Acquista</h3>
+                        <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
+                    </div>
+                    <ul class="space-y-2 footer-accordion-content">
+                        <li><a href="shop.html" class="text-sm hover:underline text-gray-700">Nuovi Arrivi</a></li>
+                        <li><a href="collections.html" class="text-sm hover:underline text-gray-700">Collezioni</a></li>
+                        <li><a href="sales.html" class="text-sm hover:underline text-gray-700">Saldi</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-accordion">
+                    <div class="footer-accordion-header md:mb-4">
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Chi Siamo</h3>
+                        <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
+                    </div>
+                    <ul class="space-y-2 footer-accordion-content">
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">La Nostra Storia</a></li>
+                        <li><a href="features.html" class="text-sm hover:underline text-gray-700">Partnership</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Dove Trovarci</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-accordion">
+                    <div class="footer-accordion-header md:mb-4">
+                        <h3 class="text-sm font-semibold uppercase tracking-wider">Aiuto</h3>
+                        <i class="fas fa-chevron-down arrow-icon text-gray-500 md:hidden"></i>
+                    </div>
+                    <ul class="space-y-2 footer-accordion-content">
+                        <li><a href="contact.html" class="text-sm hover:underline text-gray-700">Contattaci</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Spedizione</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">Resi</a></li>
+                        <li><a href="#" class="text-sm hover:underline text-gray-700">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-semibold uppercase tracking-wider mb-4">Connettiti</h3>
+                    <div class="flex justify-center md:justify-start space-x-4 mb-4">
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-700 hover:text-gray-900"><i class="fab fa-facebook-f text-xl"></i></a>
+                    </div>
+                    <p class="text-sm text-gray-600 leading-relaxed">Iscriviti alla nostra newsletter per ricevere aggiornamenti sui nuovi arrivi, offerte speciali e altre informazioni sugli sconti.</p>
+                </div>
+
+            </div>
+            <div class="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600">
+                <p class="text-sm text-center md:text-left mb-4 md:mb-0">© 2025 Cmarine. Tutti i diritti riservati.</p>
+                <div class="flex flex-wrap justify-center md:justify-end space-x-4 sm:space-x-6">
+                    <a href="#" class="text-sm hover:underline">Privacy Policy</a>
+                    <a href="#" class="text-sm hover:underline">Terms of Service</a>
+                    <a href="#" class="text-sm hover:underline">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // *** Nuova costante per la chiave di localStorage, usata in modo consistente ***
+        const CART_STORAGE_KEY = 'cmarineCart';
+
+        // Funzioni globali per il carrello
+        window.updateCartDisplay = function() {
+            // *** Usa CART_STORAGE_KEY per leggere il carrello ***
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+            const cartItemCountElement = document.getElementById('cart-item-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (cartItemCountElement) {
+                cartItemCountElement.textContent = totalItems;
+                if (totalItems > 0) {
+                    cartItemCountElement.classList.remove('hidden');
+                } else {
+                    cartItemCountElement.classList.add('hidden');
+                }
+            }
+        };
+
+        window.addProductToCart = function(product, buttonElement = null) {
+            // *** Usa CART_STORAGE_KEY per leggere e salvare il carrello ***
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+            const existingProductIndex = cart.findIndex(item => item.id === product.id);
+
+            if (existingProductIndex > -1) {
+                cart[existingProductIndex].quantity += 1;
+            } else {
+                product.quantity = 1;
+                cart.push(product);
+            }
+
+            // *** Usa CART_STORAGE_KEY per salvare il carrello ***
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+            window.updateCartDisplay(); // Questa riga aggiorna il badge
+
+            if (buttonElement) {
+                const originalText = buttonElement.textContent;
+                buttonElement.textContent = 'Aggiunto!';
+                buttonElement.classList.remove('bg-black', 'hover:bg-gray-800');
+                buttonElement.classList.add('bg-green-600', 'hover:bg-green-700');
+                setTimeout(() => {
+                    buttonElement.textContent = originalText;
+                    buttonElement.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    buttonElement.classList.add('bg-black', 'hover:bg-gray-800');
+                }, 1500);
+            }
+        };
+
+        window.removeProductFromCart = function(productId) {
+            // *** Usa CART_STORAGE_KEY per leggere e salvare il carrello ***
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+            window.updateCartDisplay();
+        };
+
+        window.changeProductQuantity = function(productId, newQuantity) {
+            // *** Usa CART_STORAGE_KEY per leggere e salvare il carrello ***
+            let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+            const productIndex = cart.findIndex(item => item.id === productId);
+
+            if (productIndex > -1) {
+                if (newQuantity > 0) {
+                    cart[productIndex].quantity = newQuantity;
+                } else {
+                    cart.splice(productIndex, 1);
+                }
+            }
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+            window.updateCartDisplay();
+        };
+
+        // Inizializza il display del carrello al caricamento della pagina e quando si torna ad essa
+        window.addEventListener('pageshow', window.updateCartDisplay);
+    </script>
+    <script>
+        // Funzionalità per il menu mobile
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('open');
+            });
+        }
+
+        // Funzionalità per il footer a fisarmonica (solo per mobile)
+        document.querySelectorAll('.footer-accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    const content = header.nextElementSibling;
+                    header.classList.toggle('open');
+                    content.classList.toggle('open');
+                }
+            });
+        });
+
+        // Dati dei prodotti - Prezzi normali
+     const products = [ 
+            { id: 33, name: "PARAMOUNT HOODED SOFTSHELL JKT", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/e9a968c61ae847a68158bffa4c0d9c79.png?cacheVersion=1710236991", category: "accessories", gender: "unisex", details: "Calzini alla caviglia (confezione da 2)." },
+            { id: 34, name: "CREW HOODED MIDLAYER JACKET 2", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/fa0b72ab-da50-478e-bf5d-6eb4cd2d10b5.png?cacheVersion=1756978327", category: "t-shirts", gender: "bambini", details: "T-shirt grafica per bambini." },
+            { id: 35, name: "CREW HOODED MIDLAYER JACKET 2", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/3988c0ae-ef43-4d48-b496-fa40f3841618.png?cacheVersion=1755542923", category: "scarpe", gender: "unisex", details: "Sandali sportivi v2." },
+            { id: 36, name: "CREW HOODED MIDLAYER JACKET 2", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/bcb981c3-afb5-415f-be61-4049a3ef24f6.png?cacheVersion=1755542761", category: "outerwear", gender: "uomo", details: "Gilet imbottito leggero." },
+            { id: 37, name: "CREW HOODED MIDLAYER JACKET 2", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/b5228a75-e3d4-4611-b926-d5d52e3c6b07.png?cacheVersion=1755542993", category: "bottoms", gender: "donna", details: "Shorts in denim da donna." },
+            { id: 38, name: "HP RACING LIFALOFT BOMBER", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/c6d0f0e969894fff84960e69e09e7682.png?cacheVersion=1658997341", category: "accessories", gender: "unisex", details: "Occhiali da sole sportivi." },
+            { id: 39, name: "HP RACING LIFALOFT BOMBER", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/d8f3954bc9ae48aabfb70ab1072a6160.png?cacheVersion=1658997341", category: "scarpe", gender: "donna", details: "Scarpe da running professionali." },
+            { id: 40, name: "ARCTIC OCEAN HYBRID INSULATOR", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/8459bf80-b840-4416-8335-f1bd7589580d.png?cacheVersion=1755071407", category: "t-shirts", gender: "unisex", details: "T-shirt basica unisex." },
+               { id: 41, name: "ARCTIC OCEAN HYBRID INSULATOR", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/e3e9a9162b8d496e847782819c291130.png?cacheVersion=1690988235", category: "scarpe", gender: "unisex", details: "Sandali sportivi v2." },
+            { id: 42, name: "HP OCEAN SWT PANT 2.0", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/a1ad6187-78bb-49f4-9945-9b1b357d6660.png?cacheVersion=1714117764", category: "outerwear", gender: "uomo", details: "Gilet imbottito leggero." },
+            { id: 43, name: "HP OCEAN FZ JACKET 2.0", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/d7bbc751a28c46149c82004582ca8c06.png?cacheVersion=1682061172", category: "outerwear", gender: "uomo", details: "Gilet imbottito leggero." },
+            { id: 44, name: "HP OCEAN FZ JACKET 2.0", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/9143740174f14673b8658d7a29800c2a.png?cacheVersion=1686231296", category: "bottoms", gender: "donna", details: "Shorts in denim da donna." },
+            { id: 45, name: "HP FLEECE JACKET 2.0", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/1cbd2f799cd64ffea5c534a3fe4a4f3e.png?cacheVersion=1682061174", category: "accessories", gender: "unisex", details: "Occhiali da sole sportivi." },
+            { id: 46, name: "PIER JACKET 4.0", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/3e52fbe9-a5ac-41fe-8199-d56fea2cf72b.png?cacheVersion=1756978329", category: "scarpe", gender: "donna", details: "Scarpe da running professionali." },
+            { id: 47, name: "PIER BIB 4.0", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/622dd25b-6715-4cae-b94b-b7a00f8052fa.png?cacheVersion=1756978323", category: "t-shirts", gender: "unisex", details: "T-shirt basica unisex." },
+            { id: 48, name: "APRES KNITTED SWEATER", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/a737c722-80ac-4221-9c66-883718d70225.png?cacheVersion=1756978323", category: "outerwear", gender: "uomo", details: "Gilet imbottito leggero." },
+            { id: 49, name: "REINE PARKA", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/b37bd1bb7a124c9bb289a536f8e9c348.png?cacheVersion=1659015721", category: "bottoms", gender: "donna", details: "Shorts in denim da donna." },
+            { id: 50, name: "BUSINESS BEANIE 2", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/02b8ecaa-6cbf-4362-9887-97e638d5045a.png?cacheVersion=1714117177", category: "accessories", gender: "unisex", details: "Occhiali da sole sportivi." },
+            { id: 51, name: "BRAND BEANIE", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/9024c503-f29a-417a-a9a2-3510c581fc52.png?cacheVersion=1756978327", category: "scarpe", gender: "donna", details: "Scarpe da running professionali." },
+            { id: 52, name: "BRAND BEANIE", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/2e2ea93805c6457ab346e6e6ed76f1e2.png?cacheVersion=1756978327", category: "t-shirts", gender: "unisex", details: "T-shirt basica unisex." },
+               { id: 53, name: "URBAN CUFF BEANIE", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/55ee6ccfa217478dabfb56896888c720.png?cacheVersion=1756978323", category: "scarpe", gender: "unisex", details: "Sandali sportivi v2." },
+            { id: 54, name: "HH RIB BEANIE", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/a98923c5-cda9-4387-bba8-2aa320acb3ab.png?cacheVersion=1756978329", category: "outerwear", gender: "uomo", details: "Gilet imbottito leggero." },
+            { id: 55, name: "HH RIB BEANIE", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/37095866-0d26-48e5-a2d4-3aedcc7ea05a.png?cacheVersion=1756978323", category: "outerwear", gender: "uomo", details: "Gilet imbottito leggero." },
+            { id: 56, name: "POLARTEC NECK", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/37266cc0-9519-414a-9dc0-49e736972c28.png?cacheVersion=1756978329", category: "bottoms", gender: "donna", details: "Shorts in denim da donna." },
+            { id: 57, name: "Termoli HT", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/d3c7c55b-f7f5-4982-94b9-153a9c7bbc34.png?cacheVersion=1729165508", category: "accessories", gender: "unisex", details: "Occhiali da sole sportivi." },
+            { id: 58, name: "NORDVIK 2", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/8bfc372a58604a47b141ee0fa9020476.png?cacheVersion=1690988240", category: "scarpe", gender: "donna", details: "Scarpe da running professionali." },
+            { id: 59, name: "H/H SCOUT WASH BAG", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/237b4c76-718f-49b8-9daf-079e750c55b5.png?cacheVersion=1759310107", category: "t-shirts", gender: "unisex", details: "T-shirt basica unisex." },
+              { id: 60, name: "H/H SCOUT WASH BAG", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/6c0f6de81b134deebb6ebe4cf64778c8.png?cacheVersion=1756978323", category: "bottoms", gender: "donna", details: "Shorts in denim da donna." },
+            { id: 61, name: "H/H SCOUT DUFFEL S", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/824aadcf-834a-448e-9039-8b59476e5613.png?cacheVersion=1756978323", category: "accessories", gender: "unisex", details: "Occhiali da sole sportivi." },
+            { id: 62, name: "H/H SCOUT DUFFEL S", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/beb24a540d614ae58a41d615d6bc42c0.png?cacheVersion=1756978323", category: "scarpe", gender: "donna", details: "Scarpe da running professionali." },
+            { id: 63, name: "H/H SCOUT DUFFEL M", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/df98fdec32614279982bde94698ffbc1.png?cacheVersion=1755537712", category: "t-shirts", gender: "unisex", details: "T-shirt basica unisex." },
+             { id: 64, name: "W CREW HOODED MIDL JACKET 2.0", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/2ec23bb4-37ff-4f0a-b06f-8ea83fe029eb.png?cacheVersion=1755544262", category: "bottoms", gender: "donna", details: "Shorts in denim da donna." },
+            { id: 65, name: "W VARDE FLEECE JACKET 2.0", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/eab5a03a59f84271ab9c6dced1df71b1.png?cacheVersion=1710236990", category: "accessories", gender: "unisex", details: "Occhiali da sole sportivi." },
+            { id: 66, name: "W ESSENCE DOWN JACKET", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/c97612b8-914d-4001-8f55-ed6bd8bd2833.png?cacheVersion=1758025639", category: "scarpe", gender: "donna", details: "Scarpe da running professionali." },
+            { id: 67, name: "W WELSEY II TRENCH", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/31fa250d07ef40558f9e7aa5c8d30965.png?cacheVersion=1690988242", category: "t-shirts", gender: "unisex", details: "T-shirt basica unisex." },
+            { id: 68, name: "W ADORE BOOT", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/7cfc6c094fdb4adc89624e920a7a11d8.png?cacheVersion=1682060180", category: "accessories", gender: "unisex", details: "Occhiali da sole sportivi." },
+            { id: 69, name: "W ESSENCE DOWN JACKET", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/c97612b8-914d-4001-8f55-ed6bd8bd2833.png?cacheVersion=1758025639", category: "scarpe", gender: "donna", details: "Scarpe da running professionali." },
+            { id: 70, name: "W ARCTIC OCEAN HYBRID INS", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/lowres/ab9bf9c1a2724641b011076239d20213.png?cacheVersion=1658997341", category: "t-shirts", gender: "unisex", details: "T-shirt basica unisex." },
+             { id: 71, name: "W ARCTIC OCEAN HYBRID INS", price: 0.00, image: "https://brandmaster.hellyhansen.com/fr/gallery/11231/images/images/lowres/404e55f9-2e79-477b-bc84-cf3db585f68c.png?cacheVersion=1758025336", category: "t-shirts", gender: "unisex", details: "T-shirt basica unisex." }
+        ];
+
+        const productGrid = document.getElementById('product-grid');
+        const categoryFilter = document.getElementById('category-filter');
+        const sortBy = document.getElementById('sort-by');
+        const productCountElement = document.getElementById('product-count');
+        const paginationElement = document.getElementById('pagination');
+
+        const productsPerPage = 8;
+        let currentPage = 1;
+
+        function renderProducts(productsToRender) {
+            productGrid.innerHTML = '';
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const paginatedProducts = productsToRender.slice(startIndex, endIndex);
+
+            if (paginatedProducts.length === 0) {
+                productGrid.innerHTML = '<p class="col-span-full text-center text-gray-500">Nessun prodotto trovato per i criteri selezionati.</p>';
+                productCountElement.textContent = 'Nessun prodotto trovato.';
+                renderPagination(productsToRender.length); 
+                return;
+            }
+
+            paginatedProducts.forEach(product => {
+                const priceDisplay = `<p class="text-xl font-bold text-gray-900 mb-4">&euro;${product.price.toFixed(2)}</p>`;
+
+                const productCard = `
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden product-card group">
+                        <a href="product.html?id=${product.id}" class="block">
+                            <div class="relative overflow-hidden">
+                                <img src="${product.image}" alt="${product.name}" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300 ease-in-out">
+                                <div class="product-overlay absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                                    <span class="text-white text-lg font-semibold">Vedi Dettagli</span>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-gray-800">${product.name}</h3>
+                            <p class="text-gray-600 text-sm mb-2">${product.gender ? product.gender.charAt(0).toUpperCase() + product.gender.slice(1) : ''} - ${product.category ? product.category.charAt(0).toUpperCase() + product.category.slice(1) : ''}</p>
+                            ${priceDisplay}
+                            <button class="add-to-cart-btn w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition duration-300"
+                                    data-product-id="${product.id}"
+                                    data-product-name="${product.name}"
+                                    data-product-price="${product.price}"
+                                    data-product-image="${product.image}"
+                            >Aggiungi al Carrello</button>
+                        </div>
+                    </div>
+                `;
+                productGrid.insertAdjacentHTML('beforeend', productCard);
+            });
+
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productToAdd = {
+                        id: this.dataset.productId,
+                        name: this.dataset.productName,
+                        price: parseFloat(this.dataset.productPrice),
+                        image: this.dataset.productImage,
+                        quantity: 1
+                    };
+                    window.addProductToCart(productToAdd, this);
+                });
+            });
+
+            updateProductCount(productsToRender.length);
+            renderPagination(productsToRender.length); 
+        }
+
+        function updateProductCount(totalProducts) {
+            const currentStart = (currentPage - 1) * productsPerPage + 1;
+            const currentEnd = Math.min(currentPage * productsPerPage, totalProducts);
+            if (totalProducts === 0) {
+                productCountElement.textContent = `Nessun prodotto trovato`;
+            } else {
+                productCountElement.textContent = `Mostrando ${currentStart}-${currentEnd} di ${totalProducts} prodotti`;
+            }
+        }
+
+        function renderPagination(totalProducts) {
+            paginationElement.innerHTML = '';
+            const totalPages = Math.ceil(totalProducts / productsPerPage);
+            const maxPagesToShow = 4; 
+
+            if (totalPages > 1) {
+                const prevButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage - 1}">Precedente</a>`;
+                paginationElement.insertAdjacentHTML('beforeend', prevButton);
+
+                let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+                let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+                if (endPage - startPage + 1 < maxPagesToShow) {
+                    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    const pageButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${i === currentPage ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-200'}" data-page="${i}">${i}</a>`;
+                    paginationElement.insertAdjacentHTML('beforeend', pageButton);
+                }
+
+                const nextButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage + 1}">Successivo</a>`;
+                paginationElement.insertAdjacentHTML('beforeend', nextButton);
+            }
+        }
+
+        // ==========================================================
+    // 2. FUNZIONE PER RECUPERARE PARAMETRI URL (?q=...)
+    //    *** AGGIUNTA FONDAMENTALE PER LEGGERE IL TERMINE DI RICERCA ***
+    // ==========================================================
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        let results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    // ==========================================================
+    // 3. LOGICA PRINCIPALE E FILTRI
+    // ==========================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        // Riferimenti agli elementi HTML
+        const productGrid = document.getElementById('product-grid');
+        const categoryFilter = document.getElementById('category-filter');
+        const sortBy = document.getElementById('sort-by');
+        const productCountElement = document.getElementById('product-count');
+        const paginationElement = document.getElementById('pagination');
+
+        const productsPerPage = 8;
+        let currentPage = 1;
+
+        // Controllo essenziale: se non ci sono gli elementi, si ferma.
+        if (!productGrid || !categoryFilter || !sortBy || !productCountElement || !paginationElement) {
+             console.error("Mancano alcuni elementi HTML essenziali per la pagina shop.");
+             return;
+        }
+
+        // --- Funzioni di Rendering e Paginazione ---
+
+        function renderProducts(productsToRender) {
+            productGrid.innerHTML = '';
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const paginatedProducts = productsToRender.slice(startIndex, endIndex);
+
+            if (paginatedProducts.length === 0) {
+                productGrid.innerHTML = '<p class="col-span-full text-center text-gray-500">Nessun prodotto trovato per i criteri selezionati.</p>';
+                productCountElement.textContent = 'Nessun prodotto trovato.';
+                renderPagination(productsToRender.length); 
+                return;
+            }
+
+            paginatedProducts.forEach(product => {
+                const priceDisplay = `<p class="text-xl font-bold text-gray-900 mb-4">&euro;${product.price.toFixed(2)}</p>`;
+                
+                // Funzione per l'aggiunta al carrello (usa la funzione globale addProductToCart)
+                const cartButtonAction = window.addProductToCart ? 
+                    `onclick="window.addProductToCart({id: ${product.id}, name: '${product.name.replace(/'/g, "\\'")}', price: ${product.price}, image: '${product.image}', quantity: 1}, this)"` : 
+                    '';
+
+                const productCard = `
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden product-card group">
+                        <a href="product.html?id=${product.id}" class="block">
+                            <div class="relative overflow-hidden">
+                                <img src="${product.image}" alt="${product.name}" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300 ease-in-out">
+                                <div class="product-overlay absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                                    <span class="text-white text-lg font-semibold">Vedi Dettagli</span>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-gray-800">${product.name}</h3>
+                            <p class="text-gray-600 text-sm mb-2">${product.gender ? product.gender.charAt(0).toUpperCase() + product.gender.slice(1) : ''} - ${product.category ? product.category.charAt(0).toUpperCase() + product.category.slice(1) : ''}</p>
+                            ${priceDisplay}
+                            <button class="add-to-cart-btn w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition duration-300"
+                                ${cartButtonAction}
+                            >Aggiungi al Carrello</button>
+                        </div>
+                    </div>
+                `;
+                productGrid.insertAdjacentHTML('beforeend', productCard);
+            });
+
+            updateProductCount(productsToRender.length);
+            renderPagination(productsToRender.length); 
+        }
+
+        function updateProductCount(totalProducts) {
+            const currentStart = (currentPage - 1) * productsPerPage + 1;
+            const currentEnd = Math.min(currentPage * productsPerPage, totalProducts);
+            if (totalProducts === 0) {
+                productCountElement.textContent = `Nessun prodotto trovato`;
+            } else {
+                productCountElement.textContent = `Mostrando ${currentStart}-${currentEnd} di ${totalProducts} prodotti`;
+            }
+        }
+
+        function renderPagination(totalProducts) {
+            paginationElement.innerHTML = '';
+            const totalPages = Math.ceil(totalProducts / productsPerPage);
+            const maxPagesToShow = 4; 
+
+            if (totalPages > 1) {
+                const prevButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage - 1}">Precedente</a>`;
+                paginationElement.insertAdjacentHTML('beforeend', prevButton);
+
+                let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+                let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+                if (endPage - startPage + 1 < maxPagesToShow) {
+                    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    const pageButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${i === currentPage ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-200'}" data-page="${i}">${i}</a>`;
+                    paginationElement.insertAdjacentHTML('beforeend', pageButton);
+                }
+
+                const nextButton = `<a href="#" class="px-3 py-1 border border-gray-300 rounded-md ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-black hover:bg-gray-200'}" data-page="${currentPage + 1}">Successivo</a>`;
+                paginationElement.insertAdjacentHTML('beforeend', nextButton);
+            }
+        }
+
+        // --- Funzione di Filtro Aggiornata ---
+
+        function filterAndSortProducts() {
+            let filteredProducts = [...products]; 
+
+            // 1. FILTRO PER CATEGORIA/GENERE
+            const selectedCategory = categoryFilter.value;
+            if (selectedCategory) {
+                filteredProducts = filteredProducts.filter(product =>
+                    product.category === selectedCategory || product.gender === selectedCategory
+                );
+            }
+
+            // 2. FILTRO PER RICERCA URL (?q=query) - AGGIUNTA!
+            const urlSearchQuery = getUrlParameter('q');
+            
+            if (urlSearchQuery) {
+                const lowerCaseSearchQuery = urlSearchQuery.toLowerCase();
+                
+                filteredProducts = filteredProducts.filter(product =>
+                    product.name.toLowerCase().includes(lowerCaseSearchQuery) || // Cerca nel NOME
+                    product.category.toLowerCase().includes(lowerCaseSearchQuery) || // Cerca nella CATEGORIA
+                    (product.details && product.details.toLowerCase().includes(lowerCaseSearchQuery)) // Cerca nei DETTAGLI (per "scarponi", "stivali")
+                );
+                
+                // Se c'è una query di ricerca, si ignora il filtro categoria (o si resettano entrambi)
+                // In questo caso, l'URL ha la precedenza.
+                if (categoryFilter.value !== '') {
+                    categoryFilter.value = ''; // Resetta il filtro visivo
+                    // Non serve rifiltrare perché il filtro 'q' ha già agito.
+                }
+            }
+            
+            // 3. ORDINAMENTO
+            const sortOption = sortBy.value;
+            switch (sortOption) {
+                case 'price-asc':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-desc':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'name-asc':
+                    filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'name-desc':
+                    filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
+                    break;
+                case 'relevance':
+                default:
+                    break;
+            }
+
+            renderProducts(filteredProducts);
+        }
+
+        // --- Event Listeners e Inizializzazione ---
+
+        // Event listeners per filtri e ordinamento
+        categoryFilter.addEventListener('change', () => {
+            currentPage = 1;
+            filterAndSortProducts();
+        });
+        sortBy.addEventListener('change', () => {
+            currentPage = 1;
+            filterAndSortProducts();
+        });
+        
+        // Event Listener per la paginazione
+        paginationElement.addEventListener('click', function(event) {
+            event.preventDefault();
+            const target = event.target;
+            const targetPage = parseInt(target.dataset.page);
+
+            if (!isNaN(targetPage) && target.hasAttribute('data-page') && !target.classList.contains('cursor-not-allowed')) {
+                currentPage = targetPage;
+                filterAndSortProducts(); 
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        function initializeSalesPage() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Applica il filtro categoria iniziale se presente nell'URL
+            const initialCategory = urlParams.get('category');
+            if (initialCategory) {
+                categoryFilter.value = initialCategory;
+            }
+            
+            // Avvia i filtri (che ora leggeranno anche il parametro 'q')
+            filterAndSortProducts();
+        }
+
+        // Avvio della pagina
+        initializeSalesPage();
+    });
+</script>
+</body>
+</html>
